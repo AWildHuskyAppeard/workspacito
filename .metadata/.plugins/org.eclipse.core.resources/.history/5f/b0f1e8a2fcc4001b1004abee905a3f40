@@ -1,0 +1,36 @@
+package tw.joshsun.model;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+import org.springframework.stereotype.Component;
+
+@Entity
+@Table(name = "house")
+@Component("house") //告訴他我是一個component，省略value=(不寫沒差)
+public class House {
+	@Id @Column(name = "HOUSEID")
+	private int houseid;
+	
+	@Column(name = "HOUSENAME")
+	private String housename;
+
+	public int getHouseid() {
+		return houseid;
+	}
+
+	public void setHouseid(int houseid) {
+		this.houseid = houseid;
+	}
+
+	public String getHousename() {
+		return housename;
+	}
+
+	public void setHousename(String housename) {
+		this.housename = housename;
+	}
+
+}

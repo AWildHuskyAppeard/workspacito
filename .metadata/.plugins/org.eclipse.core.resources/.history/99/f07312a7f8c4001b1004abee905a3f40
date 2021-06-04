@@ -1,0 +1,80 @@
+package tw.group5.config;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.oxm.jaxb.Jaxb2Marshaller;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.web.multipart.commons.CommonsMultipartResolver;
+import org.springframework.web.servlet.View;
+import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.view.ContentNegotiatingViewResolver;
+import org.springframework.web.servlet.view.InternalResourceViewResolver;
+import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
+
+import tw.group5.model.House;
+///*
+@Configuration //??Šè¨´äººå®¶?™å°±?˜¯çµ„æ?‹è¨­å®šç?„javaç¨‹å??
+@EnableWebMvc //??è¨±mvc?¶æ§‹ï?Œé?é?DispatcherServletï¼? A.K.A -> <context:component-scan base-package="tw.group5"/>
+@ComponentScan(basePackages = "tw.group5")
+@EnableTransactionManagement //??Ÿç”¨äº¤æ?“ç®¡???
+//*/
+public class SpringMVCJavaConfig implements WebMvcConfigurer {
+
+	@Override
+	public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
+		configurer.enable(); //?ˆ©?”¨configurer?™å?‹ç‰©ä»¶å»??Ÿç”¨servlet handler dispatcher?‚£äº›å?˜å?–ï?Œæ?ƒå¹«ä½ å?åˆ°?©?•¶??„bean & controller??šä??
+	}
+	
+	@Bean
+	public InternalResourceViewResolver viewResolver() {
+		InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
+		viewResolver.setPrefix("/WEB-INF/pages/");
+		viewResolver.setSuffix(".jsp");
+		viewResolver.setOrder(5); //??ä¸å„ª???(?? ç‚ºå¾ˆå?ƒè?‡æ??)
+		return viewResolver;
+	}
+	
+	@Override
+	public void addResourceHandlers(ResourceHandlerRegistry registry) {
+		registry.addResourceHandler("/images/**").addResourceLocations("/WEB-INF/pages/resources/images/"); //addResourceLocations()?˜¯å¯¦é?›è·¯å¾? & addResourceHandler()?˜¯??›æ“¬ç¶²å?è·¯å??
+	}
+	/*?‡ªå·±æ”¹å¯«jsonçµ„æ?‹è¨­å®?------------------------------------------------------------------------------------------------------------*/
+	@Bean
+	public MappingJackson2JsonView jsonView() {
+		MappingJackson2JsonView jsonView = new MappingJackson2JsonView();
+		jsonView.setPrettyPrint(true);
+		return jsonView;
+	}
+	@Bean
+	public Jaxb2Marshaller jaxbMarchaller() {
+		Jaxb2Marshaller jaxbMarchaller = new Jaxb2Marshaller();
+//		jaxbMarchaller.setClassesToBeBound(new Class[] {House.class});
+		jaxbMarchaller.setPackagesToScan("tw.group5");
+		return jaxbMarchaller;
+	}
+	@Bean
+	public ContentNegotiatingViewResolver contentNegotiatingViewResolver(MappingJackson2JsonView jsonView) {
+		ContentNegotiatingViewResolver contentNegotiatingViewResolver = new ContentNegotiatingViewResolver();
+		List<View> defaultViews = new ArrayList<View>();
+		defaultViews.add(jsonView);
+		return contentNegotiatingViewResolver;
+	}
+	/*??›ç?šä»¥ä¸?:?‡ªå·±æ”¹å¯«jsonçµ„æ?‹è¨­å®?------------------------------------------------------------------------------------------------------------*/
+	
+	/*ä¸Šå‚³æª”æ?ˆç?„æ?”å?å¯?”¨ä¸­æ??-------------------------------------------------------------------------*/
+	@Bean
+	public CommonsMultipartResolver multipartResolver() {
+		CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver();
+		multipartResolver.setDefaultEncoding("UTF-8");
+		return multipartResolver;
+	}
+	/*ä¸Šå‚³æª”æ?ˆç?„æ?”å?å¯?”¨ä¸­æ??-------------------------------------------------------------------------*/
+
+}

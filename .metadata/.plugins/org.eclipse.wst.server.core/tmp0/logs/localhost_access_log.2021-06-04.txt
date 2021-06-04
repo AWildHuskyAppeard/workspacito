@@ -1,0 +1,20 @@
+127.0.0.1 - - [04/Jun/2021:14:20:04 +0800] "GET / HTTP/1.1" 404 751
+0:0:0:0:0:0:0:1 - - [04/Jun/2021:14:20:04 +0800] "GET /SpringMvcWebHW/ HTTP/1.1" 404 770
+0:0:0:0:0:0:0:1 - - [04/Jun/2021:14:20:04 +0800] "GET /favicon.ico HTTP/1.1" 404 762
+0:0:0:0:0:0:0:1 - - [04/Jun/2021:14:20:10 +0800] "GET /SpringMvcWebHW/jsoncreator.controller HTTP/1.1" 200 61
+0:0:0:0:0:0:0:1 - - [04/Jun/2021:14:20:40 +0800] "GET /SpringMvcWebHW/ HTTP/1.1" 404 770
+0:0:0:0:0:0:0:1 - - [04/Jun/2021:14:20:44 +0800] "GET /SpringMvcWebHW/response/imageByteArray.controller HTTP/1.1" 500 22
+0:0:0:0:0:0:0:1 - - [04/Jun/2021:14:20:57 +0800] "GET /SpringMvcWebHW/response/imageToByteArray.controller HTTP/1.1" 500 22
+0:0:0:0:0:0:0:1 - - [04/Jun/2021:14:23:12 +0800] "GET /SpringMvcWebHW/response/imageByteArray.controller HTTP/1.1" 200 1815076
+127.0.0.1 - - [04/Jun/2021:14:24:04 +0800] "GET / HTTP/1.1" 404 751
+0:0:0:0:0:0:0:1 - - [04/Jun/2021:14:24:05 +0800] "GET /SpringMvcWebHW/ HTTP/1.1" 404 770
+0:0:0:0:0:0:0:1 - - [04/Jun/2021:14:24:10 +0800] "GET /SpringMvcWebHW/uploadMainPage.controller HTTP/1.1" 404 765
+0:0:0:0:0:0:0:1 - - [04/Jun/2021:14:24:56 +0800] "GET /SpringMvcWebHW/uploadMainPage.controller HTTP/1.1" 200 330
+0:0:0:0:0:0:0:1 - - [04/Jun/2021:14:26:16 +0800] "POST /SpringMvcWebHW/uploadFile.controller HTTP/1.1" 200 12
+192.168.72.215 - - [04/Jun/2021:14:31:53 +0800] "GET / HTTP/1.1" 404 751
+192.168.72.215 - - [04/Jun/2021:14:31:56 +0800] "GET /HNAP1/ HTTP/1.1" 404 761
+192.168.72.215 - - [04/Jun/2021:14:32:14 +0800] "-" 400 2030
+192.168.72.215 - - [04/Jun/2021:14:32:14 +0800] "GET /requested.html HTTP/1.1" 404 765
+127.0.0.1 - - [04/Jun/2021:14:32:44 +0800] "GET / HTTP/1.1" 404 751
+0:0:0:0:0:0:0:1 - - [04/Jun/2021:14:32:57 +0800] "GET /SpringMvcWebHW/modelattr.controller HTTP/1.1" 404 783
+127.0.0.1 - - [04/Jun/2021:14:35:48 +0800] "GET / HTTP/1.1" 404 751

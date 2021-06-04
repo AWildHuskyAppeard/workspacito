@@ -1,0 +1,13 @@
+package tw.joshsun.controller;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+
+@Controller
+public class ExceptionController {
+	
+	@GetMapping(path = "/exceptaction.controller")
+	public String processAction() throws Exception {
+		throw new Exception();
+	}
+}
