@@ -1,7 +1,0 @@
-INDEX VERSION 1.4+C:\DebugParadise\springMvcHW\workspacito\.metadata\.plugins\org.eclipse.wst.jsdt.core\indexes
-472790382.index
-2816089526.index
-969880798.index
-1484042385.index
-1519580844.index
-1310483751.index
