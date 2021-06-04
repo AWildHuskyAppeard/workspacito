@@ -1,5 +1,5 @@
 # Eclipse的設定
-#.metadata
+.metadata
 
 # 編譯檔&部署檔(大概)不用
 *.class
