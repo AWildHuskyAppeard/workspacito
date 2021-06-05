@@ -1,8 +1,20 @@
+# 以下是大家無須共享但github會偵測到變動產生無意義commit的內容(各自生成即可)
+
 # Eclipse的設定
 .metadata
 
 # 編譯檔&部署檔(大概)不用
 *.class
 /SpringMvcWebHW/target
-# intellJ編譯器才用到的
-*.iml
+
+# [太晚設了，目前沒生效是正常的]忽略Servers資料夾裡除了context.xml以外的檔案
+/Servers
+!/Servers/Tomcat v9.0 Server at localhost-config/context.xml
+
+# [太晚設了，目前沒生效是正常的]雜七雜八
+.classpath
+.project
+
+# 提醒自己用
+# ⓵ 拿孟華貼的那個圖做參考刪掉一些東西
+# ⓶ 把target裡的東西砍了
