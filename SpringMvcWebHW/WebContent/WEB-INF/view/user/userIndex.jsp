@@ -19,6 +19,10 @@
   <a href="<c:url value='/user/showAllUser.controller' />" >查看全部會員資料</a><br>
   <a href="<c:url value='/user/updateUserinfo.controller' />" >修改會員資料</a><br>
 </div>
+  <hr>
+  <div align='center'>
+  <a href="<c:url value='/' />">首頁</a>
+  </div>
 </div>
 </body>
 </html>
