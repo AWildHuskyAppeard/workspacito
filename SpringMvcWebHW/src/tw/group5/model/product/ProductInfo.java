@@ -11,6 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.springframework.stereotype.Component;
 
@@ -34,13 +35,41 @@ public class ProductInfo {
 	private String p_DESC;
 	@Column(name = "u_ID")
 	private String u_ID;
-	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "ProductInfo")
-	private Product product;
+//	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "ProductInfo")
+//	private Product product;
 	@Column(name = "createDate")
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone="Asia/Taipei")
 	private Date p_createDate;
+	@Column(name = "p_Img")
+	private String p_Img;
+	@Column(name = "p_Video")
+	private String p_Video;
 	
 	
+
+	public Date getP_createDate() {
+		return p_createDate;
+	}
+
+	public void setP_createDate(Date p_createDate) {
+		this.p_createDate = p_createDate;
+	}
+
+	public String getP_Img() {
+		return p_Img;
+	}
+
+	public void setP_Img(String p_Img) {
+		this.p_Img = p_Img;
+	}
+
+	public String getP_Video() {
+		return p_Video;
+	}
+
+	public void setP_Video(String p_Video) {
+		this.p_Video = p_Video;
+	}
 
 	public ProductInfo() {
 		super();
@@ -86,13 +115,13 @@ public class ProductInfo {
 		this.p_DESC = p_DESC;
 	}
 
-	public Product getProduct() {
-		return product;
-	}
-
-	public void setProduct(Product product) {
-		this.product = product;
-	}
+//	public Product getProduct() {
+//		return product;
+//	}
+//
+//	public void setProduct(Product product) {
+//		this.product = product;
+//	}
 
 	public Date getCreateDate() {
 		return p_createDate;
@@ -113,7 +142,8 @@ public class ProductInfo {
 	@Override
 	public String toString() {
 		return "ProductInfo [p_ID=" + p_ID + ", p_Name=" + p_Name + ", p_Class=" + p_Class + ", p_Price=" + p_Price
-				+ ", p_DESC=" + p_DESC + ", u_ID=" + u_ID + ", product=" + product + ", createDate=" + p_createDate + "]";
+				+ ", p_DESC=" + p_DESC + ", u_ID=" + u_ID + ", p_createDate=" + p_createDate + ", p_Img=" + p_Img
+				+ ", p_Video=" + p_Video + "]";
 	}
 
 }
