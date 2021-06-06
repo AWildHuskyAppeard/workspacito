@@ -2,7 +2,7 @@ package tw.group5.model.cart.old;
 
 import java.util.*;
 
-public interface ICartDAO {
+public interface IOrderDao {
 	// 建立連線、提供SQL方法
 	
 	Order insertOrder(Order orderBean);

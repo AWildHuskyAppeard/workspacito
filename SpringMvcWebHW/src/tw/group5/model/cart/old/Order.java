@@ -7,10 +7,12 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.springframework.stereotype.Component;
+
 // Cart = ArrayList<ProductBean> = ArrayList<CartItem>
 // OrderBean = cart +- 一些額外資訊
-@Entity
-@Table(name = "Order_Info")
+@Entity @Table(name = "Order_Info")
+//@Component
 public class Order {
 	@Id @Column(name = "O_ID")
 	private String O_ID ; // PK
@@ -39,7 +41,6 @@ public class Order {
 	public Order() {};
 	public Order(String o_ID, String p_ID, String p_Name, Integer p_Price, String u_ID, String u_FirstName,
 			String u_LastName, String u_Email, String o_Status, String o_Date, Integer o_Amt) {
-		super();
 		setO_ID         (o_ID       );
 		setP_ID         (p_ID       );
 		setP_Name       (p_Name     );
