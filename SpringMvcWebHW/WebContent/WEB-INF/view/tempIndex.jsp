@@ -14,7 +14,7 @@
 <br/>
 <div style="text-align: center;">
 <div style="display: inline-block; text-align: left">
-  <a href="<c:url value='/user/gotoUserIndex.controller' />" >User</a><br>
+  <a href="<c:url value='/user/gotoUserIndex.controller' />" >會員</a><br>
 </div>
 </div>
 </body>
