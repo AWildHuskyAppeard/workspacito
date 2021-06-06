@@ -13,9 +13,9 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 import org.springframework.stereotype.Component;
 
-@Entity
-@Table(name = "Product")
-@Component("Product")
+//@Entity
+//@Table(name = "Product")
+//@Component("Product")
 public class Product {
 	@Id
 	@Column(name = "p_ID")
