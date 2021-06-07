@@ -30,7 +30,7 @@ public class OrderDao implements IOrderDao {
 
 		Session session = factory.getCurrentSession();
 		// O_ID感覺沒辦法用在下述
-		Order resultBean = session.get(Order.class, order.getO_ID());
+		Order resultBean = session.get(Order.class, order.getO_id());
 		if (resultBean == null) {
 			session.save(resultBean);
 			return resultBean;
