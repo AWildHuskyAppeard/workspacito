@@ -61,10 +61,8 @@
 <!-- 2. 按鈕導向各頁................................................... -->
 		<button formaction="<c:url value='/cart.controller/cartIndex' />">回上一頁</button>
 		<button formaction="<c:url value='/cart.controller/pay' />">確定結帳</button>
+		<button formaction="<c:url value='/cart.controller/toTheIndex' />">回首頁</button>
 		<hr>
-	</form>
-	<form method="POST" action="#">
-		<button name="" value="">回首頁</button>
 	</form>
 	<script src="../resources/js/jquery-3.6.0.min.js"></script>
 	<script>

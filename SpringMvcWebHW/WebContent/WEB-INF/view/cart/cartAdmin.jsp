@@ -1,43 +1,17 @@
-<%@page import="cart.*"%>
+<%@page import="tw.group5.controller.cart.*"%>
 <%@page import="javax.naming.*"%>
 <%@page import="java.util.*"%>
 <%@page import="java.sql.*"%>
 <%@page import="javax.sql.*"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-    
-<%!	private DataSource ds;
-		private HttpSession session;
-		private InitialContext ctx;
-		private Connection conn = null;
-		private ArrayList<ArrayList<String>> dataArrays = null;%>    
-<%
-    	try 
-    		{
-    	if (this.ds == null) 
-    	{	
-    		ctx = new InitialContext();
-    		// 改資料庫名稱
-    		this.ds = (DataSource) ctx.lookup("java:/comp/env/jdbc/DBDB");
-    	}
-    	this.conn = this.ds.getConnection();
-    		} catch (NamingException e) 
-    		{
-    	e.printStackTrace();
-    		} catch (SQLException e) 
-    		{
-    	e.printStackTrace();
-    		} 
-    		CartDAOImpl dao = new CartDAOImpl(conn);
-    		dao.selectAll();
-    		dataArrays = CartDAOImpl.dataArrays;
-    %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <%
-		request.setCharacterEncoding("UTF-8");
-		response.setContentType("text/html;charset=UTF-8");
-		response.setHeader("Cache-Control", "no-cache");
-		response.setHeader("Pragma","no-cache");
-		response.setDateHeader("Expires",-1);
+	request.setCharacterEncoding("UTF-8");
+	response.setContentType("text/html;charset=UTF-8");
+	response.setHeader("Cache-Control", "no-cache");
+	response.setHeader("Pragma","no-cache");
+	response.setDateHeader("Expires",-1);
 %>
 <html>
 	<head>
