@@ -17,10 +17,6 @@
 //	private Scanner scanner = new Scanner(System.in);
 //	
 //	
-//	public static void main(String[] args) {
-//		action();
-//	}
-//	
 //	public CartIndex(Session session) {
 //		CartIndex.session = session;
 //	}
