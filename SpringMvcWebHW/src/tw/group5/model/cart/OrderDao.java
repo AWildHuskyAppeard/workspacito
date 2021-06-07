@@ -1,7 +1,7 @@
 package tw.group5.model.cart;
 // 購物車的連線物件
 // 要考慮做DAO Factory嗎？
-import java.sql.*;
+
 import java.util.*;
 
 import org.hibernate.Session;
@@ -9,10 +9,8 @@ import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 @Repository
-@Transactional
 public class OrderDao implements IOrderDao {
 	@Autowired // SDI✔
 	private SessionFactory factory;

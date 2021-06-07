@@ -9,7 +9,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional
-@EnableTransactionManagement // ?
 public class OrderService implements IOrderService{
 	@Autowired // SDI✔
 	private OrderDao orderDao;

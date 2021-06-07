@@ -3,24 +3,19 @@ package tw.group5.controller.cart;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import org.hibernate.Session;
-import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
-import org.springframework.web.servlet.ModelAndView;
 
 import tw.group5.model.cart.Order;
-import tw.group5.model.cart.OrderDao;
 import tw.group5.model.cart.OrderService;
 import tw.group5.model.cart.old.UserBean;
 import tw.group5.model.product.ProductInfo;
@@ -31,8 +26,8 @@ import tw.group5.model.product.ProductInfo;
 public class CartController {
 	@Autowired // SDI ✔
 	private OrderService orderService;
-	@Autowired // SDI ✔
-	public ArrayList<ProductInfo> cart;
+//	@Autowired // SDI ✔
+	private ArrayList<ProductInfo> cart;
 	
 	public CartController() {
 		   System.out.println("=====>	IoC 容器正在建立本類別 (CartController) 的物件	<=====");
