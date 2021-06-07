@@ -11,35 +11,36 @@ import org.springframework.stereotype.Component;
 
 // Cart = ArrayList<ProductBean> = ArrayList<CartItem>
 // OrderBean = cart +- 一些額外資訊
-@Entity @Table(name = "Order_Info")
-//@Component
+@Entity @Table(name = "order_info")
+@Component
 public class Order {
 	@Id @Column(name = "O_ID")
-	private String O_ID ; // PK
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Integer o_id ; // PK
 	@Column(name = "P_ID")
-	private String P_ID; // FK
+	private String p_id; // FK
 	@Column(name = "P_NAME")
-	private String P_Name; // FK
+	private String p_name; // FK
 	@Column(name = "P_PRICE")
-	private Integer P_Price; // FK
+	private Integer p_price; // FK
 	@Column(name = "U_ID")
-	private String U_ID; // FK
+	private String u_id; // FK
 	@Column(name = "U_FIRSTNAME")
-	private String U_FirstName; // FK
+	private String u_firstname; // FK
 	@Column(name = "U_LASTNAME")
-	private String U_LastName; // FK
+	private String u_lastname; // FK
 	@Column(name = "U_EMAIL")
-	private String U_Email; // FK
+	private String u_email; // FK
 	@Column(name = "O_STATUS")
-	private String O_Status;
+	private String o_status;
 	@Column(name = "O_DATE")
-	private String O_Date; // Date()會不會更好？
+	private String o_date; // Date()會不會更好？
 	@Column(name = "O_AMT")
-	private Integer O_Amt;
+	private Integer o_amt;
 	
 	// constructors
 	public Order() {};
-	public Order(String o_ID, String p_ID, String p_Name, Integer p_Price, String u_ID, String u_FirstName,
+	public Order(Integer o_ID, String p_ID, String p_Name, Integer p_Price, String u_ID, String u_FirstName,
 			String u_LastName, String u_Email, String o_Status, String o_Date, Integer o_Amt) {
 		setO_ID         (o_ID       );
 		setP_ID         (p_ID       );
@@ -55,37 +56,37 @@ public class Order {
 	}                    
 	
 	// getters
-	public String getO_ID() {return O_ID;}
-	public String getP_ID() {return P_ID;}
-	public String getP_Name() {return P_Name;}
-	public Integer getP_Price() {return P_Price;}
-	public String getU_ID() {return U_ID;}
-	public String getU_FirstName() {return U_FirstName;}
-	public String getU_LastName() {return U_LastName;}
-	public String getU_Email() {return U_Email;}
-	public String getO_Status() {return O_Status;}
-	public String getO_Date() {return O_Date;}
-	public Integer getO_Amt() {return O_Amt;}
+	public Integer getO_ID() {return o_id;}
+	public String getP_ID() {return p_id;}
+	public String getP_Name() {return p_name;}
+	public Integer getP_Price() {return p_price;}
+	public String getU_ID() {return u_id;}
+	public String getU_FirstName() {return u_firstname;}
+	public String getU_LastName() {return u_lastname;}
+	public String getU_Email() {return u_email;}
+	public String getO_Status() {return o_status;}
+	public String getO_Date() {return o_date;}
+	public Integer getO_Amt() {return o_amt;}
 	
 	// setters
-	public void setO_ID(String o_ID) {	O_ID = o_ID;}
-	public void setP_ID(String p_ID) {P_ID = p_ID;}
-	public void setP_Name(String p_Name) {P_Name = p_Name;}
-	public void setP_Price(Integer p_Price) {P_Price = p_Price;}
-	public void setU_ID(String u_ID) {U_ID = u_ID;}
-	public void setU_FirstName(String u_FirstName) {U_FirstName = u_FirstName;}
-	public void setU_LastName(String u_LastName) {U_LastName = u_LastName;}
-	public void setU_Email(String u_Email) {U_Email = u_Email;}
-	public void setO_Status(String o_Status) {O_Status = o_Status;}
-	public void setO_Date(String o_Date) {O_Date = o_Date;}
-	public void setO_Amt(Integer o_Amt) {O_Amt = o_Amt;}
+	public void setO_ID(Integer o_ID) {	o_id = o_ID;}
+	public void setP_ID(String p_ID) {p_id = p_ID;}
+	public void setP_Name(String p_Name) {p_name = p_Name;}
+	public void setP_Price(Integer p_Price) {p_price = p_Price;}
+	public void setU_ID(String u_ID) {u_id = u_ID;}
+	public void setU_FirstName(String u_FirstName) {u_firstname = u_FirstName;}
+	public void setU_LastName(String u_LastName) {u_lastname = u_LastName;}
+	public void setU_Email(String u_Email) {u_email = u_Email;}
+	public void setO_Status(String o_Status) {o_status = o_Status;}
+	public void setO_Date(String o_Date) {o_date = o_Date;}
+	public void setO_Amt(Integer o_Amt) {o_amt = o_Amt;}
 	
 	// 為了配合for迴圈的懶人用方法之一...
-	public String take(int SQLindex) {
+	public String take(int SqlIndex) {
 		String returnedString = null;
-		switch (SQLindex) {
+		switch (SqlIndex) {
 		case 1:
-			returnedString = getO_ID();
+			returnedString = String.valueOf(getO_ID());
 			break;
 		case 2:
 			returnedString = getP_ID();
@@ -128,7 +129,7 @@ public class Order {
 	public void assign(int SQLindex, String value) {
 		switch (SQLindex) {
 		case 1:
-			setO_ID(value);
+			setO_ID(Integer.parseInt(value));
 			break;
 		case 2:
 			setP_ID(value);

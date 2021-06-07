@@ -9,7 +9,7 @@ public class CartController {
 	
 	@GetMapping(value = "/omegalul.controller")
 	@ResponseBody
-	public String meaninglessMethod() {
+	public String trollMethod() {
 		return "Here's your OMEGALUL";
 	}
 }

@@ -14,24 +14,23 @@ import org.springframework.transaction.annotation.Transactional;
 @Repository
 @Transactional
 public class OrderDao implements IOrderDao {
-	@Autowired
+	@Autowired // SDI✔
 	private SessionFactory factory;
 //	private Session session;
 	// dataArrays在每次執行selectAllOrder()或selectOrder()時都會先被重製，
 	// 其他需要重製的時候需要手動重製。
 	public static ArrayList<ArrayList<String>> dataArrays;
-	public static Order odBean01 = new Order("od001", "p001", "EngSpeaking", 300, "elf01", "fl", "b", "w@w", "cancelled", "1999-12-01 00:00:00", 1 );
+	public static Order odBean01 = new Order(1, "p001", "EngSpeaking", 300, "elf01", "fl", "b", "w@w", "cancelled", "1999-12-01 00:00:00", 1 );
 	public static final String columnNames[] = {"O_ID", "P_ID", "P_Name", "P_Price", "U_ID", "U_FirstName", "U_LastName",
 			"U_Email", "O_Status", "O_Date", "O_Amt"};
 	
-//	public OrderDao(Session session) {		this.session = session;	} // for CDI❌
 	
 	@Override
-	public Order insertOrder(Order orderBean) {
+	public Order insert(Order order) {
 
 		Session session = factory.getCurrentSession();
 		// O_ID感覺沒辦法用在下述
-		Order resultBean = session.get(Order.class, orderBean.getO_ID());
+		Order resultBean = session.get(Order.class, order.getO_ID());
 		if (resultBean == null) {
 			session.save(resultBean);
 			return resultBean;
@@ -43,14 +42,14 @@ public class OrderDao implements IOrderDao {
 	}
 	
 	@Override
-	public List<Order> selectAllOrder() {
+	public List<Order> selectAll() {
 		Session session = factory.getCurrentSession();
 		Query<Order> query = session.createQuery("FROM Order_Info", Order.class);
 		return query.list();
 	}
 	
 	@Override
-	public Order selectOrder(String P_ID) {
+	public Order select(String P_ID) {
 		Session session = factory.getCurrentSession();
 		// HQL好像不是用table名而是entity名，所以有可能是OrderBean
 		Query<Order> query = session.createQuery("SELECT * FROM Order_Info WHERE p_id = :pid", Order.class);

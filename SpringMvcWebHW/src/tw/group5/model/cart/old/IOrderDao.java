@@ -5,10 +5,10 @@ import java.util.*;
 public interface IOrderDao {
 	// 建立連線、提供SQL方法
 	
-	Order insertOrder(Order orderBean);
-	Order selectOrder(String P_ID);
+	Order insert(Order orderBean);
+	Order select(String P_ID);
 	Order selectCustom(String hql);
-	List<Order> selectAllOrder();
+	List<Order> selectAll();
 	
 	/**
 	
