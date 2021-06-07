@@ -3,24 +3,19 @@ package tw.group5.controller.cart;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import org.hibernate.Session;
-import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
-import org.springframework.web.servlet.ModelAndView;
 
 import tw.group5.model.cart.Order;
-import tw.group5.model.cart.OrderDao;
 import tw.group5.model.cart.OrderService;
 import tw.group5.model.cart.old.UserBean;
 import tw.group5.model.product.ProductInfo;
@@ -29,29 +24,31 @@ import tw.group5.model.product.ProductInfo;
 @Controller
 @RequestMapping(path = "/cart.controller")
 public class CartController {
-	@Autowired
+	@Autowired // SDI ✔
 	private OrderService orderService;
+//	@Autowired // SDI ✔
+	private ArrayList<ProductInfo> cart;
 	
 	public CartController() {
 		   System.out.println("=====>	IoC 容器正在建立本類別 (CartController) 的物件	<=====");
 	}
 	
+	@PostMapping(value = {"/TheIndex"})
+	public String toTheIndex() {
+		return "首頁啦啦啦啊啦";
+	}
 	
 	@PostMapping(value = {"/cartIndex"})
 	@GetMapping(value = {"/cartIndex"})
-	public String redirectToCartIndex() {
+	public String toCartIndex() {
 		return "cart/cartIndex";
 	}
 	
 	@PostMapping(value = {"/cartCheckout"})
-	public String redirectToCartCheckout() {
+	public String toCartCheckout() {
 		return "cart/cartIndex";
 	}
-	
-	
-	public static ArrayList<ProductInfo> cart = new ArrayList<ProductInfo>();
-	
-	
+
 	@GetMapping(value="/showCart", produces = "application/json; charset=UTF-8")
 	@ResponseBody
 	public List<ProductInfo> showCart(HttpSession session) {
@@ -77,13 +74,9 @@ public class CartController {
 	
 	@PostMapping("/pay")
 	private String pay() {
-		Order orderBean = new Order();
 		
 		// (1) 取得O_ID：查出最新的O_ID ❌
-
-		
 		// (2) 取得U_ID，U_FirstName，U_LastName，U_Email
-		// 以下為測試用，要換掉
 		ArrayList<UserBean> fakeUserBeans = new ArrayList<UserBean>();
 		UserBean fakeUserBean00 = new UserBean("user01", "psww", "1999-12-31", "TKYM", "TMT", "OWOsama@gmail.com", "0987654321", "F", "this.Galaxy");
 		fakeUserBeans.add(fakeUserBean00);
@@ -99,19 +92,27 @@ public class CartController {
 		 for (int i = 0; i < this.cart.size(); i++) {
 			O_Amt += this.cart.get(i).getP_Price();
 		}
-		
+		 
 		// 把OrderBean的資料寫進去Database
-		// 之後把下面fakeUserBeans.get(0)改成get(i)
 		for(int i = 0; i < cart.size(); i++) {
-			Order orderBean = new Order(newO_IDs.get(i), cart.get(i).getP_ID(), cart.get(i).getP_Name(), 
-				cart.get(i).getP_Price(), fakeUserBeans.get(0).getU_ID(), fakeUserBeans.get(0).getU_FirstName(), 
-				fakeUserBeans.get(0).getU_LastName(), fakeUserBeans.get(0).getU_Email(), "done", now, O_Amt);
-			crudor.insertOrder(orderBean);
+			Order orderBean = new Order();
+//			orderBean.setO_id(0); // PK
+			orderBean.setP_id(cart.get(i).getP_ID()); // FK
+			orderBean.setP_name(cart.get(i).getP_Name()); // FK
+			orderBean.setP_price(cart.get(i).getP_Price()); // FK
+			orderBean.setU_id(fakeUserBeans.get(0).getU_ID()); // FK // fake
+			orderBean.setU_firstname(fakeUserBeans.get(0).getU_FirstName()); // FK // fake
+			orderBean.setU_lastname(fakeUserBeans.get(0).getU_LastName()); // FK // fake
+			orderBean.setU_email(fakeUserBeans.get(0).getU_Email()); // FK // fake
+			orderBean.setO_status("DONE");
+			orderBean.setO_date(now);
+			orderBean.setO_amt(O_Amt);
+			orderService.insert(orderBean);
 		}
 
-		this.cart = new ArrayList<ProductBean>();
+		this.cart = new ArrayList<ProductInfo>();
 		System.out.println("購買成功，感謝您！");
-		return;
+		return "/cartThanks";
 	}
 
 	// 純粹測試用；最後用不到
@@ -122,7 +123,7 @@ public class CartController {
 				// 測試用。cart如果是空的，會自動補3件下列商品作為測試
 				if(cart.size() == 0) {
 					ProductInfo fakeProductBean1 = new ProductInfo();
-					fakeProductBean1.setP_ID(3);
+					fakeProductBean1.setP_ID(3000);
 					fakeProductBean1.setP_Name("EN_Speaking");
 					fakeProductBean1.setP_Class("EN");
 					fakeProductBean1.setP_Price(500);

@@ -2,6 +2,8 @@ package tw.group5.model.cart;
 
 import java.util.*;
 
+import org.springframework.stereotype.Repository;
+
 public interface IOrderDao {
 	// 建立連線、提供SQL方法
 	

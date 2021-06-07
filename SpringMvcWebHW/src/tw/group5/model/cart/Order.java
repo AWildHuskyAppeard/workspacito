@@ -18,7 +18,7 @@ public class Order {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer o_id ; // PK
 	@Column(name = "P_ID")
-	private String p_id; // FK
+	private Integer p_id; // FK
 	@Column(name = "P_NAME")
 	private String p_name; // FK
 	@Column(name = "P_PRICE")
@@ -40,9 +40,25 @@ public class Order {
 	
 	// constructors
 	public Order() {};
-	public Order(Integer o_ID, String p_ID, String p_Name, Integer p_Price, String u_ID, String u_FirstName,
+	/** 不要用這個，因為o_id現在是用IDENTITY(1, 1)去產生的，所以不想要手動指定 */
+	@Deprecated
+	public Order(Integer o_ID, Integer p_ID, String p_Name, Integer p_Price, String u_ID, String u_FirstName,
 			String u_LastName, String u_Email, String o_Status, String o_Date, Integer o_Amt) {
 		setO_id         (o_ID       );
+		setP_id         (p_ID       );
+		setP_name       (p_Name     );
+		setP_price      (p_Price    );
+		setU_id         (u_ID       );
+		setU_firstname  (u_FirstName);
+		setU_lastname   (u_LastName );
+		setU_email      (u_Email    );
+		setO_status     (o_Status   );
+		setO_date       (o_Date     );
+		setO_amt        (o_Amt      );
+	}
+	public Order(Integer p_ID, String p_Name, Integer p_Price, String u_ID, String u_FirstName,
+			String u_LastName, String u_Email, String o_Status, String o_Date, Integer o_Amt) {
+//		setO_id         (o_ID       );
 		setP_id         (p_ID       );
 		setP_name       (p_Name     );
 		setP_price      (p_Price    );
@@ -57,7 +73,7 @@ public class Order {
 	
 	// getters
 	public Integer getO_id() {return o_id;}
-	public String getP_id() {return p_id;}
+	public Integer getP_id() {return p_id;}
 	public String getP_name() {return p_name;}
 	public Integer getP_price() {return p_price;}
 	public String getU_id() {return u_id;}
@@ -70,7 +86,7 @@ public class Order {
 	
 	// setters
 	public void setO_id(Integer o_ID) {	o_id = o_ID;}
-	public void setP_id(String p_ID) {p_id = p_ID;}
+	public void setP_id(Integer p_ID) {p_id = p_ID;}
 	public void setP_name(String p_Name) {p_name = p_Name;}
 	public void setP_price(Integer p_Price) {p_price = p_Price;}
 	public void setU_id(String u_ID) {u_id = u_ID;}
@@ -89,7 +105,7 @@ public class Order {
 			returnedString = String.valueOf(getO_id());
 			break;
 		case 2:
-			returnedString = getP_id();
+			returnedString = String.valueOf(getP_id());
 			break;
 		case 3:
 			returnedString = getP_name();
@@ -132,7 +148,7 @@ public class Order {
 			setO_id(Integer.parseInt(value));
 			break;
 		case 2:
-			setP_id(value);
+			setP_id(Integer.parseInt(value));
 			break;
 		case 3:
 			setP_name(value);
