@@ -7,9 +7,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.annotation.Transactional;
 
-import tw.group5.model.cart.old.Order;
-import tw.group5.model.cart.old.OrderDao;
-
 @Service
 @Transactional
 @EnableTransactionManagement // ?

@@ -65,8 +65,8 @@
 
 		<hr>
 	<!-- 2. 按鈕導向各頁 -->
-		<button name="todo" value="remove" id="remove" formaction="<c:url value='/cart.controller/remove' />" disabled>移除</button>
-		<button name="todo" value="checkout" id="checkout" formaction="<c:url value='/cart.controller/cartCheckout' />">去結帳</button>
+		<button id="remove" formaction="<c:url value='/cart.controller/remove' />" disabled>移除</button>
+		<button id="checkout" formaction="<c:url value='/cart.controller/cartCheckout' />">去結帳</button>
 		<button name="" value="" formaction="#">回首頁</button>
 		<hr>
 	</form>

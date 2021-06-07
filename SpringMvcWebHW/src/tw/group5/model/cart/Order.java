@@ -1,4 +1,4 @@
-package tw.group5.model.cart.old;
+package tw.group5.model.cart;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

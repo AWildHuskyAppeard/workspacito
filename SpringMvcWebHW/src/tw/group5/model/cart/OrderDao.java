@@ -1,4 +1,4 @@
-package tw.group5.model.cart.old;
+package tw.group5.model.cart;
 // 購物車的連線物件
 // 要考慮做DAO Factory嗎？
 import java.sql.*;
@@ -62,6 +62,14 @@ public class OrderDao implements IOrderDao {
 		Session session = factory.getCurrentSession();
 //		this.session.createQuery(hql, OrderBean.class);
 		return null;
+	}
+	
+	// 取得o_id最大的row
+	public Order selectCustom2() {
+		Session session = factory.getCurrentSession();
+		Query<Order> query = session.createQuery("FROM OrderBean ob ORDER BY ob.O_ID DESC", Order.class).setMaxResults(1);
+		Order uniqueResult = query.uniqueResult();
+		return uniqueResult;
 	}
 
 }

@@ -3,33 +3,51 @@ package tw.group5.controller.cart;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.hibernate.Session;
 import org.hibernate.query.Query;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.servlet.ModelAndView;
 
-import tw.group5.model.cart.old.Order;
-import tw.group5.model.cart.old.OrderDao;
+import tw.group5.model.cart.Order;
+import tw.group5.model.cart.OrderDao;
+import tw.group5.model.cart.OrderService;
+import tw.group5.model.cart.old.UserBean;
 import tw.group5.model.product.ProductInfo;
 
 @SessionAttributes(names = "cart")
 @Controller
 @RequestMapping(path = "/cart.controller")
 public class CartController {
+	@Autowired
+	private OrderService orderService;
 	
 	public CartController() {
-		   System.out.println("=====>	IoC容器正在建立本類別 (CartController) 的物件	<=====");
+		   System.out.println("=====>	IoC 容器正在建立本類別 (CartController) 的物件	<=====");
 	}
 	
-	@GetMapping(value = {"", "/index", "index.html"})
-	public String toMyIndex() {
+	
+	@PostMapping(value = {"/cartIndex"})
+	@GetMapping(value = {"/cartIndex"})
+	public String redirectToCartIndex() {
 		return "cart/cartIndex";
-	} 
+	}
+	
+	@PostMapping(value = {"/cartCheckout"})
+	public String redirectToCartCheckout() {
+		return "cart/cartIndex";
+	}
+	
 	
 	public static ArrayList<ProductInfo> cart = new ArrayList<ProductInfo>();
 	
@@ -40,80 +58,34 @@ public class CartController {
 		cart = (ArrayList<ProductInfo>) session.getAttribute("cart");
 		return cart;
 	}
-
-	private void remoteControl() {
-		while(true) {
-		System.out.println("輸入1以移除商品，2以確定結帳(把資料存進資料庫)，或其他回到主選單");
-		String cmd = scanner.nextLine();
-			if (cmd == "2" && cart.size() != 0) {
-				pay();
-				try {wait(1500);} catch(Exception e){}
-				backToMainPage();
-				return;
-			}
-			if (cmd == "2" && cart.size() == 0) {
-				System.out.println("Nothing in your cart :( ");
-				continue;
-			}
-			else if (cmd == "1") {
-				removeProductFromCart();
-				continue;
-			}
-			else {
-				backToMainPage();
-				return;
-			}
-		}
-	}
 	
-	private void removeProductFromCart() {
-		while(true) {			
-			System.out.println("Enter the No of Product you'd like to remove OR other key to leave.");
-			String n = scanner.nextLine();
-			try {
-				int no = Integer.parseInt(n);
-				cart.remove(no);
-				showCart();
-			} catch (Exception e) {
-				return;
-			}
+	@GetMapping(value = "/remove", produces = "application/json; charset=UTF-8")
+	@ResponseBody
+	public List<ProductInfo> removeProductFromCart(HttpSession session, @RequestParam("ckbox") String[] ckbox ) {
+		cart = (ArrayList<ProductInfo>) session.getAttribute("cart");
+		for (int i = 0; i < ckbox.length; i++) {
+			int ckIndex = Integer.parseInt(ckbox[i]);
+			cart.remove(ckIndex - i);
 		}
+		session.setAttribute("cart", cart);
+		return cart;
 	}
 
 	private void backToMainPage() {
 		return;
 	}
-
-	private void pay() {
-		OrderDao crudor = new OrderDao(this.session);
-		// ＊生成OrderBean
+	
+	@PostMapping("/pay")
+	private String pay() {
+		Order orderBean = new Order();
 		
-		// (1) 取得O_ID：查出最新的O_ID
-			// O_ID可能是
-		Query<Order> query = this.session.createQuery("FROM OrderBean ob ORDER BY ob.O_ID DESC", Order.class).setMaxResults(1);
-		Order uniqueResult = query.uniqueResult();
-		String O_IDString = uniqueResult.getO_ID();
-		// 剝掉非O_ID中非數字的部分取出轉成Integer
-		String pureNum = HibernateUtil.stripNonDigits(O_IDString);
-		Integer latestO_ID = Integer.parseInt(pureNum);
-		// 找出當前Table裡O_ID最大數字，並+1
-		// 97~122 = a~z; 65~90 = A~Z (ASCII表)
-		// 單筆訂單內容上限 = 26筆
-		ArrayList<String> newO_IDs = new ArrayList<String>();
-		if (cart.size() > 1) {
-			for(int i = 0; i < cart.size(); i++) {			
-				String newO_ID = String.format("order%06d-%s", (latestO_ID + 1), (char)(65 + i));
-				newO_IDs.add(newO_ID);
-			}			
-		} else {	
-			String newO_ID = String.format("order%06d", (latestO_ID + 1));
-			newO_IDs.add(newO_ID);
-		}		
+		// (1) 取得O_ID：查出最新的O_ID ❌
+
 		
 		// (2) 取得U_ID，U_FirstName，U_LastName，U_Email
 		// 以下為測試用，要換掉
 		ArrayList<UserBean> fakeUserBeans = new ArrayList<UserBean>();
-		UserBean fakeUserBean00 = new UserBean("user01", "psww", "1098-12-31", "TKYM", "TMT", "L@U.L", "0987654321", "F", "this.Galaxy");
+		UserBean fakeUserBean00 = new UserBean("user01", "psww", "1999-12-31", "TKYM", "TMT", "OWOsama@gmail.com", "0987654321", "F", "this.Galaxy");
 		fakeUserBeans.add(fakeUserBean00);
 		
 		// (3) 取得O_Date (使用SimpleDateFormat)
