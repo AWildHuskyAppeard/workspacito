@@ -6,7 +6,6 @@ import java.util.*;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -26,8 +25,8 @@ import tw.group5.model.product.ProductInfo;
 public class CartController {
 	@Autowired // SDI ✔
 	private OrderService orderService;
-//	@Autowired // SDI ✔
-	private ArrayList<ProductInfo> cart;
+	@Autowired // SDI ✔
+	private List<ProductInfo> cart;
 	
 	public CartController() {
 		   System.out.println("=====>	IoC 容器正在建立本類別 (CartController) 的物件	<=====");
@@ -38,7 +37,7 @@ public class CartController {
 		return "首頁啦啦啦啊啦";
 	}
 	
-	@PostMapping(value = {"/cartIndex"})
+//	@PostMapping(value = {"/cartIndex"})
 	@GetMapping(value = {"/cartIndex"})
 	public String toCartIndex() {
 		return "cart/cartIndex";
@@ -46,7 +45,7 @@ public class CartController {
 	
 	@PostMapping(value = {"/cartCheckout"})
 	public String toCartCheckout() {
-		return "cart/cartIndex";
+		return "cart/cartCheckout";
 	}
 
 	@GetMapping(value="/showCart", produces = "application/json; charset=UTF-8")
