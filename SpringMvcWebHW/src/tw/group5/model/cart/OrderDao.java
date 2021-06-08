@@ -65,7 +65,7 @@ public class OrderDao implements IOrderDao {
 	// Admin - 1
 	public List<Order> selectTop20() {
 		Session session = factory.getCurrentSession();
-		Query<Order> query = session.createQuery("FROM Order ob ORDER BY ob.O_ID DESC", Order.class).setMaxResults(20);
+		Query<Order> query = session.createQuery("FROM Order ob ORDER BY ob.o_id DESC", Order.class).setMaxResults(20);
 //		Order uniqueResult = query.uniqueResult();
 		List<Order> resultList = query.getResultList();
 		return resultList;
@@ -104,6 +104,7 @@ public class OrderDao implements IOrderDao {
 		Query<Order> query = session.createQuery("DELETE Order WHERE o_id = :oid", Order.class);
 		query.setParameter("oid", orderBean.getO_id());
 		int deletedNum = query.executeUpdate();
+		System.out.println("You deleted " + deletedNum + " row(s) from order_info table.");
 		return (deletedNum == 0)? false : true;
 	}
 

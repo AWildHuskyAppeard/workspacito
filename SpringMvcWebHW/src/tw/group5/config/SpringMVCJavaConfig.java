@@ -41,6 +41,7 @@ public class SpringMVCJavaConfig implements WebMvcConfigurer {
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
 		registry.addResourceHandler("/images/**").addResourceLocations("/WEB-INF/view/resources/images/");
+		registry.addResourceHandler("/js/**").addResourceLocations("/WEB-INF/view/resources/js/");
 	}
 	
 	/*json組態設定-----------------------------------------------------------------------------------------------------------------------------------------------*/

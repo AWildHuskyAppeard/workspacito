@@ -13,8 +13,8 @@ public class OrderService implements IOrderService{
 	private OrderDao orderDao;
 	
 	public Order insert(Order order) {
-			return orderDao.insert(order);
-		}
+		return orderDao.insert(order);
+	}
 	
 	public List<Order> selectAll() {
 		return orderDao.selectAll();
