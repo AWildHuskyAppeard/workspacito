@@ -1,4 +1,4 @@
-package tw.group5.model.product;
+package tw.group5.model.product.dao;
 
 import java.util.List;
 
@@ -9,9 +9,11 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.multipart.MultipartFile;
+
+import tw.group5.model.product.ProductInfo;
 
 @Repository
-@Transactional
 public class ProductDaoImpl implements ProductDao {
 
 	@Autowired
@@ -84,5 +86,7 @@ public class ProductDaoImpl implements ProductDao {
 		exist = true;
 		return exist;
 	}
+	
+	
 
 }
