@@ -1,15 +1,15 @@
 package tw.group5.model.chat;
 
-import javax.transaction.Transactional;
+import java.util.ArrayList;
 
-import org.hibernate.SessionFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
-
-@Repository("chatDao")
-@Transactional
-public class ChatDao {
-	@Autowired
-	private SessionFactory sessionFactory;
+public interface ChatDao {
+	
+	boolean insertChat(Chat chat);
+	
+    boolean deleteChat(Chat chat);
+	
+	boolean updateChat(Chat chat);
+	
+	ArrayList<Chat> findAllChat();
 
 }
