@@ -39,19 +39,20 @@
 			</thead>
 			<tbody>
 			<% Integer totalPrice = 0; %>
-			<% for(int i = 0; i < cart.size(); i++) {
-			%>
-			<% if(cart != null){ %>
-			<tr>
+			<% 
+				 if(cart != null || cart.size() != 0) {
+				 	for(int i = 0; i < cart.size(); i++) {
+			 %>
+				<tr>
 				<td> <%= cart.get(i).getP_Name () %>   </td>
 				<td> <%= cart.get(i).getP_ID   () %>   </td>
 				<td> <%= cart.get(i).getP_Price() %>   </td>
 				<td> <%= cart.get(i).getP_DESC () %>   </td>
 				<td> <%= cart.get(i).getU_ID   () %>   </td>
-				<% totalPrice += cart.get(i).getP_Price(); %>
-			</tr>
-			<% } %>
-			<%} 
+				</tr>
+				<% totalPrice += cart.get(i).getP_Price(); 
+			 		}
+			 	} 
 			%>
 			</tbody>
 		</table>

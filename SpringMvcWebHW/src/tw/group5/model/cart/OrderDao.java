@@ -48,25 +48,64 @@ public class OrderDao implements IOrderDao {
 	@Override
 	public Order select(String P_ID) {
 		Session session = factory.getCurrentSession();
-		// HQL不是用table名而是 @Entity
+		// ‼ HQL不是用table名而是 @Entity ‼
 		Query<Order> query = session.createQuery("SELECT * FROM Order WHERE p_id = :pid", Order.class);
 		query.setParameter("pid", P_ID);
 		return query.uniqueResult();
 	}
 
 	@Override
-	public Order selectCustom(String hql) {
+	public List<Order> selectCustom(String hql) {
 		Session session = factory.getCurrentSession();
-//		this.session.createQuery(hql, OrderBean.class);
-		return null;
+		Query<Order> query = session.createQuery(hql, Order.class);
+		List<Order> resultList = query.getResultList();
+		return resultList;
 	}
 	
-	// 取得o_id最大的row
-	public Order selectCustom2() {
+	// Admin - 1
+	public List<Order> selectTop20() {
 		Session session = factory.getCurrentSession();
-		Query<Order> query = session.createQuery("FROM OrderBean ob ORDER BY ob.O_ID DESC", Order.class).setMaxResults(1);
-		Order uniqueResult = query.uniqueResult();
-		return uniqueResult;
+		Query<Order> query = session.createQuery("FROM Order ob ORDER BY ob.o_id DESC", Order.class).setMaxResults(20);
+//		Order uniqueResult = query.uniqueResult();
+		List<Order> resultList = query.getResultList();
+		return resultList;
+	}
+	// Admin - 2
+	public void update(Order newBean) {
+		Session session = factory.getCurrentSession();
+		Order resultBean = session.get(Order.class, newBean.getO_id()); // 以PK查
+		if (resultBean != null) {
+//			resultBean.setO_id         (newBean.getO_id()       ); // 無意義  
+			resultBean.setP_id         (newBean.getP_id()       );  
+			resultBean.setP_name       (newBean.getP_name()     );  
+			resultBean.setP_price      (newBean.getP_price()    );  
+			resultBean.setU_id         (newBean.getU_id()       );  
+			resultBean.setU_firstname  (newBean.getU_firstname());  
+			resultBean.setU_lastname   (newBean.getU_lastname() );  
+			resultBean.setU_email      (newBean.getU_email()    );  
+			resultBean.setO_status     (newBean.getO_status()   );  
+			resultBean.setO_date       (newBean.getO_date()     );  
+			resultBean.setO_amt        (newBean.getO_amt()      );  
+//			session.update(resultBean); // 不寫也會更新。...那這個方法還有存在意義嗎ˊ<_ˋ
+		} else {
+			System.out.println("*** Order with O_ID = " + newBean.getO_id() + "doesn't exist in the database :^) ***");
+		}
+		return;
+	}
+	
+	public boolean delete(Order orderBean) {
+		Session session = factory.getCurrentSession();
+		// 方法⓵ > 執行SELECT + DELETE
+/**		Order resultBean = session.get(Order.class, orderBean.getO_id());
+		if (resultBean != null) {
+			session.delete(orderBean); 
+		}*/
+		// 方法⓶ > HQL
+		Query<Order> query = session.createQuery("DELETE Order WHERE o_id = :oid", Order.class);
+		query.setParameter("oid", orderBean.getO_id());
+		int deletedNum = query.executeUpdate();
+		System.out.println("You deleted " + deletedNum + " row(s) from order_info table.");
+		return (deletedNum == 0)? false : true;
 	}
 
 }

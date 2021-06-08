@@ -62,22 +62,54 @@
 			<tbody id='dataArea'>
 			</tbody>
 		</table>
-
+		
 		<hr>
-	<!-- 2. 按鈕導向各頁 -->
+		<!-- 2. 按鈕導向各頁 -->
 		<button id="remove" formaction="<c:url value='/cart.controller/remove' />" disabled>移除</button>
 		<button id="checkout" formaction="<c:url value='/cart.controller/cartCheckout' />">去結帳</button>
 		<button name="" value="" formaction="#">回首頁</button>
 		<hr>
 	</form>
-
 	
-	<script src="../resources/js/jquery-3.6.0.min.js"></script>
+	
+	<script src="/SpringMvcWebHW/js/jquery-3.6.0.min.js"></script>
 	<script>
+		// 3 (showCart by AJAX)
+		let dataArea = $('#dataArea');
+		$(window).on('load', function(){
+			let xhr = new XMLHttpRequest();
+			let url = "<c:url value='/cart.controller/showCart' />";
+			xhr.open("GET", url, true);
+			xhr.send();
+			xhr.onreadystatechange = function() {
+				if (xhr.readyState == 4 && xhr.status == 200) {
+					dataArea.html(parseCart(xhr.responseText));
+				}
+			}
+		});
+		
+		// 3-1 parseCart()
+		function parseCart(cart) {
+				   let products = JSON.parse(cart);
+				   let segment = "";
+				   let totalPrice = 0;
+
+				   for (let i = 0; i < products.length; i++) {
+					   segment += "<tr>"
+									 + "<td><input type='checkbox' name='ckbox' value='" + i + "' id='ckbox'>取消</td>"
+									 + "<td>" + products[i].p_Name + "</td>"
+									 + "<td>" + products[i].p_ID + "</td>"
+									 + "<td>" + products[i].p_Price + "</td>"
+									 + "<td>" + products[i].p_DESC + "</td>"
+									 + "<td>" + products[i].u_ID + "</td>"
+									 + "</tr>";
+						totalPrice += products[i].p_Price;
+				   }
+				   return segment;
+		};
+		
+		
 		$(function(){
-
-			let dataArea = $('#dataArea');
-
 			// 4 (remove by AJAX)
 			$("#remove").click(function(){
 				let xhr = new XMLHttpRequest();
@@ -87,44 +119,11 @@
 				xhr.send();
 				xhr.onreadystatechange = function() {
 					if (xhr.readyState == 4 && xhr.status == 200) {
-						dataArea.innerHTML = parseCart(xhr.responseText);
+						dataArea.html(parseCart(xhr.responseText));
 					}
 				}
 			});
 
-			// 3 (showCart by AJAX)
-			$(window).load(function(){
-				let xhr = new XMLHttpRequest();
-				let url = "<c:url value='/cart.controller/showCart' />";
-				alert("url = " + url)
-				xhr.open("GET", url, true);
-				xhr.send();
-				xhr.onreadystatechange = function() {
-					if (xhr.readyState == 4 && xhr.status == 200) {
-						dataArea.innerHTML = parseCart(xhr.responseText);
-					}
-				}
-			});
-			
-			// 3-1 parseCart()
-			function parseCart(cart) {
-	                   let products = JSON.parse(cart);
-	                   let segment = "";
-					   let totalPrice = 0;
-
-	                   for (let i = 0; i < products.length; i++) {
-						   segment += "<tr>"
-										 + "<td><input type='checkbox' name='ckbox' value='" + i + "' id='ckbox'>取消</td>"
-										 + "<td>" + products[i].p_Name + "</td>"
-										 + "<td>" + products[i].p_ID + "</td>"
-										 + "<td>" + products[i].p_Price + "</td>"
-										 + "<td>" + products[i].p_DESC + "</td>"
-										 + "<td>" + products[i].u_ID + "</td>"
-										 + "</tr>";
-							totalPrice += products[i].p_Price;
-	                   }
-	                   return segment;
-			};
 
 			// 1 (AJAX)
 			btn02.onclick = function() {
@@ -136,8 +135,7 @@
 				xhr.send();
 				xhr.onreadystatechange = function() {
 					if (xhr.readyState == 4 && xhr.status == 200) {
-						// dataArea.innerHTML = xhr.responseText;
-						dataArea.innerHTML = showSingleMember(xhr.responseText);
+						dataArea.html(showSingleMember(xhr.responseText));
 					}
 				}
 			}

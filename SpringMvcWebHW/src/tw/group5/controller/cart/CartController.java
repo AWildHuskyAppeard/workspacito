@@ -6,7 +6,6 @@ import java.util.*;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -27,10 +26,15 @@ public class CartController {
 	@Autowired // SDI ✔
 	private OrderService orderService;
 //	@Autowired // SDI ✔
-	private ArrayList<ProductInfo> cart;
+	public List<ProductInfo> cart = new ArrayList<ProductInfo>();
 	
 	public CartController() {
 		   System.out.println("=====>	IoC 容器正在建立本類別 (CartController) 的物件	<=====");
+	}
+	
+	@GetMapping(value = {""})
+	public String toTestpage() {
+		return "/cart/testpage";
 	}
 	
 	@PostMapping(value = {"/TheIndex"})
@@ -38,21 +42,35 @@ public class CartController {
 		return "首頁啦啦啦啊啦";
 	}
 	
-	@PostMapping(value = {"/cartIndex"})
+//	@PostMapping(value = {"/cartIndex"})
 	@GetMapping(value = {"/cartIndex"})
 	public String toCartIndex() {
+		refill();
+		System.out.print("現在你的購物車 = ");
+		cart.forEach(System.out::print);
 		return "cart/cartIndex";
 	}
 	
 	@PostMapping(value = {"/cartCheckout"})
 	public String toCartCheckout() {
-		return "cart/cartIndex";
+		refill();
+		return "cart/cartCheckout";
 	}
+	
+	@GetMapping(value = {"/cartAdmin"})
+	public String toCartAdmin() {
+		return "cart/cartAdmin";
+	}
+	
 
 	@GetMapping(value="/showCart", produces = "application/json; charset=UTF-8")
 	@ResponseBody
 	public List<ProductInfo> showCart(HttpSession session) {
+		session.setAttribute("cart", cart);
 		cart = (ArrayList<ProductInfo>) session.getAttribute("cart");
+		System.out.println("*** 現在正在showCart()方法內 ***");
+		System.out.println("cart = " + cart);
+		System.out.println("*** showCart()方法結束 ***");
 		return cart;
 	}
 	
@@ -67,13 +85,14 @@ public class CartController {
 		session.setAttribute("cart", cart);
 		return cart;
 	}
-
-	private void backToMainPage() {
-		return;
+	
+	@GetMapping(value = "/index")
+	public String backToMainPage() {
+		return "/index";
 	}
 	
 	@PostMapping("/pay")
-	private String pay() {
+	public String pay() {
 		
 		// (1) 取得O_ID：查出最新的O_ID ❌
 		// (2) 取得U_ID，U_FirstName，U_LastName，U_Email
@@ -115,28 +134,37 @@ public class CartController {
 		return "/cartThanks";
 	}
 
-	// 純粹測試用；最後用不到
-	@GetMapping("/refill")
+	@GetMapping(value = "/initAdminPageData", produces = "application/json; charset=UTF-8")
 	@ResponseBody
-	public String refill() {
+	public List<Order> initAdminPageData(){
+		return orderService.selectTop20();
+	}
+	
+	// 純粹測試用；最後用不到
+	// 每次經過這個Controller都會跑這個block
+	// 測試用。cart如果是空的，會自動補3件下列商品作為測試
+	
+	private void refill() {
+		System.out.println("正在檢查你的cart是不是空的...");
+		
+		if(cart.size() == 0 || cart == null) {
+			ProductInfo fakeProductBean1 = new ProductInfo();
+			fakeProductBean1.setP_ID(3000);
+			fakeProductBean1.setP_Name("EN_Speaking");
+			fakeProductBean1.setP_Class("EN");
+			fakeProductBean1.setP_Price(500);
+			fakeProductBean1.setP_DESC("nice!!!");
+			fakeProductBean1.setU_ID("fbk001");
+			fakeProductBean1.setP_Img("pic001");
+			fakeProductBean1.setP_Video("vid001");
+			fakeProductBean1.setCreateDate(new Date());
 			
-				// 測試用。cart如果是空的，會自動補3件下列商品作為測試
-				if(cart.size() == 0) {
-					ProductInfo fakeProductBean1 = new ProductInfo();
-					fakeProductBean1.setP_ID(3000);
-					fakeProductBean1.setP_Name("EN_Speaking");
-					fakeProductBean1.setP_Class("EN");
-					fakeProductBean1.setP_Price(500);
-					fakeProductBean1.setP_DESC("nice!!!");
-					fakeProductBean1.setU_ID("fbk001");
-					fakeProductBean1.setP_Img("pic001");
-					fakeProductBean1.setP_Video("vid001");
-					fakeProductBean1.setCreateDate(new Date());
-					
-					System.out.println("購物車沒有任何東西，因此管理員塞了一個課程進來✌💀✌");
-					cart = new ArrayList<ProductInfo>();
-					cart.add(fakeProductBean1);
-				}
-				return "購物車沒有任何東西，因此管理員塞了一個課程進來✌💀✌";
+			System.out.println("購物車沒有任何東西，因此管理員塞了一個課程進來✌💀✌");
+			if(cart == null) {				
+				cart = new ArrayList<ProductInfo>();
+			}
+			cart.add(fakeProductBean1);
 		}
+	}
+	
 }

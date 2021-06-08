@@ -9,7 +9,7 @@ public interface IOrderDao {
 	
 	Order insert(Order orderBean);
 	Order select(String P_ID);
-	Order selectCustom(String hql);
+	List<Order> selectCustom(String hql);
 	List<Order> selectAll();
 	
 	/**
