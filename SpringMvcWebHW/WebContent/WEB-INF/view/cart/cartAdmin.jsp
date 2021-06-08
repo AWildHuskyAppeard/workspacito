@@ -83,11 +83,11 @@
 			<button type="button" id="labelall" hidden>click me</button>
 
 		
-		<script src="../assets/jquery-3.6.0.min.js"></script>
+		<script src="../resources/js/jquery-3.6.0.min.js"></script>
 		<script>
 			let counter = -1;
 			$(function(){
-				// func.01
+				// func.01 加入空白列
 				$('#newRow').on('click', function(){
 					counter++;
 					$('#counter').attr('value', counter + 1)
@@ -109,7 +109,7 @@
 							`;
 					$('#newRowsBelow').append(content);
 				})
-				// func.02
+				// func.02 一鍵產生資料
 				$('#cheat').on('click', function(){
 					counter++;
 					$('#counter').attr('value', counter + 1)
@@ -156,7 +156,7 @@
 					event.preventDefault();
 				})
 
-				// func.05
+				// func.05 刪除功能防呆
 				$('input#ckbox').on('click', function(){
 					let ckboxes = $('input#ckbox:checked');
 					$('#delete').attr('disabled', true);

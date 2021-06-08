@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
@@ -24,11 +23,24 @@ public class OrderService implements IOrderService{
 	public Order select(String P_ID) {
 		return orderDao.select(P_ID);
 	}
-	
-/**
- * 未完成品 
- **/
-	public Order selectCustom(String hql) {
+
+	public List<Order> selectCustom(String hql) {
 		return orderDao.selectCustom(hql);
+	}
+	
+	// Admin - 1
+	public List<Order> selectTop20() {
+		return orderDao.selectTop20();
+	}
+	
+	// Admin - 2
+	public void update(Order newBean) {
+		orderDao.update(newBean);
+		return;
+	}
+	
+	// Admin - 3
+	public boolean delete(Order orderBean) {
+		return orderDao.delete(orderBean);
 	}
 }

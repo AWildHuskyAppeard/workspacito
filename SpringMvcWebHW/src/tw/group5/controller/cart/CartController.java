@@ -26,7 +26,7 @@ public class CartController {
 	@Autowired // SDI ✔
 	private OrderService orderService;
 	@Autowired // SDI ✔
-	private List<ProductInfo> cart;
+	public List<ProductInfo> cart;
 	
 	public CartController() {
 		   System.out.println("=====>	IoC 容器正在建立本類別 (CartController) 的物件	<=====");
@@ -66,9 +66,10 @@ public class CartController {
 		session.setAttribute("cart", cart);
 		return cart;
 	}
-
-	private void backToMainPage() {
-		return;
+	
+	@GetMapping(value = "/index")
+	private String backToMainPage() {
+		return "/index";
 	}
 	
 	@PostMapping("/pay")

@@ -72,17 +72,17 @@ public class Order {
 	}                    
 	
 	// getters
-	public Integer getO_id() {return o_id;}
-	public Integer getP_id() {return p_id;}
-	public String getP_name() {return p_name;}
-	public Integer getP_price() {return p_price;}
-	public String getU_id() {return u_id;}
-	public String getU_firstname() {return u_firstname;}
-	public String getU_lastname() {return u_lastname;}
-	public String getU_email() {return u_email;}
-	public String getO_status() {return o_status;}
-	public String getO_date() {return o_date;}
-	public Integer getO_amt() {return o_amt;}
+	public Integer getO_id()        {return o_id;}
+	public Integer getP_id()        {return p_id;}
+	public String  getP_name()      {return p_name;}
+	public Integer getP_price()     {return p_price;}
+	public String  getU_id()        {return u_id;}
+	public String  getU_firstname() {return u_firstname;}
+	public String  getU_lastname()  {return u_lastname;}
+	public String  getU_email()     {return u_email;}
+	public String  getO_status()    {return o_status;}
+	public String  getO_date()      {return o_date;}
+	public Integer getO_amt()       {return o_amt;}
 	
 	// setters
 	public void setO_id(Integer o_ID) {	o_id = o_ID;}
