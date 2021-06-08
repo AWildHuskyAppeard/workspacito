@@ -22,4 +22,13 @@ public interface IUserService {
 	// 查看全部會員資料
 	public List<User_Info> showAllUsers();
 
+	// 讀取單筆會員資料(全部會員資料到刪除單筆資料)
+	public User_Info getSingleUser(String u_id);
+
+	// 刪除會員資料
+	public void deleteUserById(String u_id);
+
+	// 修改會員資料
+	public void updateUser(User_Info user_Info);
+
 }

@@ -103,7 +103,6 @@ window.onload = function(){
 			return false;
 		}
 		var xhr1 = new XMLHttpRequest();
-		// 待寫後端判斷
 		xhr1.open("POST", "<c:url value='/userSignup' />");
 		var jsonSignupData = {
 			"u_id" : u_id,
@@ -121,8 +120,8 @@ window.onload = function(){
 				if(result.fail){
 					spanResult.innerHTML = "<font color='red' >" + result.fail + "</font>";
 				}else if(result.success){
-					alert(result.success + "! 將為您導到登入頁面...");
-					top.location='<c:url value='/gotologin.controller' />';
+					alert(result.success + "! 為您導回上一頁...");
+					top.location='<c:url value='/gotoUserIndex.controller' />';
 				}
 			}
 		}

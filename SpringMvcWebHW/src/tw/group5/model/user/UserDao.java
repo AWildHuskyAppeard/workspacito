@@ -129,7 +129,28 @@ public class UserDao implements IUserDao {
 	}
 	
 	
+	@Override
+	//讀取單筆會員資料(全部會員資料到刪除單筆資料)
+	public User_Info getSingleUser(String u_id) {
+		Session session = sessionFactory.getCurrentSession();
+		User_Info getUserResult = session.get(User_Info.class, u_id);
+		return getUserResult;
+	}
 	
+	@Override
+	//刪除會員資料
+	public void deleteUserById(String u_id) {
+		Session session = sessionFactory.getCurrentSession();
+		user_info.setU_id(u_id);
+		session.delete(user_info);
+	}
+	
+	@Override
+	// 修改會員資料
+	public void updateUser(User_Info user_Info) {
+		Session session = sessionFactory.getCurrentSession();
+		session.update(user_Info.getU_id(), user_Info);
+	}
 	
 	
 	
