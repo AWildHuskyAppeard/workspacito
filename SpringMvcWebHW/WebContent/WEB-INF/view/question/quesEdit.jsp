@@ -6,7 +6,7 @@
 <html>
 <head>
 <script>
-var q_ID = ${q_ID};
+var q_aa = ${q_aa};
 var hasError = false;
 
 window.onload = function() {
@@ -19,13 +19,14 @@ window.onload = function() {
 	var p_Class = document.getElementById("p_Class");
 	var xhr = new XMLHttpRequest();
 
-	xhr.open("GET", "<c:url value='/questions/" + q_ID + "' />", true);
+	xhr.open("GET", "<c:url value='/questions/" + q_aa + "' />", true);
 	xhr.send();	
 	var message = "";
 	xhr.onreadystatechange = function() {
 	 // 伺服器請求完成
 	    if (xhr.readyState == 4 && xhr.status == 200) {
 		   var quesBean = JSON.parse(xhr.responseText);
+// 		   q_ID.innerHTML = quesBean.q_ID;
 		   q_ID.value = quesBean.q_ID;
 		   q_Type.value = quesBean.q_Type;
 		   q_Ques.value = quesBean.q_Ques;
@@ -42,7 +43,7 @@ window.onload = function() {
 	   var result = confirm("確定刪除此筆記錄(題目編號:" + q_ID.value + ")?");
 	   if (result) {
 		    var xhr2 = new XMLHttpRequest();
-	   		xhr2.open("DELETE", "<c:url value='/questions/' />" + q_ID, true);
+	   		xhr2.open("DELETE", "<c:url value='/questions/' />" + q_ID.value, true);
 	   		xhr2.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 	   		xhr2.send();
 	   		xhr2.onreadystatechange = function() {
@@ -53,7 +54,7 @@ window.onload = function() {
 			 		divResult.innerHTML = "<font color='red' >"
 						+ result.fail + "</font>";
 		  		} else if (result.success) {
-		  			window.location.href = "http://localhost:8080/SpringRest21/showAllMembersAjax";
+		  			window.location.href = "http://localhost:8080/SpringMvcWebHW/showAllQuestionsAjax";
 	      		}                                                             
 			} 
 		      
@@ -78,39 +79,39 @@ window.onload = function() {
 		var div4 = document.getElementById('result4c');
 		var div5 = document.getElementById('result5c');
 
-		if (!q_ID){
-			setErrorFor(div0, "請輸入帳號");
-   		} 	else {
-      		div0.innerHTML = "";
-   		}
-		if (!q_Type){
-			setErrorFor(div1, "請輸入題目類型");
-		} else {
-			div1.innerHTML = "";
-		}
-		if (!q_Ques){
-			setErrorFor(div2, "請輸入問題");
-		} else {
-			div2.innerHTML = "";
-		}
-		if (!q_Selection){
-			setErrorFor(div3, "請輸入回答選項");
-		} else {
-			div3.innerHTML = "";
-		}
-		if (!q_Ans){
-			setErrorFor(div4, "請輸入正解");
-		} else {
-			div4.innerHTML = "";
-		}
-		if (!p_Class){
-			setErrorFor(div5, "請輸入課程分類");
-		} else {
-			div5.innerHTML = "";
-		}
+// 		if (!q_ID){
+// 			setErrorFor(div0, "請輸入帳號");
+//    		} 	else {
+//       		div0.innerHTML = "";
+//    		}
+// 		if (!q_Type){
+// 			setErrorFor(div1, "請輸入題目類型");
+// 		} else {
+// 			div1.innerHTML = "";
+// 		}
+// 		if (!q_Ques){
+// 			setErrorFor(div2, "請輸入問題");
+// 		} else {
+// 			div2.innerHTML = "";
+// 		}
+// 		if (!q_Selection){
+// 			setErrorFor(div3, "請輸入回答選項");
+// 		} else {
+// 			div3.innerHTML = "";
+// 		}
+// 		if (!q_Ans){
+// 			setErrorFor(div4, "請輸入正解");
+// 		} else {
+// 			div4.innerHTML = "";
+// 		}
+// 		if (!p_Class){
+// 			setErrorFor(div5, "請輸入課程分類");
+// 		} else {
+// 			div5.innerHTML = "";
+// 		}
 
    		var xhr1 = new XMLHttpRequest();
-   		xhr1.open("PUT", "<c:url value='/questions/' />" + q_ID, true);
+   		xhr1.open("PUT", "<c:url value='/questions/' />" + q_aa, true);
 		var jsonMember = {
 			"q_ID": q_ID, 					
 			"q_Type": q_Type, 	
@@ -138,6 +139,8 @@ window.onload = function() {
 				div1.innerHTML = "";
 				div2.innerHTML = "";
 				div3.innerHTML = "";
+				div4.innerHTML = "";
+				div5.innerHTML = "";
 	 		} else {
 				if (result.q_IDError) {
           			div0.innerHTML = "<font color='green' size='-2'>"
@@ -197,7 +200,8 @@ window.onload = function() {
 	<tr height='60'>
 		<td width='200'><input type="hidden" name="id" id='id'><br></td>
 		<td width='400'>
-			&nbsp;題目編號: <label id='q_ID'></label><br>
+<!-- 			&nbsp;題目編號: <label id="q_ID"></label><br> -->
+		&nbsp;題目編號: <input type="text" name="q_ID" id="q_ID"><br>
 		</td>
 		<td width='200'>
 			<div id='result0c' style="height: 10px;"></div><br>
@@ -244,8 +248,8 @@ window.onload = function() {
 			&nbsp;正&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;解: <input type="text" name="q_Ans" id='q_Ans'><br>
 		</td>
 		<td width='200' style="vertical-align:top">
-			<div id='result2c' style="height: 10px;"></div><br>
-			<div id='result2s' style="height: 10px;"></div>
+			<div id='result4c' style="height: 10px;"></div><br>
+			<div id='result4s' style="height: 10px;"></div>
 		</td>	
 	</tr>
 	
@@ -255,8 +259,8 @@ window.onload = function() {
 			&nbsp;課程分類: <input type="text" name="p_Class" id='p_Class'><br>
 		</td>
 		<td width='200' style="vertical-align:top">
-			<div id='result2c' style="height: 10px;"></div><br>
-			<div id='result2s' style="height: 10px;"></div>
+			<div id='result5c' style="height: 10px;"></div><br>
+			<div id='result5s' style="height: 10px;"></div>
 		</td>	
 	</tr>
 	

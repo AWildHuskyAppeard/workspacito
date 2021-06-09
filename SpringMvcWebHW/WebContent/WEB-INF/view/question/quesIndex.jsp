@@ -14,12 +14,12 @@
 </div>
 <br>
 <div style="text-align: center;">
-<div style="display: inline-block; text-align: left">
-	
-<a href="<c:url value='/insertQuestionForm' />" >1. 新增試題資料</a><br>
-<a href="<c:url value='/showAllQuestionsAjax' />" >2. 查詢、修改與刪除題庫資料(Ajax)</a><br>
-
+<div style="display: inline-block; text-align: center">	
+<a href="<c:url value='/insertQuestionForm' />" >① 新增試題資料</a><br><br>
+<a href="<c:url value='/showAllQuestionsAjax' />" >② 查詢、修改與刪除試題資料</a><br><br>
 </div>
+<hr>
+<a href="<c:url value='/' />">首頁</a>
 </div>
 </body>
 </html>
