@@ -15,32 +15,29 @@ public class ChatDaoImpl implements ChatDao{
 	
 	@Autowired
 	private SessionFactory sessionFactory;
+	
+	@Autowired
+	Chat chat;
 
 	@Override
-	public boolean insertChat(Chat chat) {
+	public void insertChat(Chat chat) {
 		Session session = sessionFactory.getCurrentSession();
 		if(chat!=null) {
 			session.save(chat);
 		}
-		return false;
 	}
 
 	@Override
-	public boolean deleteChat(Chat chat) {
+	public void deleteChat(int c_ID) {
 		Session session = sessionFactory.getCurrentSession();
-		if(chat!=null) {
-			session.delete(chat);
-		}
-		return false;
+		chat.setC_ID(c_ID);
+		session.delete(chat);
 	}
 
 	@Override
-	public boolean updateChat(Chat chat) {
+	public void updateChat(Chat chat) {
 		Session session = sessionFactory.getCurrentSession();
-		if(chat!=null) {
-			session.update(chat);
-		}
-		return false;
+		session.update(String.valueOf(chat.getC_ID()), chat);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -51,5 +48,6 @@ public class ChatDaoImpl implements ChatDao{
 		List<Chat> chat = session.createQuery(sql).getResultList();
 		return chat;
 	}
+
 
 }
