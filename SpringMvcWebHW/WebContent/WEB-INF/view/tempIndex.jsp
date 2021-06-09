@@ -15,6 +15,9 @@
 <div style="text-align: center;">
 <div style="display: inline-block; text-align: left">
   <a href="<c:url value='/user/gotoUserIndex.controller' />" >User</a><br>
+</div><br>
+<div style="display: inline-block; text-align: left">
+  <a href="<c:url value='/question/QuesIndex' />" >Question</a><br>
 </div>
 </div>
 </body>
