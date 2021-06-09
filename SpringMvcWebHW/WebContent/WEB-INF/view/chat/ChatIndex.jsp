@@ -15,7 +15,10 @@
 <br>
 <div style="text-align: center;">
 <div style="display: inline-block; text-align: center">
-<a href="<c:url value='/insertAllChat' />" >查詢文章</a><br>
+<a href="<c:url value='/selectAllChat' />" >查詢所有文章</a><br>
+<a href="<c:url value='/insertChat' />" >新增文章</a><br>
+<a href="<c:url value='/deleteChat' />" >刪除文章</a><br>
+<a href="<c:url value='/updateChat' />" >更新文章</a><br>
 </div>
 </div>
 
