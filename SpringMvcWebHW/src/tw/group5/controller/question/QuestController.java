@@ -107,16 +107,16 @@ public class QuestController  {
 		       (@RequestBody QuesBean quesBean, 
 		        @PathVariable Integer q_ID
 		    ) {
-			quesBean = null;
-			if (q_ID != null) {
-				quesBean = service.findByPrimaryKey(q_ID);
-				if (quesBean == null) {
-					throw new RuntimeException("鍵值不存在, q_ID=" + q_ID);
-				}
-
-			} else {
-				throw new RuntimeException("鍵值不存在, q_ID=" + q_ID);
-			}
+//			quesBean = null;
+//			if (q_ID != null) {
+//				quesBean = service.findByPrimaryKey(q_ID);
+//				if (quesBean == null) {
+//					throw new RuntimeException("鍵值不存在, q_ID=" + q_ID);
+//				}
+//
+//			} else {
+//				throw new RuntimeException("鍵值不存在, q_ID=" + q_ID);
+//			}
 
 			Map<String, String> map = new HashMap<>();
 			try {
@@ -132,7 +132,7 @@ public class QuestController  {
 		// 傳回能夠編輯單筆會員資料之視圖的邏輯名稱
 		@GetMapping(value = "/quesEdit/{q_ID}", produces = { "application/json" })
 		public String editQuesFindView(@PathVariable Integer q_ID, Model model) {
-			model.addAttribute("q_ID", q_ID);
+			model.addAttribute("q_aa", q_ID);
 			return "question/quesEdit";
 		}
 
