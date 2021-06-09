@@ -9,6 +9,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
@@ -41,8 +42,10 @@ public class ProductInfo {
 //	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Taipei")
 	private String p_createDate;
 	@Column(name = "p_Img")
+	@Lob
 	private byte[] p_Img;
 	@Column(name = "p_Video")
+	@Lob
 	private byte[] p_Video;
 
 //	public Product getProduct() {
@@ -53,11 +56,9 @@ public class ProductInfo {
 //		this.product = product;
 //	}
 	
-	public ProductInfo(byte[] p_Img, byte[] p_Video) {
-		super();
-		this.p_Img = p_Img;
-		this.p_Video = p_Video;
-	}
+//	public ProductInfo() {
+//		
+//	}
 	
 
 	public Integer getP_ID() {
