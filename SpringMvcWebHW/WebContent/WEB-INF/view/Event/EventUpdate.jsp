@@ -46,7 +46,7 @@ window.onload = function() {
 	   var updateData = document.getElementById("updateData");
 	   var deleteData = document.getElementById("deleteData");
 
-	   deleteData.addEventListener('click', (e)=> { 
+	   deleteData.addEventListener('click', (e)=> {  
 		   var result = confirm("確定刪除此筆記錄(帳號:" + id.value + ")?");
 		   if (result) { 
 			    var xhr2 = new XMLHttpRequest();
@@ -191,7 +191,7 @@ function dateValidation(str) {
 	}
 
 </script>
-<link rel='stylesheet' href="<c:url value='/css/styles.css' />" type="text/css" />	
+<%-- <link rel='stylesheet' href="<c:url value='/css/styles.css' />" type="text/css" />	 --%>
 <meta charset="UTF-8">
 <title>Registration</title>
 </head>
