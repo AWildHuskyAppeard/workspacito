@@ -1,90 +1,93 @@
-//package tw.group5.controller;
-//
-//import java.io.File;
-//import java.io.FileInputStream;
-//import java.io.IOException;
-//import java.io.InputStream;
-//
-//import javax.servlet.http.HttpServletRequest;
-//
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.stereotype.Controller;
-//import org.springframework.web.bind.annotation.GetMapping;
-//import org.springframework.web.bind.annotation.PostMapping;
-//import org.springframework.web.bind.annotation.RequestParam;
-//import org.springframework.web.bind.annotation.ResponseBody;
-//import org.springframework.web.multipart.MultipartFile;
-//
-//import tw.group5.model.Picture;
-//import tw.group5.model.PictureService;
-//
-//@Controller
-//public class UploadFileController {
-//	
-//	@GetMapping(path = "/uploadMainPage.controller")
-//	public String processMainPage() {
-//		return "uploadFile";
-//	}
-//	
-//	@PostMapping(path = "/uploadFile.controller")
-//	@ResponseBody
-//	public String processFileUpload(@RequestParam("myFiles") MultipartFile multipartFile, HttpServletRequest request) throws IllegalStateException, IOException {
-//		String fileName = multipartFile.getOriginalFilename();
-//		System.out.println("fileName: " + fileName);
-//		
-//		//create an uploadTempDir's directory in case of not inexistency
-//		String saveFileDir = request.getSession().getServletContext().getRealPath("/") + "uploadTempDir\\";  //getServletContext():取得環境根目錄
-//		File saveDirFile = new File(saveFileDir);
-//		saveDirFile.mkdirs();
-//		
-//		String saveFilePath = saveFileDir + fileName;
-//		File savefile = new File(saveFilePath);
-//		multipartFile.transferTo(savefile);
-//		System.out.println("saveFilePath: " + saveFilePath);
-//		
-//		if(fileName!=null && fileName.length()!=0) {
-//			savePicture(fileName, saveFilePath);
-//			return "save success";
-//		}else {
-//			return "save failed";
-//		}
-//	}
-//	
-//	@Autowired
-//	private PictureService pictureService;
-//
-//	private void savePicture(String fileName, String saveFilePath) throws IOException {
-//		Picture p1 = new Picture();
-//		p1.setFilename(fileName);
-//		
-//		InputStream is1 = new FileInputStream(saveFilePath);
-//		byte[] b = new byte[is1.available()];
-//		is1.read(b);
-//		is1.close();
-//		
-//		p1.setPicture(b); //存到javabean裡面
-//		pictureService.insert(p1); //存到資料庫
-//		
-//	}
-//	
-//	
-//	
-//	
-//	
-//	
-//	
-//	
-//	
-//	
-//	
-//	
-//	
-//	
-//	
-//	
-//	
-//	
-//	
-//	
-//	
-//}
+package tw.group5.controller;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+
+import tw.group5.model.Picture;
+import tw.group5.model.PictureService;
+
+@Controller
+public class UploadFileController {
+	@Autowired
+	private PictureService pictureService;
+	
+	
+	@GetMapping(path = "/uploadMainPage.controller")
+	public String processMainPage() {
+		return "uploadFile";
+	}
+	
+	
+	@Autowired
+	Picture picture;
+	
+	@PostMapping(path = "/testUploadFile.controller")
+	@ResponseBody
+	public Map<String, String> upload (@RequestParam(name = "myFiles") MultipartFile file, @RequestParam String theText, HttpServletRequest request) throws IllegalStateException, IOException{
+		System.out.println("傳進來的" + file);
+		System.out.println("傳進來的" + theText);
+		Map<String, String> map = new HashMap<>();
+		String path = request.getSession().getServletContext().getRealPath("/") + "testUploadTempDir\\";
+		String fileName = file.getOriginalFilename();
+		String saveFilePath = path + fileName;
+		
+		System.out.println("fileName:" + fileName);
+		System.out.println("save path" + saveFilePath);
+		
+		File saveFile = new File(saveFilePath);
+		file.transferTo(saveFile);
+		
+		try {
+			picture.setFilename(fileName);
+			InputStream is = new FileInputStream(saveFilePath);
+			byte bt[] = new byte[is.available()];
+			is.read(bt);
+			is.close();
+			picture.setPicture(bt);
+			pictureService.insert(picture);
+			
+			map.put("success", "上傳成功");
+			
+			
+		} catch (Exception e) {
+			map.put("fail", "上傳失敗");
+		}
+		
+		return map;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+}
