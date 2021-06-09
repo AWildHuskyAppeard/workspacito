@@ -1,75 +1,61 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib prefix='fmt' uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <meta charset="UTF-8">
-<title>商品資料</title>
-<script>
-
-	window.onload = function(){
-		var xhr = new XMLHttpRequest();
-		xhr.open("GET","<c:url value='/products' />",true) 
-		xhr.send();
-		xhr.onreadystatechange = function() {
-
-			if(xhr.readyState == 4 && xhr.status == 200){
-				var content = "<table border='1'>";
-				content += "<tr><th>p_ID</th><th>p_Name</th><th>p_Class</th><th>p_Price</th><th>p_DESC</th><th>p_createDate</th><th>u_ID</th><th>p_Img</th><th>p_Video</th></tr>"
-				var products = JSON.parse(xhr.responseText);
-				for(var i=0; i< products.length;i++){
-					tmp = "<c:url value='/productsEdit/' />";
-					content += "<tr>" + 
-	                "<td align='center'>" + products[i].p_ID + "</td>" +
-        	       	"<td align='center'>" + products[i].p_Name + "</td>" +
-            	   	"<td align='center'>" + products[i].p_Price + "</td>" +
-					"<td align='center'>" + products[i].p_Class + "</td>" +
-					"<td align='center'>" + products[i].p_DESC + "</td>" +
-					"<td align='center'>" + products[i].u_ID + "</td>" +
-					"<td align='center'>" + products[i].p_createDate + "</td>" +
-					"<td align='center'>" + products[i].p_Img + "</td>" +
-					"<td align='center'>" + products[i].p_Video + "</td>" +
-               		"</tr>";
-					}
-				content += "</table>";
-				var divs = document.getElementById("somedivS");
-				divs.innerHTML = content;
-				
-				}
-
-
-			};
-
-
-
-		};
-	
-
-
-
-
-
-
-
-
-</script>
+<title>展示商品資訊</title>
 </head>
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.6.0.js"></script>
+<script type="text/javascript">
+	$(function() {
+		$(".del").click(function() {
+			if (confirm("確認刪除嗎")) {
+				//submit 將所獲得的form元素提交
+				$("form").attr("action", this.href).submit(); //$(this).attr("href")
+				return false;
+			}
+			return false; //將超連結的默認行為取消
+		});
+	});
+</script>
 <body>
+	<table>
+		<tr>
+			<th>p_ID</th>
+			<th>p_Name</th>
+			<th>p_Class</th>
+			<th>p_Price</th>
+			<th>p_DESC</th>
+			<th>u_ID</th>
+			<th>p_createDate</th>
+			<th>p_Img</th>
+			<th>p_Video</th>
+			<th>OPTION(<a href="product">ADD</a>)
+			</th>
+		</tr>
+		<c:forEach items="${products }" var="product">
+			<tr>
+				<td>${product.p_ID }</td>
+				<td>${product.p_Name }</td>
+				<td>${product.p_Class }</td>
+				<td>${product.p_Price}</td>
+				<td>${product.p_DESC}</td>
+				<td>${product.u_ID}</td>
+				<td>${product.p_createDate}</td>
+				<td>${product.p_Img}</td>
+				<td>${product.p_Video}</td>
+				<td>
+					<a href="product/${product.p_ID }">UPDATE</a>
+					<a href="product/${product.p_ID }" class='del'>DELETE</a>
+				</td>
+			</tr>
+		</c:forEach>
+	</table>
 
-	<div class='center'>
-		<h2>商品資料</h2>
-		<hr>
-		<div class='center' id='somedivS'></div>
-	</div>
-
-
+	<form method='post'>
+		<input type="hidden" name="_method" value="DELETE">
+	</form>
 </body>
-	<p />
-	<div align="center">
-		<a href="<c:url value='/index/'/>">回前頁</a>
-</div>
 </html>

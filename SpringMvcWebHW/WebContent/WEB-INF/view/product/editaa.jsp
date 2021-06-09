@@ -11,7 +11,7 @@
 <body>
 
 
-	<form:form action="${pageContext.servletContext.contextPath }/product" method="post" modelAttribute="product">
+	<form:form action="${pageContext.servletContext.contextPath }/product" method="post" modelAttribute="productInfo">
 		<c:if test="${empty product.p_ID }" var="flag" />
 		<c:if test="${!flag }">
 			<form:hidden path="p_ID" />
@@ -54,7 +54,7 @@
 			</tr>
 			<tr>
 				<td>p_Img</td>
-				<td><form:input path="p_Img" /></td>
+				<td><form:input path="p_Img" type ="file" /></td>
 			</tr>
 			<tr>
 				<td>p_Video</td>
