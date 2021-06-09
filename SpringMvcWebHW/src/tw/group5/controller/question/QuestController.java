@@ -25,6 +25,12 @@ public class QuestController  {
 	@Autowired
 	QuesService service;
 	
+	// 送往題庫首頁
+	@GetMapping(path = "/gotoQuesIndex")
+	public String gotoUserIndex() {
+		return "question/quesIndex";
+	}	
+	
 	// 查詢所有會員資料
 	@GetMapping("/questions")
 	public @ResponseBody List<QuesBean> findAllQuesBean(Model model) {
