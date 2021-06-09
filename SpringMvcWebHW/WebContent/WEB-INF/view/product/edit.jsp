@@ -18,7 +18,7 @@
 			<legend>填寫下列資料</legend>
 			<table border='1'>
 				<tr height='60'>
-					<td width='400'>&nbsp;導師: <input type="text" name="p_Price"id='balance'><br>
+					<td width='400'>&nbsp;導師: <input type="text" name="u_ID"id='u_ID'><br>
 					</td>
 				</tr>
 				<tr height='60'>
@@ -26,7 +26,7 @@
 					</td>
 				</tr>
 				<tr height='60'>
-					<td width='400'>&nbsp;商品類別:<select>
+					<td width='400'>&nbsp;商品類別:<select name="p_Class">
 						<option>請選擇類別</option>
 						<option>英文</option>
 						<option>日文</option>
@@ -50,7 +50,7 @@
 					</td>
 				</tr>
 				<tr height='50'>
-					<td colspan='3' align='center'><button id='sendData'>送出</button></td>
+					<td colspan='3' align='center'><input type="submit" value="送出"></td>
 				</tr>
 			</table>
 		</fieldset>
