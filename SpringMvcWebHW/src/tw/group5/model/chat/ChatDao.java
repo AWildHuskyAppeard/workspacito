@@ -1,6 +1,6 @@
 package tw.group5.model.chat;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public interface ChatDao {
 	
@@ -10,6 +10,6 @@ public interface ChatDao {
 	
 	boolean updateChat(Chat chat);
 	
-	ArrayList<Chat> findAllChat();
+	List<Chat> findAllChat();
 
 }
