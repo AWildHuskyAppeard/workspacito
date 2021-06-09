@@ -1,14 +1,16 @@
-package tw.group5.model.cart.old;
+package tw.group5.model.cart;
 
 import java.util.*;
 
-public interface ICartDAO {
+import org.springframework.stereotype.Repository;
+
+public interface IOrderDao {
 	// 建立連線、提供SQL方法
 	
-	Order insertOrder(Order orderBean);
-	Order selectOrder(String P_ID);
-	Order selectCustom(String hql);
-	List<Order> selectAllOrder();
+	Order insert(Order orderBean);
+	Order select(String P_ID);
+	List<Order> selectCustom(String hql);
+	List<Order> selectAll();
 	
 	/**
 	

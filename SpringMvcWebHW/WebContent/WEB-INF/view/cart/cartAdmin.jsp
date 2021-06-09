@@ -1,43 +1,17 @@
-<%@page import="cart.*"%>
+<%@page import="tw.group5.controller.cart.*"%>
 <%@page import="javax.naming.*"%>
 <%@page import="java.util.*"%>
 <%@page import="java.sql.*"%>
 <%@page import="javax.sql.*"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-    
-<%!	private DataSource ds;
-		private HttpSession session;
-		private InitialContext ctx;
-		private Connection conn = null;
-		private ArrayList<ArrayList<String>> dataArrays = null;%>    
-<%
-		try 
-		{
-			if (this.ds == null) 
-			{	
-				ctx = new InitialContext();
-				// 改資料庫名稱
-				this.ds = (DataSource) ctx.lookup("java:/comp/env/jdbc/DBDB");
-			}
-			this.conn = this.ds.getConnection();
-		} catch (NamingException e) 
-		{
-			e.printStackTrace();
-		} catch (SQLException e) 
-		{
-			e.printStackTrace();
-		} 
-		CartDAOImpl dao = new CartDAOImpl(conn);
-		dao.selectAllOrder();
-		dataArrays = CartDAOImpl.dataArrays;
-%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <%
-		request.setCharacterEncoding("UTF-8");
-		response.setContentType("text/html;charset=UTF-8");
-		response.setHeader("Cache-Control", "no-cache");
-		response.setHeader("Pragma","no-cache");
-		response.setDateHeader("Expires",-1);
+	request.setCharacterEncoding("UTF-8");
+	response.setContentType("text/html;charset=UTF-8");
+	response.setHeader("Cache-Control", "no-cache");
+	response.setHeader("Pragma","no-cache");
+	response.setDateHeader("Expires",-1);
 %>
 <html>
 	<head>
@@ -67,29 +41,7 @@
 					<th>Order Date</th>
 					<th>Order Amount</th>
 				</thead>
-				<tbody id="newRowsBelow">
-					<%
-						ArrayList<Order> adminBeans = new ArrayList();
-									for(int i = 0; i < dataArrays.size(); i++) {
-					%>
-						<tr>
-							<td><input name="ckbox" id="ckbox" type="checkbox" value="<%=dataArrays.get(i).get(0)/*有勾選的行數(0起算)*/%>"></td>
-							<td style="background: aquamarine;"><input name="<%=i+"0"%>" type="text" value="<%=dataArrays.get(i).get(0)%>" readonly></td>
-							<td><input required name="<%=i+"1"%>"  type="text" value="<%=dataArrays.get(i).get(1)%>" ></td>
-							<td><input required name="<%=i+"2"%>"  type="text" value="<%=dataArrays.get(i).get(2)%>" ></td>
-							<td><input required name="<%=i+"3"%>"  type="text" value="<%=dataArrays.get(i).get(3)%>" id="num"></td> <!--price-->
-							<td><input required name="<%=i+"4"%>"  type="text" value="<%=dataArrays.get(i).get(4)%>" ></td>
-							<td><input required name="<%=i+"5"%>"  type="text" value="<%=dataArrays.get(i).get(5)%>" ></td>
-							<td><input required name="<%=i+"6"%>"  type="text" value="<%=dataArrays.get(i).get(6)%>" ></td>
-							<td><input required name="<%=i+"7"%>"  type="text" value="<%=dataArrays.get(i).get(7)%>" ></td>
-							<td><input required name="<%=i+"8"%>"  type="text" value="<%=dataArrays.get(i).get(8)%>" ></td>
-							<td><input required name="<%=i+"9"%>"  type="text" value="<%=dataArrays.get(i).get(9)%>" ></td>
-							<td><input required name="<%=i+"10"%>" type="text" value="<%=dataArrays.get(i).get(10)%>" id="num"></td>
-					<%
-						}
-					%>
-						</tr>
-
+				<tbody id="dataArea">
 				</tbody>
 			</table>
 			<hr>
@@ -109,11 +61,54 @@
 			<button type="button" id="labelall" hidden>click me</button>
 
 		
-		<script src="../assets/jquery-3.6.0.min.js"></script>
+		<script src="/SpringMvcWebHW/js/jquery-3.6.0.min.js"></script>
 		<script>
+			$(window).on('load', function(){
+				let dataArea = $('#dataArea');
+				let xhr = new XMLHttpRequest();
+				let url = "<c:url value='/cart.controller/initAdminPageData' />";
+				xhr.open("GET", url, true);
+				xhr.send();
+				xhr.onreadystatechange = function() {
+					if (xhr.readyState == 4 && xhr.status == 200) {
+						dataArea.html(parseSelectedRows(xhr.responseText));
+					}
+				}
+			});
+
+				function parseSelectedRows(orderList) {
+					   let orders = JSON.parse(orderList);
+					   let segment = "";
+					   let totalPrice = 0;
+
+					   for (let i = 0; i < orders.length; i++) {
+						   totalPrice += orders[i].p_price;
+							segment +=	 "<tr>" + 
+												"<td><input name='ckbox' id='ckbox' type='checkbox' value=' + " + i + "'></td>" +
+												"<td style='background: aquamarine;'>" + 
+													  "<input required name='" + i + "0' type='text' value='" + orders[i].o_id + "' readonly></td>" +
+												"<td><input required name='" + i + "1'  type='text' value='" + orders[i].p_id + "' ></td>" +
+												"<td><input required name='" + i + "2'  type='text' value='" + orders[i].p_name + "' ></td>" +
+												"<td><input required name='" + i + "3'  type='text' value='" + orders[i].p_price + "' id='num'></td> <!--price-->" +
+												"<td><input required name='" + i + "4'  type='text' value='" + orders[i].u_id + "' ></td>" +
+												"<td><input required name='" + i + "5'  type='text' value='" + orders[i].u_firstname + "' ></td>" +
+												"<td><input required name='" + i + "6'  type='text' value='" + orders[i].u_lastname + "' ></td>" +
+												"<td><input required name='" + i + "7'  type='text' value='" + orders[i].u_email + "' ></td>" +
+												"<td><input required name='" + i + "8'  type='text' value='" + orders[i].o_status + "' ></td>" +
+												"<td><input required name='" + i + "9'  type='text' value='" + orders[i].o_data + "' ></td>" +
+												"<td><input required name='" + i + "10' type='text' value='" + orders[i].o_amt + "' id='num'></td>" +
+												"</tr>";
+					   }
+					   segment += "<div>小計：" + totalPrice + "</div>";
+					   return segment;
+			};
+
 			let counter = -1;
 			$(function(){
-				// func.01
+				// func.06 載入便嵌入前20 SELECT 結果
+					/************************************************************************************/
+					
+				// func.01 加入空白列
 				$('#newRow').on('click', function(){
 					counter++;
 					$('#counter').attr('value', counter + 1)
@@ -135,7 +130,7 @@
 							`;
 					$('#newRowsBelow').append(content);
 				})
-				// func.02
+				// func.02 一鍵產生資料
 				$('#cheat').on('click', function(){
 					counter++;
 					$('#counter').attr('value', counter + 1)
@@ -182,7 +177,7 @@
 					event.preventDefault();
 				})
 
-				// func.05
+				// func.05 刪除功能防呆
 				$('input#ckbox').on('click', function(){
 					let ckboxes = $('input#ckbox:checked');
 					$('#delete').attr('disabled', true);

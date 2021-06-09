@@ -37,47 +37,33 @@ public class ProductInfo {
 	private String u_ID;
 //	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "ProductInfo")
 //	private Product product;
-	@Column(name = "createDate")
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone="Asia/Taipei")
-	private Date p_createDate;
+	@Column(name = "p_createDate")
+//	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Taipei")
+	private String p_createDate;
 	@Column(name = "p_Img")
-	private String p_Img;
+	private byte[] p_Img;
 	@Column(name = "p_Video")
-	private String p_Video;
+	private byte[] p_Video;
+
+//	public Product getProduct() {
+//		return product;
+//	}
+//
+//	public void setProduct(Product product) {
+//		this.product = product;
+//	}
 	
-	
-
-	public Date getP_createDate() {
-		return p_createDate;
-	}
-
-	public void setP_createDate(Date p_createDate) {
-		this.p_createDate = p_createDate;
-	}
-
-	public String getP_Img() {
-		return p_Img;
-	}
-
-	public void setP_Img(String p_Img) {
+	public ProductInfo(byte[] p_Img, byte[] p_Video) {
+		super();
 		this.p_Img = p_Img;
-	}
-
-	public String getP_Video() {
-		return p_Video;
-	}
-
-	public void setP_Video(String p_Video) {
 		this.p_Video = p_Video;
 	}
-
-	public ProductInfo() {
-		super();
-	}
+	
 
 	public Integer getP_ID() {
 		return p_ID;
 	}
+
 
 	public void setP_ID(Integer p_ID) {
 		this.p_ID = p_ID;
@@ -115,28 +101,36 @@ public class ProductInfo {
 		this.p_DESC = p_DESC;
 	}
 
-//	public Product getProduct() {
-//		return product;
-//	}
-//
-//	public void setProduct(Product product) {
-//		this.product = product;
-//	}
-
-	public Date getCreateDate() {
-		return p_createDate;
-	}
-
-	public void setCreateDate(Date createDate) {
-		this.p_createDate = createDate;
-	}
-
 	public String getU_ID() {
 		return u_ID;
 	}
 
 	public void setU_ID(String u_ID) {
 		this.u_ID = u_ID;
+	}
+
+	public String getP_createDate() {
+		return p_createDate;
+	}
+
+	public void setP_createDate(String p_createDate) {
+		this.p_createDate = p_createDate;
+	}
+
+	public byte[] getP_Img() {
+		return p_Img;
+	}
+
+	public void setP_Img(byte[] p_Img) {
+		this.p_Img = p_Img;
+	}
+
+	public byte[] getP_Video() {
+		return p_Video;
+	}
+
+	public void setP_Video(byte[] bs) {
+		this.p_Video = bs;
 	}
 
 	@Override
