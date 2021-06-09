@@ -5,10 +5,10 @@
 <!DOCTYPE html>
 <html>
 <head>
-<link rel='stylesheet' href="<c:url value='/css/styles.css' />" type="text/css" />
+<%-- <link rel='stylesheet' href="<c:url value='/css/styles.css' />" type="text/css" /> --%>
 <meta charset="UTF-8">
 <title>會員資料</title>
-<script type="text/javascript" src="<c:url value='/js/jquery-1.12.2.min.js' />" ></script>
+<%-- <script type="text/javascript" src="<c:url value='/js/jquery-1.12.2.min.js' />" ></script> --%>
 
 
 <script>
