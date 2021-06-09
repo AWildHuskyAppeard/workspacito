@@ -1,11 +1,12 @@
-package tw.group5.model.product;
+package tw.group5.model.product.dao;
 
-import java.util.ArrayList;
 import java.util.List;
+
+import tw.group5.model.product.ProductInfo;
 
 public interface ProductDao {
 	
-	//findall
+	//find all
 	List<ProductInfo>findAll();
 	//find by product name
 	List<ProductInfo> findByProductName(String p_Name);

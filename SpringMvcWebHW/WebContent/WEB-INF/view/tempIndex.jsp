@@ -14,10 +14,9 @@
 <br/>
 <div style="text-align: center;">
 <div style="display: inline-block; text-align: left">
-  <a href="<c:url value='/user/gotoUserIndex.controller' />" >User</a><br>
-</div><br>
-<div style="display: inline-block; text-align: left">
-  <a href="<c:url value='/question/QuesIndex' />" >Question</a><br>
+  <a href="<c:url value='/gotoUserIndex.controller' />" >會員</a><br>
+  <a href="<c:url value='/Event' />" >活動</a><br>
+  <a href="<c:url value='/quesIndex' />" >Question</a><br>
 </div>
 </div>
 </body>
