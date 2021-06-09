@@ -27,10 +27,7 @@ public class CartController {
 	private OrderService orderService;
 //	@Autowired // SDI ✔
 	public List<ProductInfo> cart = new ArrayList<ProductInfo>();
-	
-	public CartController() {
-		   System.out.println("=====>	IoC 容器正在建立本類別 (CartController) 的物件	<=====");
-	}
+
 	
 	@GetMapping(value = {"/cart.controller"})
 	public String toTestpage() {
@@ -149,7 +146,7 @@ public class CartController {
 		
 		if(cart.size() == 0 || cart == null) {
 			byte[] aa = {1, 2};
-			ProductInfo fakeProductBean1 = new ProductInfo(aa, aa);
+			ProductInfo fakeProductBean1 = new ProductInfo();
 			fakeProductBean1.setP_ID(3000);
 			fakeProductBean1.setP_Name("EN_Speaking");
 			fakeProductBean1.setP_Class("EN");
@@ -157,6 +154,8 @@ public class CartController {
 			fakeProductBean1.setP_DESC("nice!!!");
 			fakeProductBean1.setU_ID("fbk001");
 			fakeProductBean1.setP_createDate("1999-11-22");
+			fakeProductBean1.setP_Img(aa);
+			fakeProductBean1.setP_Video(aa);
 			
 			System.out.println("購物車沒有任何東西，因此管理員塞了一個課程進來✌💀✌");
 			if(cart == null) {
