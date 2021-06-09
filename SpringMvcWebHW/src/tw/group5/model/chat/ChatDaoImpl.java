@@ -1,9 +1,10 @@
 package tw.group5.model.chat;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import javax.transaction.Transactional;
 
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -17,26 +18,38 @@ public class ChatDaoImpl implements ChatDao{
 
 	@Override
 	public boolean insertChat(Chat chat) {
-		// TODO Auto-generated method stub
+		Session session = sessionFactory.getCurrentSession();
+		if(chat!=null) {
+			session.save(chat);
+		}
 		return false;
 	}
 
 	@Override
 	public boolean deleteChat(Chat chat) {
-		// TODO Auto-generated method stub
+		Session session = sessionFactory.getCurrentSession();
+		if(chat!=null) {
+			session.delete(chat);
+		}
 		return false;
 	}
 
 	@Override
 	public boolean updateChat(Chat chat) {
-		// TODO Auto-generated method stub
+		Session session = sessionFactory.getCurrentSession();
+		if(chat!=null) {
+			session.update(chat);
+		}
 		return false;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
-	public ArrayList<Chat> findAllChat() {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Chat> findAllChat() {
+		Session session = sessionFactory.getCurrentSession();
+		String sql = "from Chat";
+		List<Chat> chat = session.createQuery(sql).getResultList();
+		return chat;
 	}
 
 }
