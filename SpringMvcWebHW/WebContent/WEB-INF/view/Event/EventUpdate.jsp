@@ -25,7 +25,7 @@ window.onload = function() {
 	var balance = document.getElementById("balance");
 	var birthday = document.getElementById("birthday");
 	var xhr = new XMLHttpRequest();
-
+	alert(pk)
 	xhr.open("GET", "<c:url value='/Events/" + pk + "' />", true);
 //送GET  "<c:url value='//Events/" + pk + "' />"  取回單筆的 物件資料 
  	

@@ -19,7 +19,7 @@
 	
 
 <a href="<c:url value='/insertEventForm' />" >新增活動</a><br>
-<a href="<c:url value='/Events' />" >3. 檢視Server送回的JSON資料(生資料)</a><br>
+<a href="<c:url value='/Events' />" >檢視Server送回的JSON資料(生資料)</a><br>
 <a href="<c:url value='/showAllEvent' />" >查詢、修改與刪除活動</a><br>
 <a href="<c:url value='/gohome' />" >回大家首頁</a><br>
 </div>
