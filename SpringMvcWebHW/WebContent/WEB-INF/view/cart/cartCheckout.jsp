@@ -65,7 +65,7 @@
 		<button formaction="<c:url value='/cart.controller/toTheIndex' />">回首頁</button>
 		<hr>
 	</form>
-	<script src="../resources/js/jquery-3.6.0.min.js"></script>
+	<script src="/SpringMvcWebHW/js/jquery-3.6.0.min.js"></script>
 	<script>
 		$(function(){
 

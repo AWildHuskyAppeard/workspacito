@@ -54,7 +54,7 @@
 			
 		</form>
 		<form>
-			<button formmethod="POST" formaction="../index_test.html">回首頁</button>
+			<button formmethod="POST" formaction="/">回首頁</button>
 			<button formmethod="POST" formaction="../userInfo/test_GM_index.html">回GM首頁</button>
 		</form>
 
