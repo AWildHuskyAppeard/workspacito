@@ -46,7 +46,7 @@
 	%>
 
 	<h1>您的購物車內有：</h1>
-	<!-- 1. 顯示當前購物車內容表格 -->
+	<!-- 顯示當前購物車內容表格 -->
 	<form method="POST" action="#"> 
 		<table>
 			<thead>
@@ -64,7 +64,7 @@
 		</table>
 		
 		<hr>
-		<!-- 2. 按鈕導向各頁 -->
+		<!-- 按鈕導向各頁 -->
 		<button id="remove" formaction="<c:url value='/cart.controller/remove' />" disabled>移除</button>
 		<button id="checkout" formaction="<c:url value='/cart.controller/cartCheckout' />">去結帳</button>
 		<button name="" value="" formaction="#">回首頁</button>
@@ -74,7 +74,7 @@
 	
 	<script src="/SpringMvcWebHW/js/jquery-3.6.0.min.js"></script>
 	<script>
-		// 3 (showCart by AJAX)
+		// 1 (showCart by AJAX) ✔
 		let dataArea = $('#dataArea');
 		$(window).on('load', function(){
 			let xhr = new XMLHttpRequest();
@@ -88,7 +88,7 @@
 			}
 		});
 		
-		// 3-1 parseCart()
+		// 1-a parseCart() ✔
 		function parseCart(cart) {
 				   let products = JSON.parse(cart);
 				   let segment = "";
@@ -108,9 +108,10 @@
 				   return segment;
 		};
 		
-		
 		$(function(){
-			// 4 (remove by AJAX)
+		
+		
+			// 2 Remove by AJAX
 			$("#remove").click(function(){
 				let xhr = new XMLHttpRequest();
 				let url = "<c:url value='/cart.controller/remove' />";
@@ -124,48 +125,12 @@
 				}
 			});
 
-
-			// 1 (AJAX)
-			btn02.onclick = function() {
-				let xhr = new XMLHttpRequest();
-				let queryString = "pk=3";
-				let url = "<c:url value='/showCart' />?" + queryString;
-				// alert("url = " + url)
-				xhr.open("GET", url, true);
-				xhr.send();
-				xhr.onreadystatechange = function() {
-					if (xhr.readyState == 4 && xhr.status == 200) {
-						dataArea.html(showSingleMember(xhr.responseText));
-					}
-				}
-			}
-			
-			// 1-1
-			function showSingleMember(text) {
-				let member = JSON.parse(text);
-				let segment = "<table border='1'>";
-					segment += "<tr>"
-						+ "<th>主鍵值</th>"
-						+ "<th>會員代號</th>"
-						+ "<th>姓名</th>"
-						+ "<th>餘額</th>"
-						+ "<th>生日</th>"
-						+ "</tr>"
-						+ "<tr>"
-						+ "<td>" + member.pk + "</td>"
-						+ "<td>" + member.name + "</td>"
-						+ "<td>" + member.id + "</td>"
-						+ "<td>" + member.balance + "</td>"
-						+ "<td>" + member.birthday + "</td>"
-						+ "</tr>"
-						return segment;
-			}
-
-			// 2 (防呆)
+			// 3 DELETE功能防呆
 			$('input#ckbox').on('click', function() {
+				alert('YO!!!')
 				let ckboxes = $('input#ckbox:checked');
 				$('#delete').attr('disabled', true);
-				if($(ckboxes).length == 0 || $(ckboxes).length == null) {
+				if($(ckboxes).length == 0 || $(ckboxes).length == null || $(ckboxes).length == undefined) {
 				} else {
 					$('#delete').attr('disabled', false);			
 				}

@@ -21,7 +21,7 @@ import tw.group5.model.product.ProductInfo;
 
 @SessionAttributes(names = "cart")
 @Controller
-@RequestMapping(path = "/cart.controller")
+@RequestMapping(path = "")
 public class CartController {
 	@Autowired // SDI ✔
 	private OrderService orderService;
@@ -32,18 +32,18 @@ public class CartController {
 		   System.out.println("=====>	IoC 容器正在建立本類別 (CartController) 的物件	<=====");
 	}
 	
-	@GetMapping(value = {""})
+	@GetMapping(value = {"/cart.controller"})
 	public String toTestpage() {
-		return "/cart/testpage";
+		return "/cart/testpagee";
 	}
 	
-	@PostMapping(value = {"/TheIndex"})
+	@PostMapping(value = {"/cart.controller/TheIndex"})
 	public String toTheIndex() {
-		return "首頁啦啦啦啊啦";
+		return "/123456";
 	}
 	
-//	@PostMapping(value = {"/cartIndex"})
-	@GetMapping(value = {"/cartIndex"})
+//	@PostMapping(value = {"/cart.controller/cartIndex"})
+	@GetMapping(value = {"/cart.controller/cartIndex"})
 	public String toCartIndex() {
 		refill();
 		System.out.print("現在你的購物車 = ");
@@ -51,19 +51,19 @@ public class CartController {
 		return "cart/cartIndex";
 	}
 	
-	@PostMapping(value = {"/cartCheckout"})
+	@PostMapping(value = {"/cart.controller/cartCheckout"})
 	public String toCartCheckout() {
 		refill();
 		return "cart/cartCheckout";
 	}
 	
-	@GetMapping(value = {"/cartAdmin"})
+	@GetMapping(value = {"/cart.controller/cartAdmin"})
 	public String toCartAdmin() {
 		return "cart/cartAdmin";
 	}
 	
 
-	@GetMapping(value="/showCart", produces = "application/json; charset=UTF-8")
+	@GetMapping(value="/cart.controller/showCart", produces = "application/json; charset=UTF-8")
 	@ResponseBody
 	public List<ProductInfo> showCart(HttpSession session) {
 		session.setAttribute("cart", cart);
@@ -74,7 +74,7 @@ public class CartController {
 		return cart;
 	}
 	
-	@GetMapping(value = "/remove", produces = "application/json; charset=UTF-8")
+	@GetMapping(value = "/cart.controller/remove", produces = "application/json; charset=UTF-8")
 	@ResponseBody
 	public List<ProductInfo> removeProductFromCart(HttpSession session, @RequestParam("ckbox") String[] ckbox ) {
 		cart = (ArrayList<ProductInfo>) session.getAttribute("cart");
@@ -86,12 +86,12 @@ public class CartController {
 		return cart;
 	}
 	
-	@GetMapping(value = "/index")
+	@GetMapping(value = "/cart.controller/index")
 	public String backToMainPage() {
 		return "/index";
 	}
 	
-	@PostMapping("/pay")
+	@PostMapping("/cart.controller/pay")
 	public String pay() {
 		
 		// (1) 取得O_ID：查出最新的O_ID ❌
@@ -134,7 +134,7 @@ public class CartController {
 		return "/cartThanks";
 	}
 
-	@GetMapping(value = "/initAdminPageData", produces = "application/json; charset=UTF-8")
+	@GetMapping(value = "/cart.controller/initAdminPageData", produces = "application/json; charset=UTF-8")
 	@ResponseBody
 	public List<Order> initAdminPageData(){
 		return orderService.selectTop20();
@@ -148,19 +148,18 @@ public class CartController {
 		System.out.println("正在檢查你的cart是不是空的...");
 		
 		if(cart.size() == 0 || cart == null) {
-			ProductInfo fakeProductBean1 = new ProductInfo();
+			byte[] aa = {1, 2};
+			ProductInfo fakeProductBean1 = new ProductInfo(aa, aa);
 			fakeProductBean1.setP_ID(3000);
 			fakeProductBean1.setP_Name("EN_Speaking");
 			fakeProductBean1.setP_Class("EN");
 			fakeProductBean1.setP_Price(500);
 			fakeProductBean1.setP_DESC("nice!!!");
 			fakeProductBean1.setU_ID("fbk001");
-			fakeProductBean1.setP_Img("pic001");
-			fakeProductBean1.setP_Video("vid001");
-			fakeProductBean1.setCreateDate(new Date());
+			fakeProductBean1.setP_createDate("1999-11-22");
 			
 			System.out.println("購物車沒有任何東西，因此管理員塞了一個課程進來✌💀✌");
-			if(cart == null) {				
+			if(cart == null) {
 				cart = new ArrayList<ProductInfo>();
 			}
 			cart.add(fakeProductBean1);
