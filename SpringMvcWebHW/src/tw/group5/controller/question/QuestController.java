@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -36,7 +37,7 @@ public class QuestController  {
 	@GetMapping("/questions/{q_ID}")
 	// showEditQuestion ??
 	public @ResponseBody QuesBean showEditQuestion(@PathVariable Integer q_ID) {
-		QuesBean quesBean = service.findQues(q_ID);
+		QuesBean quesBean = service.findByPrimaryKey(q_ID);
 		return quesBean;
 	}
 	
@@ -92,6 +93,41 @@ public class QuestController  {
 			}
 //			map轉成Json格式後送前端(response)
 			return map;
+		}
+		
+		// 修改單筆會員資料
+		@PutMapping(value = "/questions/{q_ID}", consumes = { "application/json" }, produces = { "application/json" })
+		public @ResponseBody Map<String, String> updateQuestion
+		       (@RequestBody QuesBean quesBean, 
+		        @PathVariable Integer q_ID
+		    ) {
+			quesBean = null;
+			if (q_ID != null) {
+				quesBean = service.findByPrimaryKey(q_ID);
+				if (quesBean == null) {
+					throw new RuntimeException("鍵值不存在, q_ID=" + q_ID);
+				}
+
+			} else {
+				throw new RuntimeException("鍵值不存在, q_ID=" + q_ID);
+			}
+
+			Map<String, String> map = new HashMap<>();
+			try {
+				service.updateQues(quesBean);
+				map.put("success", "更新成功");
+			} catch (Exception e) {
+				e.printStackTrace();
+				map.put("fail", "更新失敗");
+			}
+			return map;
+		}
+		
+		// 傳回能夠編輯單筆會員資料之視圖的邏輯名稱
+		@GetMapping(value = "/quesEdit/{q_ID}", produces = { "application/json" })
+		public String editQuesFindView(@PathVariable Integer q_ID, Model model) {
+			model.addAttribute("q_ID", q_ID);
+			return "question/quesEdit";
 		}
 
 //暫不使用		// 當新增會員資料時, 檢查帳號是否可用

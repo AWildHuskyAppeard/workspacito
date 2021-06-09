@@ -16,9 +16,10 @@ window.onload = function() {
 		var idValue = document.getElementById("q_ID").value;
 		// 抓radio的使用者選取值
 		var typeValue = document.getElementsByName("q_Type");
+		var typeValue0 = typeValue;
 		for(var i = 0; i < typeValue.length; i ++){ 
 			if(typeValue[i].checked){ 
-				var typeValue = typeValue[i].value;
+				 typeValue = typeValue[i].value;
  }
 }
 		var quesValue = document.getElementById("q_Ques").value;
@@ -26,9 +27,10 @@ window.onload = function() {
 		var ansValue = document.getElementById("q_Ans").value;
 
 		var classValue = document.getElementsByName("p_Class");
+		var classValue0 = classValue;
 		for(var i = 0; i < classValue.length; i ++){ 
 			if(classValue[i].checked){ 
-				var classValue = classValue[i].value;
+				 classValue = classValue[i].value;
  }
 }
 		
@@ -46,7 +48,7 @@ window.onload = function() {
    		} 	else {
       		div0.innerHTML = "";
    		}
-		if (!typeValue){
+		if (typeValue == typeValue0){
 			setErrorFor(div1, "請選擇題目類型");
 		} else {
 			div1.innerHTML = "";
@@ -66,7 +68,7 @@ window.onload = function() {
 		} else {
 			div4.innerHTML = "";
    		}
-   		if (!classValue){
+   		if (classValue == classValue0){
 			setErrorFor(div5, "請選擇課程分類");
 		} else {
 			div5.innerHTML = "";

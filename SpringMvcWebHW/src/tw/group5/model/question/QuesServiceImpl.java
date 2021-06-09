@@ -32,8 +32,8 @@ public class QuesServiceImpl implements QuesService {
 	}
 
 	@Override
-	public QuesBean findQues(int q_ID) {
-		return quesDAO.findQues(q_ID);
+	public QuesBean findByPrimaryKey(int q_ID) {
+		return quesDAO.findByPrimaryKey(q_ID);
 	}
 	
 	@Override
@@ -44,6 +44,11 @@ public class QuesServiceImpl implements QuesService {
 	@Override
 	public boolean isQuestionExist(QuesBean quesBean) {
 		return quesDAO.isQuestionExist(quesBean);
+	}
+	
+	@Override
+	public void evictQues(QuesBean quesBean) {
+		quesDAO.evictQues(quesBean);
 	}
 	
 //	@Override

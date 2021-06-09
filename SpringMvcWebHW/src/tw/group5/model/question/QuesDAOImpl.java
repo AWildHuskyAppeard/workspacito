@@ -150,7 +150,7 @@ public class QuesDAOImpl implements QuesDAO {
 		
 	// 搜尋
 	@Override
-	public QuesBean findQues(int q_ID) {
+	public QuesBean findByPrimaryKey(int q_ID) {
 		Session session = factory.getCurrentSession();
 		QuesBean quesBean = session.get(QuesBean.class , q_ID);
 		return quesBean;
@@ -206,8 +206,14 @@ public class QuesDAOImpl implements QuesDAO {
 			List<QuesBean> list = session.createQuery(hql).getResultList();
 			return list;
 		}
-			
+		
+		//從session快取中清除物件
+		@Override
+		public void evictQues(QuesBean quesBean) {
+			Session session = factory.getCurrentSession();
+			session.evict(quesBean);
 
+		}
 	
 	
 	

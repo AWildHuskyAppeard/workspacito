@@ -24,7 +24,7 @@ window.onload = function() {
 			for(var i=0; i < questions.length; i++){
 				tmp = "<c:url value='/quesEdit/' />";
 			    content += 	"<tr><td width='50' ><a href='" + tmp + questions[i].q_ID + "'>" + 
-			    			"<img width='36' height='36' src='<c:url value='/images/q_edit.png' />' ></a>" + 
+			    			"<img width='36' height='36' src='<c:url value='/images/question/q_edit.png' />' ></a>" + 
 			                "<td align='center'>" + questions[i].q_ID + "</td>" +
 		        	       	"<td align='center'>" + questions[i].q_Type + "</td>" +
 		        	       	"<td align='center'>" + questions[i].q_Ques + "</td>" +
