@@ -8,10 +8,14 @@
 <title>輸入商品資料</title>
 </head>
 <body>
-	<form action="product" method="post" enctype="multipart/form-data">
+	<form
+		action="${pageContext.servletContext.contextPath }/updateproduct/${product.p_ID }"
+		method="post" enctype="multipart/form-data">
+		<%-- 	<input type="hidden" name="id" value="${product.p_ID }"/> --%>
+		<!-- 	<input type="hidden" name="_method" value="PUT"/> -->
 
 		<div align='center'>
-			<h3>輸入商品資料</h3>
+			<h3>輸入商品需要更改的資料</h3>
 			<hr>
 			<div id='resultMsg' style="height: 18px; font-weight: bold;"></div>
 			<br>
@@ -19,26 +23,33 @@
 				<legend>填寫下列資料</legend>
 				<table border='1'>
 					<tr height='60'>
+						<td width='400'>&nbsp;商品編號: <input type="text" name="p_ID"
+							id='p_ID' value="${product.p_ID }" disabled="disabled"><br>
+						</td>
+					<tr height='60'>
 						<td width='400'>&nbsp;導師: <input type="text" name="u_ID"
-							id='u_ID'><br>
+							id='u_ID' value="${product.u_ID}"><br>
 						</td>
 					</tr>
 					<tr height='60'>
 						<td width='400'>&nbsp;商品名稱: <input type="text" name="p_Name"
-							id='p_Name'><br>
+							id='p_Name' value="${product.p_Name }"><br>
 						</td>
 					</tr>
 					<tr height='60'>
-						<td width='400'>&nbsp;商品類別:<select name="p_Class">
+						<td width='400'>&nbsp;商品類別:<select name="p_Class"
+							id="p_Class">
 								<option>請選擇類別</option>
-								<option>英文</option>
-								<option>日文</option>
+								<option value="${product.p_Class}"
+									selected="${product.p_Class}=='英文'?'selected':''">英文</option>
+								<option value="${product.p_Class}"
+									selected="${product.p_Class}=='日文'?'selected':''">日文</option>
 						</select><br>
 						</td>
 					</tr>
 					<tr height='60'>
 						<td width='400'>&nbsp;商品價錢: <input type="text" name="p_Price"
-							id='p_Price'><br>
+							id='p_Price' value="${product.p_Price }"><br>
 						</td>
 					</tr>
 					<tr height='60'>
@@ -48,12 +59,12 @@
 					</tr>
 					<tr height='60'>
 						<td width='400'>&nbsp;商品圖片上傳: <input type="file" name="p_Img"
-							id="p_Img"><br>
+							id="p_Img" value="${product.p_Img }"><br>
 						</td>
 					</tr>
 					<tr height='60'>
 						<td width='400'>&nbsp;商品影片上傳: <input type="file"
-							name="p_Video" id='p_Video'><br>
+							name="p_Video" id='p_Video' value="${product.p_Video }"><br>
 						</td>
 					</tr>
 					<tr height='50'>
@@ -64,6 +75,7 @@
 			</fieldset>
 		</div>
 	</form>
+	
 	<p>
 	<div align='center'>
 		<hr>
@@ -76,4 +88,10 @@
 
 
 </body>
+<script type="text/javascript">
+	window.onload = function() {
+		var p_DESC = "${product.p_DESC}";
+		document.getElementById('p_DESC').innerHTML = p_DESC;
+	}
+</script>
 </html>

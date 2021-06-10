@@ -49,11 +49,17 @@ public class ProductDaoImpl implements ProductDao {
 	public boolean saveProduct(ProductInfo productInfo) {
 		boolean exist = isProductExist(productInfo);
 		Session session = sessionFactory.getCurrentSession();
-		if (exist) {
+		if (!exist) {
+			System.out.println("no");
 			session.save(productInfo);
 			return true;
+		}else if (exist) {
+			System.out.println("yes");
+			session.merge(productInfo);
+			return false;
+		}else {
+			return false;
 		}
-		return false;
 		
 	}
 
@@ -80,10 +86,10 @@ public class ProductDaoImpl implements ProductDao {
 		try {
 			session.createQuery(hql).setParameter("p_ID", productInfo.getP_ID()).getSingleResult();
 			
+			exist = true;
 		} catch (NoResultException e) {
 			
 		}
-		exist = true;
 		return exist;
 	}
 	
