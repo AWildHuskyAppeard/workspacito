@@ -1,70 +1,88 @@
-//package tw.group5.controller.chat;
-//
-//import java.io.File;
-//import java.io.FileInputStream;
-//import java.io.IOException;
-//import java.io.InputStream;
-//
-//import javax.servlet.http.HttpServletRequest;
-//
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.stereotype.Controller;
-//import org.springframework.web.bind.annotation.GetMapping;
-//import org.springframework.web.bind.annotation.PostMapping;
-//import org.springframework.web.bind.annotation.RequestParam;
-//import org.springframework.web.bind.annotation.ResponseBody;
-//import org.springframework.web.multipart.MultipartFile;
-//
-//import tw.group5.model.chat.Chat;
-////import tw.group5.model.chat.PictureService;
-//
-//@Controller
-//public class ChatController {
-//	
-//	@GetMapping(path = "/uploadMainPage.controller")
-//	public String processMainPage() {
-//		return "uploadFile";
-//	}
-//	
-//	@PostMapping(path = "/uploadFile.controller")
-//	@ResponseBody
-//	public String processFileUpload(@RequestParam("myFiles") MultipartFile multipartFile, HttpServletRequest request) throws IllegalStateException, IOException {
-//		String fileName = multipartFile.getOriginalFilename();
-//		System.out.println("fileName: " + fileName);
-//		
-//		//create an uploadTempDir's directory in case of not inexistency
-//		String saveFileDir = request.getSession().getServletContext().getRealPath("/") + "uploadTempDir\\";  //getServletContext():取得環境根目錄
-//		File saveDirFile = new File(saveFileDir);
-//		saveDirFile.mkdirs();
-//		
-//		String saveFilePath = saveFileDir + fileName;
-//		File savefile = new File(saveFilePath);
-//		multipartFile.transferTo(savefile);
-//		System.out.println("saveFilePath: " + saveFilePath);
-//		
-//		if(fileName!=null && fileName.length()!=0) {
-//			savePicture(fileName, saveFilePath);
-//			return "save success";
-//		}else {
-//			return "save failed";
-//		}
-//	}
-//	
-//	@Autowired
-////	private PictureService pictureService;
-//
-//	private void savePicture(String fileName, String saveFilePath) throws IOException {
-//		Picture p1 = new Picture();
-//		p1.setFilename(fileName);
-//		
-//		InputStream is1 = new FileInputStream(saveFilePath);
-//		byte[] b = new byte[is1.available()];
-//		is1.read(b);
-//		is1.close();
-//		
-//		p1.setPicture(b); //存到javabean裡面
-//		pictureService.insert(p1); //存到資料庫
-//		
-//	}
-//
-//}
+package tw.group5.controller.chat;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import tw.group5.model.chat.Chat;
+import tw.group5.model.chat.ChatService;
+import tw.group5.model.chat.ChatServiceImpl;
+
+@Controller
+public class ChatController {
+	
+	@Autowired
+	ChatService chatService;
+	@Autowired
+	ChatServiceImpl chatServiceImpl;
+	
+	@GetMapping(path = "/chatIndex")
+	public String gotoUserIndex() {
+		return "chat/chatIndex";
+	}
+	
+	@GetMapping("/selectAllChat")
+	public String selectAllChat(){
+		return "chat/SelectAllChat";
+	}
+	
+	@GetMapping("/insertChat")
+	public String insertChat(){
+		return "chat/InsertChat";
+	}
+	
+	@GetMapping("/deleteChat")
+	public String deleteChat(){
+		return "chat/DeleteChat";
+	}
+	
+	@GetMapping("/updateChat")
+	public String updateChat(){
+		return "chat/UpdateChat";
+	}
+	
+	@GetMapping(path = "/selectAllChat", produces = {"application/json"})
+	@ResponseBody
+	public List<Chat> goSelectAllChat() {
+		List<Chat> chat = chatService.findAllChat();
+		return chat;
+	}
+	
+	@PostMapping(path = "/insertChat", produces = {"application/json"})
+	@ResponseBody
+	public Map<String, String> InsertChat(@RequestBody Chat chat){
+		Map<String, String> map = new HashMap<>();
+		try {
+			chatService.insertChat(chat);
+			map.put("success", "新增成功");
+		} catch (Exception e) {
+			map.put("fail", "新增失敗");
+			e.printStackTrace();
+		}
+		return map;
+	}
+	
+	@PutMapping(path = "/updateChat/{c_ID}", consumes = { "application/json" }, produces = {"application/json" })
+	@ResponseBody
+	public Map<String, String> updateChat(@RequestBody Chat chat, @PathVariable String id) {
+		Map<String, String> map = new HashMap<>();
+		try {
+			chatService.insertChat(chat);
+			map.put("success", "新增成功");
+		} catch (Exception e) {
+			map.put("fail", "新增失敗");
+			e.printStackTrace();
+		}
+		return map;
+	}
+
+}
