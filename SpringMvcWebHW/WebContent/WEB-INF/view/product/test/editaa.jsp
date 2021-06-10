@@ -13,10 +13,10 @@
 
 	<form:form action="${pageContext.servletContext.contextPath }/product" method="post" modelAttribute="productInfo">
 		<c:if test="${empty product.p_ID }" var="flag" />
-<%-- 		<c:if test="${!flag }"> --%>
-<%-- 			<form:hidden path="p_ID" /> --%>
-<!-- 			<input type="hidden" name="_method" value="PUT"> -->
-<%-- 		</c:if> --%>
+		<c:if test="${!flag }">
+			<form:hidden path="p_ID" />
+			<input type="hidden" name="_method" value="PUT">
+		</c:if>
 
 
 		<table>
