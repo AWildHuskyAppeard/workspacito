@@ -151,6 +151,9 @@ window.onload = function(){
 	  <td align='center'>&nbsp;<input type='text' id="u_ID" required/></td>
 	  <td>&nbsp;<span id='result5c'></span></td>
     </tr>
+    <tr>
+		<td colspan='2' align='center'><button id='updateData'>儲存</button></td>
+	</tr>
   </table>
 </div>
 </div>
