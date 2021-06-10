@@ -5,28 +5,16 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
-<%
-	request.setCharacterEncoding("UTF-8");
-	response.setContentType("text/html;charset=UTF-8");
-	response.setHeader("Cache-Control", "no-cache");
-	response.setHeader("Pragma","no-cache");
-	response.setDateHeader("Expires",-1);
-%>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>Checkout Page</title>
 </head>
 <body>
-	<%  
-		request.getSession(true);
-		List<ProductInfo> cart = (ArrayList<ProductInfo>)(session.getAttribute("cart"));
-		// session.setAttribute("cart", cart);
-	%>
-
+	<center>
 	<h1>您欲購買的項目如下：</h1>
 	<!-- 1. 顯示當前購物車內容表格........................................ -->
-	<form method="POST" action="#"> 
+	<form> 
 		<table>
 			<thead>
 				<tr>
@@ -37,38 +25,56 @@
 				    <th>課程老師(U_ID)</th>
 				</tr>
 			</thead>
-			<tbody>
-			<% Integer totalPrice = 0; %>
-			<% 
-				 if(cart != null || cart.size() != 0) {
-				 	for(int i = 0; i < cart.size(); i++) {
-			 %>
-				<tr>
-				<td> <%= cart.get(i).getP_Name () %>   </td>
-				<td> <%= cart.get(i).getP_ID   () %>   </td>
-				<td> <%= cart.get(i).getP_Price() %>   </td>
-				<td> <%= cart.get(i).getP_DESC () %>   </td>
-				<td> <%= cart.get(i).getU_ID   () %>   </td>
-				</tr>
-				<% totalPrice += cart.get(i).getP_Price(); 
-			 		}
-			 	} 
-			%>
+			<tbody id='dataArea'>
 			</tbody>
+			<h2 id='totalPrice' style='background-color: orange;'>小計</h2>
 		</table>
-		<h1>總計：NT$<%= totalPrice %></h1>
-		<% session.setAttribute("O_Amt", totalPrice); %>
 		<hr>
 <!-- 2. 按鈕導向各頁................................................... -->
-		<button formaction="<c:url value='/cart.controller/cartIndex' />">回上一頁</button>
-		<button formaction="<c:url value='/cart.controller/pay' />">確定結帳</button>
-		<button formaction="<c:url value='/' />">回首頁</button>
+		<button formmethod="GET" formaction="<c:url value='/cart.controller/cartIndex' />">回上一頁</button>
+		<button formmethod="POST" formaction="<c:url value='/cart.controller/pay' />">確定結帳</button>
+		<button formmethod="GET" formaction="<c:url value='/' />">回首頁</button>
 		<hr>
-	</form>
+	</form>		
+	</center>
+	<!--****************************************** S      C      R      I      P      T ******************************************-->
+
 	<script src="/SpringMvcWebHW/js/jquery-3.6.0.min.js"></script>
 	<script>
 		$(function(){
+		// [AJAX] showCart ✔
+		let dataArea = $('#dataArea');
+		$(window).on('load', function(){
+			let xhr = new XMLHttpRequest();
+			let url = "<c:url value='/cart.controller/showCart' />";
+			xhr.open("GET", url, true);
+			xhr.send();
+			xhr.onreadystatechange = function() {
+				if (xhr.readyState == 4 && xhr.status == 200) {
+					dataArea.html(parseCart(xhr.responseText));
+				}
+			}
+		});
+		
+		// #parseCart() ✔
+		function parseCart(cart) {
+				   let products = JSON.parse(cart);
+				   let segment = "";
+				   let totalPrice = 0;
 
+				   for (let i = 0; i < products.length; i++) {
+					   totalPrice += products[i].p_Price;
+					   segment += "<tr>"
+									 + "<td>" + products[i].p_Name + "</td>"
+									 + "<td>" + products[i].p_ID + "</td>"
+									 + "<td>" + products[i].p_Price + "</td>"
+									 + "<td>" + products[i].p_DESC + "</td>"
+									 + "<td>" + products[i].u_ID + "</td>"
+									 + "</tr>";
+				   }
+				   $('#totalPrice').text('小計 = ' + totalPrice);
+				   return segment;
+		};
 			
 			
 		})

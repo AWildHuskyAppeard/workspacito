@@ -29,10 +29,10 @@ public class OrderDao implements IOrderDao {
 		// O_ID感覺沒辦法用在下述
 		Order resultBean = session.get(Order.class, order.getO_id());
 		if (resultBean == null) {
-			session.save(resultBean);
-			return resultBean;
+			session.save(order);
+			return order;
 		} else {
-			System.out.println("Order exists already.");
+			System.out.println("Insertion failed.");
 			return null;
 //		session.getTransaction().commit();
 		}
@@ -65,13 +65,14 @@ public class OrderDao implements IOrderDao {
 	// Admin - 1
 	public List<Order> selectTop20() {
 		Session session = factory.getCurrentSession();
-		Query<Order> query = session.createQuery("FROM Order ob ORDER BY ob.o_id DESC", Order.class).setMaxResults(20);
+		Query<Order> query = session.createQuery("FROM Order ob ORDER BY ob.o_id ASC", Order.class).setMaxResults(20);
 //		Order uniqueResult = query.uniqueResult();
 		List<Order> resultList = query.getResultList();
 		return resultList;
 	}
 	// Admin - 2
-	public void update(Order newBean) {
+	public boolean update(Order newBean) {
+		boolean updateStatus = false;
 		Session session = factory.getCurrentSession();
 		Order resultBean = session.get(Order.class, newBean.getO_id()); // 以PK查
 		if (resultBean != null) {
@@ -90,7 +91,8 @@ public class OrderDao implements IOrderDao {
 		} else {
 			System.out.println("*** Order with O_ID = " + newBean.getO_id() + "doesn't exist in the database :^) ***");
 		}
-		return;
+		updateStatus = true;
+		return updateStatus;
 	}
 	
 	public boolean delete(Order orderBean) {
@@ -101,7 +103,7 @@ public class OrderDao implements IOrderDao {
 			session.delete(orderBean); 
 		}*/
 		// 方法⓶ > HQL
-		Query<Order> query = session.createQuery("DELETE Order WHERE o_id = :oid", Order.class);
+		Query query = session.createQuery("DELETE Order WHERE o_id = :oid");
 		query.setParameter("oid", orderBean.getO_id());
 		int deletedNum = query.executeUpdate();
 		System.out.println("You deleted " + deletedNum + " row(s) from order_info table.");

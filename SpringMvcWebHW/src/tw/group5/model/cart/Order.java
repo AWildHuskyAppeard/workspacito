@@ -1,5 +1,7 @@
 package tw.group5.model.cart;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -13,7 +15,9 @@ import org.springframework.stereotype.Component;
 // OrderBean = cart +- 一些額外資訊
 @Entity @Table(name = "order_info")
 @Component
-public class Order {
+public class Order implements Serializable{
+	private static final long serialVersionUID = 1422113491878164504L;
+	
 	@Id @Column(name = "O_ID")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer o_id ; // PK

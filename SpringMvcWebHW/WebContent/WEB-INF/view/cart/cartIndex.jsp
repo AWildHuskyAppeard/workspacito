@@ -5,13 +5,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
-<%
-	request.setCharacterEncoding("UTF-8");
-	response.setContentType("text/html;charset=UTF-8");
-	response.setHeader("Cache-Control", "no-cache");
-	response.setHeader("Pragma","no-cache");
-	response.setDateHeader("Expires",-1);
-%>
 <html>
 <head>
 <meta charset="UTF-8">
@@ -39,12 +32,7 @@
 	</style>
 </head>
 <body>
-	<%  
-		request.getSession(true);
-		List<ProductInfo> cart = (ArrayList<ProductInfo>)(session.getAttribute("cart"));
-		session.setAttribute("cart", cart);
-	%>
-
+	<center>
 	<h1>您的購物車內有：</h1>
 	<!-- 顯示當前購物車內容表格 -->
 	<form method="POST" action="#"> 
@@ -67,14 +55,17 @@
 		<!-- 按鈕導向各頁 -->
 		<button id="remove" formaction="<c:url value='/cart.controller/remove' />" disabled>移除</button>
 		<button id="checkout" formaction="<c:url value='/cart.controller/cartCheckout' />">去結帳</button>
-		<button name="" value="" formaction="#">回首頁</button>
+		<button name="" value="" formmethod="GET" formaction="<c:url value='/' />">回首頁</button>
+		<button name="" value="" formmethod="GET" formaction="<c:url value='/cart.controller/cartAdmin' />">到購物車GM頁面</button>
 		<hr>
 	</form>
-	
-	
+	</center>
+
+	<!--****************************************** S      C      R      I      P      T ******************************************-->
+
 	<script src="/SpringMvcWebHW/js/jquery-3.6.0.min.js"></script>
 	<script>
-		// 1 (showCart by AJAX) ✔
+		// [AJAX] showCart ✔
 		let dataArea = $('#dataArea');
 		$(window).on('load', function(){
 			let xhr = new XMLHttpRequest();
@@ -88,7 +79,7 @@
 			}
 		});
 		
-		// 1-a parseCart() ✔
+		// #parseCart() ✔
 		function parseCart(cart) {
 				   let products = JSON.parse(cart);
 				   let segment = "";
@@ -109,7 +100,6 @@
 		};
 		
 		$(function(){
-		
 		
 			// 2 Remove by AJAX
 			$("#remove").click(function(){
@@ -135,7 +125,6 @@
 					$('#delete').attr('disabled', false);			
 				}
 			})
-
 		})
 	</script>
 </body>
