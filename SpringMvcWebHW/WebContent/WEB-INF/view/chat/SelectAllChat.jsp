@@ -35,9 +35,14 @@ window.onload = function() {
 </head>
 <body>
 <div class='center' >
-	<h3>會員資料</h3>
+	<h3>文章</h3>
 	<hr>
 	<div class='center'  id='selectAll'></div>
+</div>
+<p/>
+<div align='center'>
+	<hr>
+	<a href="<c:url value='/chatIndex' />">上一頁</a>
 </div>
 </body>
 </html>
