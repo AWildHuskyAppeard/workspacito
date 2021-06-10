@@ -118,6 +118,7 @@ window.onload = function(){
     <tr>
       <td>帳號:&nbsp;&nbsp;<span id='result5c'></span><br/><input type="text" id="u_ID" name="u_ID"/></td>
     </tr>
+    <tr><td><button type="button" id="sendData">送出</button>&nbsp;&nbsp;<button type="reset">清除</button></td></tr>
   </table>
   </form>
 </div>

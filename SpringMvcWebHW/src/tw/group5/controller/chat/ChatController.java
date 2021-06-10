@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -26,26 +27,26 @@ public class ChatController {
 	ChatServiceImpl chatServiceImpl;
 	
 	@GetMapping(path = "/chatIndex")
-	public String gotoUserIndex() {
+	public String chatIndex() {
 		return "chat/chatIndex";
 	}
 	
-	@GetMapping("/selectAllChat")
+	@GetMapping("/goSelectAllChat")
 	public String selectAllChat(){
 		return "chat/SelectAllChat";
 	}
 	
-	@GetMapping("/insertChat")
+	@GetMapping("/goInsertChat")
 	public String insertChat(){
 		return "chat/InsertChat";
 	}
 	
-	@GetMapping("/deleteChat")
+	@GetMapping("/goDeleteChat")
 	public String deleteChat(){
 		return "chat/DeleteChat";
 	}
 	
-	@GetMapping("/updateChat")
+	@GetMapping("/goUpdateChat")
 	public String updateChat(){
 		return "chat/UpdateChat";
 	}
@@ -71,12 +72,26 @@ public class ChatController {
 		return map;
 	}
 	
-	@PutMapping(path = "/updateChat/{c_ID}", consumes = { "application/json" }, produces = {"application/json" })
+	@DeleteMapping("/deleteChat/{c_ID}")
 	@ResponseBody
-	public Map<String, String> updateChat(@RequestBody Chat chat, @PathVariable String id) {
+	public Map<String, String> deleteChat(@PathVariable(required = true) int c_ID){
 		Map<String, String> map = new HashMap<>();
 		try {
-			chatService.insertChat(chat);
+			chatService.deleteChat(c_ID);
+			map.put("success", "刪除成功");
+		} catch (Exception e) {
+			map.put("fail", "刪除失敗，請再試一次...");
+			e.printStackTrace();
+		}
+		return map;
+	}
+	
+	@PutMapping(path = "/updateChat/{c_ID}", consumes = { "application/json" }, produces = {"application/json" })
+	@ResponseBody
+	public Map<String, String> updateChat(@RequestBody Chat chat) {
+		Map<String, String> map = new HashMap<>();
+		try {
+			chatService.updateChat(chat);
 			map.put("success", "新增成功");
 		} catch (Exception e) {
 			map.put("fail", "新增失敗");
