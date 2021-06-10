@@ -34,9 +34,8 @@ public class OrderService implements IOrderService{
 	}
 	
 	// Admin - 2
-	public void update(Order newBean) {
-		orderDao.update(newBean);
-		return;
+	public boolean update(Order newBean) {
+		return orderDao.update(newBean);
 	}
 	
 	// Admin - 3
