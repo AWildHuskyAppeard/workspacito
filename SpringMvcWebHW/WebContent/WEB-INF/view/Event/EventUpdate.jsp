@@ -25,7 +25,7 @@ window.onload = function() {
 	var balance = document.getElementById("balance");
 	var birthday = document.getElementById("birthday");
 	var xhr = new XMLHttpRequest();
-
+// 	alert(pk)
 	xhr.open("GET", "<c:url value='/Events/" + pk + "' />", true);
 //送GET  "<c:url value='//Events/" + pk + "' />"  取回單筆的 物件資料 
  	
@@ -47,7 +47,7 @@ window.onload = function() {
 	   var deleteData = document.getElementById("deleteData");
 
 	   deleteData.addEventListener('click', (e)=> {  
-		   var result = confirm("確定刪除此筆記錄(帳號:" + id.value + ")?");
+		   var result = confirm("確定刪除此筆記錄(活動編號:" + id.value + ")?");
 		   if (result) { 
 			    var xhr2 = new XMLHttpRequest();
 		   		xhr2.open("DELETE", "<c:url value='/Events/' />" + pk, true);
@@ -83,29 +83,29 @@ window.onload = function() {
 			var div2 = document.getElementById('result2c');
 			var div3 = document.getElementById('result3c');
 			if (!idValue){
-				setErrorFor(div0, "請輸入帳號");
+				setErrorFor(div0, "請輸入活動編號");
 	   		} 	else {
 	      		div0.innerHTML = "";
 	   		}
 			if (!nameValue){
-				setErrorFor(div1, "請輸入姓名");
+				setErrorFor(div1, "請輸入活動名稱");
 			} else {
 				div1.innerHTML = "";
 			}
 	   		if (!balanceValue){
-				setErrorFor(div2, "請輸入餘額");
+				setErrorFor(div2, "請輸入活動代幣");
 			} else {
 		   		var objRegex = /^\d+$|(^-?\d\d*\.\d\d*$)|(^-?\.\d\d*$)/;  
 				if(!objRegex.test(balanceValue))    {  
-					setErrorFor(div2, "餘額欄必須是數值");
+					setErrorFor(div2, "代幣欄必須是數值");
 	       		} else { 
 	           		div2.innerHTML = "";
 	       		}
 	   		}
 	   		if (!birthdayValue){
-				setErrorFor(div3, "請輸入生日");  
+				setErrorFor(div3, "請輸入活動日期");  
 	   		} else if(!dateValidation(birthdayValue)) {
-				setErrorFor(div3, "生日格式錯誤，正確格式為yyyy-MM-dd");
+				setErrorFor(div3, "活動日期錯誤，正確格式為yyyy-MM-dd");
 	   		} else {
 	       		div3.innerHTML = "";
 	   		}
@@ -197,7 +197,7 @@ function dateValidation(str) {
 </head>
 <body>
 <div align='center'>
-<h2>修改會員資料</h2>
+<h2>修改活動資料</h2>
 <div id='resultMsg' style="height:18px; font-weight: bold;"></div>
 	<fieldset style='display: inline-block; width: 820px;'> 
 	<legend>請修改下列資料</legend>
@@ -205,7 +205,7 @@ function dateValidation(str) {
 	<tr height='60'>
 		<td width='200'><input type="hidden" name="id" id='id'><br></td>
 		<td width='400'>
-			&nbsp;活動ID: <label id='ida'></label><br>
+			&nbsp;活動編號: <label id='ida'></label><br>
 		</td>
 		<td width='200'>
 			<div id='result0c' style="height: 10px;"></div><br>

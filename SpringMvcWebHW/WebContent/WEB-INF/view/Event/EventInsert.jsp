@@ -32,7 +32,7 @@ window.onload = function() {
 		   } else if (	result.id.startsWith("Error") ) {
 			  message = "<font color='red' size='-2'>發生錯誤: 代號" + result.id + "</font>";
 		   } else {
-			  message = "<font color='red' size='-2'>帳號重複，請重新輸入帳號</font>"; 
+			  message = "<font color='red' size='-2'>活動ID重複，請重新輸入帳號</font>"; 
 		   }
 		   div.innerHTML = message;
 	    }
@@ -52,29 +52,29 @@ window.onload = function() {
 		var div3 = document.getElementById('result3c');
 		var divResult = document.getElementById('resultMsg');
 		if (!idValue){
-			setErrorFor(div0, "請輸入帳號");
+			setErrorFor(div0, "請輸入活動ID");
    		} 	else {
       		div0.innerHTML = "";
    		}
 		if (!nameValue){
-			setErrorFor(div1, "請輸入姓名");
+			setErrorFor(div1, "請輸入活動名稱");
 		} else {
 			div1.innerHTML = "";
 		}
    		if (!balanceValue){
-			setErrorFor(div2, "請輸入餘額");
+			setErrorFor(div2, "請輸入活動代幣");
 		} else {
 	   		var objRegex = /^\d+$|(^-?\d\d*\.\d\d*$)|(^-?\.\d\d*$)/;  
 			if(!objRegex.test(balanceValue))    {  
-				setErrorFor(div2, "餘額欄必須是數值");
+				setErrorFor(div2, "代幣欄必須是數值");
        		} else { 
            		div2.innerHTML = "";
        		}
    		}
    		if (!birthdayValue){
-			setErrorFor(div3, "請輸入生日");  
+			setErrorFor(div3, "請輸入活動日期");  
    		} else if(!dateValidation(birthdayValue)) {
-			setErrorFor(div3, "生日格式錯誤，正確格式為yyyy-MM-dd");
+			setErrorFor(div3, "活動日期錯誤，正確格式為yyyy-MM-dd");
    		} else {
        		div3.innerHTML = "";
    		}
@@ -191,7 +191,7 @@ function dateValidation(str) {
 </head>
 <body>
 <div align='center'>
-<h3>輸入會員資料</h3>
+<h3>輸入活動資料</h3>
 <hr>
 <div id='resultMsg' style="height: 18px; font-weight: bold;"></div>
 	<br>
@@ -201,9 +201,9 @@ function dateValidation(str) {
 	<tr height='60'>
 		<td width='200'>&nbsp;</td>
 		<td width='400'>
-			&nbsp;活動ID: <input type="text" name="id" id='id'><br>
+			&nbsp;活動編號: <input type="text" name="id" id='id'><br>
 			<div style='font-size: 10pt; text-align: center;'>
-   				<a href='#' id='accountCheck' style='font-size: 10pt;'>檢查帳號</a>
+   				<a href='#' id='accountCheck' style='font-size: 10pt;'></a>
 			</div>
 		</td>
 		<td width='200'>

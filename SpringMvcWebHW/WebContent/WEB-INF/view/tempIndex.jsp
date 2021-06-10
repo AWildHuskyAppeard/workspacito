@@ -17,6 +17,9 @@
   <a href="<c:url value='/gotoUserIndex.controller' />" >會員</a><br>
   <a href="<c:url value='/Event' />" >活動</a><br>
   <a href="<c:url value='/products' />" >課程</a><br>
+  <a href="<c:url value='/gotoQuesIndex' />" >題庫</a><br>
+  <a href="<c:url value='/chatIndex' />" >討論區</a><br>
+  <a href="<c:url value='/cart.controller/cartIndex' />" >購物車</a><br>
 </div>
 </div>
 </body>

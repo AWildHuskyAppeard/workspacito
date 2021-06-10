@@ -27,19 +27,11 @@ public class CartController {
 	private OrderService orderService;
 //	@Autowired // SDI ✔
 	public List<ProductInfo> cart = new ArrayList<ProductInfo>();
-	
-	public CartController() {
-		   System.out.println("=====>	IoC 容器正在建立本類別 (CartController) 的物件	<=====");
-	}
+
 	
 	@GetMapping(value = {"/cart.controller"})
 	public String toTestpage() {
 		return "/cart/testpagee";
-	}
-	
-	@PostMapping(value = {"/cart.controller/TheIndex"})
-	public String toTheIndex() {
-		return "/123456";
 	}
 	
 //	@PostMapping(value = {"/cart.controller/cartIndex"})
@@ -140,6 +132,66 @@ public class CartController {
 		return orderService.selectTop20();
 	}
 	
+	@SuppressWarnings("deprecation")
+	@GetMapping("/test2")
+	@ResponseBody
+	public String testtt() {
+		Order order = new Order(50, 100, "ww", 200, "2s", "qew", 
+				"u_lastewname", "@@", "ww", "1907-01-23 00:11:22.0", 20);
+		boolean insertStatus = (orderService.insert(order) != null)? true : false;
+		System.out.println("good? " + insertStatus);
+		return "ok";
+	} 
+	
+	@PostMapping(value = "/cart.controller/deleteAdmin")
+	@ResponseBody
+	public Map<String, String> adminDelete(@RequestParam String o_id) {
+		
+		Order order = new Order();
+		order.setO_id(Integer.parseInt(o_id));
+		boolean deleteStatus = (orderService.delete(order))? true : false;
+		String msg = "oid = " + o_id + ((deleteStatus)?  "：刪除成功✔" : "：刪除失敗❌");
+		HashMap<String, String> resultMap = new HashMap<>();
+		resultMap.put("state", msg);
+		
+		return resultMap;
+	}
+	
+	@PostMapping(value = "/cart.controller/updateAdmin")
+	@ResponseBody
+	public Map<String, String> adminUpdate(@RequestParam String o_id, @RequestParam String p_id, @RequestParam String p_name, @RequestParam String p_price,
+			@RequestParam String u_id, @RequestParam String u_firstname, @RequestParam String u_lastname, @RequestParam String u_email, 
+			@RequestParam String o_status, @RequestParam String o_date, @RequestParam String o_amt) {
+		// 下面的O_ID有跟沒有一樣
+		System.out.println("1111111111111111111111");
+		Order order = new Order(Integer.parseInt(o_id), Integer.parseInt(p_id), p_name, Integer.parseInt(p_price), u_id, u_firstname, 
+				u_lastname, u_email, o_status, o_date, Integer.parseInt(o_amt));
+		System.out.println("222222222222222222222");
+		boolean updateStatus = (orderService.update(order))? true : false;
+		System.out.println("33333333333333333333333333333333");
+		String msg = "oid = " + o_id + ((updateStatus)?  "：修改成功✔" : "：修改失敗❌");
+		HashMap<String, String> resultMap = new HashMap<>();
+		resultMap.put("state", msg);
+		
+		return resultMap;
+	}
+	
+	@PostMapping(value = "/cart.controller/insertAdmin")
+	@ResponseBody
+	public Map<String, String> adminInsert(@RequestParam String o_id, @RequestParam String p_id, @RequestParam String p_name, @RequestParam String p_price,
+			@RequestParam String u_id, @RequestParam String u_firstname, @RequestParam String u_lastname, @RequestParam String u_email, 
+			@RequestParam String o_status, @RequestParam String o_date, @RequestParam String o_amt) {
+		// 下面的O_ID有跟沒有一樣
+		Order order = new Order(9999999, Integer.parseInt(p_id), p_name, Integer.parseInt(p_price), u_id, u_firstname, 
+				u_lastname, u_email, o_status, o_date, Integer.parseInt(o_amt));
+		boolean insertStatus = (orderService.insert(order) != null)? true : false;
+		String msg = (insertStatus)? "新增成功！" : "新增失敗 :^)";
+		HashMap<String, String> resultMap = new HashMap<>();
+		resultMap.put("state", msg);
+		
+		return resultMap;
+	}
+	
 	// 純粹測試用；最後用不到
 	// 每次經過這個Controller都會跑這個block
 	// 測試用。cart如果是空的，會自動補3件下列商品作為測試
@@ -149,7 +201,7 @@ public class CartController {
 		
 		if(cart.size() == 0 || cart == null) {
 			byte[] aa = {1, 2};
-			ProductInfo fakeProductBean1 = new ProductInfo(aa, aa);
+			ProductInfo fakeProductBean1 = new ProductInfo();
 			fakeProductBean1.setP_ID(3000);
 			fakeProductBean1.setP_Name("EN_Speaking");
 			fakeProductBean1.setP_Class("EN");
@@ -157,6 +209,8 @@ public class CartController {
 			fakeProductBean1.setP_DESC("nice!!!");
 			fakeProductBean1.setU_ID("fbk001");
 			fakeProductBean1.setP_createDate("1999-11-22");
+			fakeProductBean1.setP_Img(aa);
+			fakeProductBean1.setP_Video(aa);
 			
 			System.out.println("購物車沒有任何東西，因此管理員塞了一個課程進來✌💀✌");
 			if(cart == null) {
