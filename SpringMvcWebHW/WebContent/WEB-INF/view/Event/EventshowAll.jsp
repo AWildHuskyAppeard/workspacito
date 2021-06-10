@@ -49,7 +49,7 @@ window.onload = function() {
 </head>
 <body>
 <div class='center' >
-	<h2>會員資料</h2>
+	<h2>活動資料</h2>
 	<hr>
 	<div class='center'  id='somedivS'></div>
 	</div>
