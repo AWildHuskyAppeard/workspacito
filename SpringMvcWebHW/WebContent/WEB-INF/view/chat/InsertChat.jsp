@@ -12,24 +12,17 @@ window.onload = function(){
 	var sendData = document.getElementById("sendData");
 	sendData.onclick = function(){
 		//抓欄位資料
-		var c_ID = document.getElementById("c_ID").value;
 		var c_Date = document.getElementById("c_Date").value;
 		var c_Class = document.getElementById("c_Class").value;
 		var c_Title = document.getElementById("c_Title").value;
 		var c_Conts = document.getElementById("c_Conts").value;
 		var u_ID = document.getElementById("u_ID").value;
-		var span0 = document.getElementById('result0c');
 		var span1 = document.getElementById('result1c');
 		var span2 = document.getElementById('result2c');
 		var span3 = document.getElementById('result3c');
 		var span4 = document.getElementById('result4c');
 		var span5 = document.getElementById('result5c');
 
-		if(!c_ID){
-			setErrorFor(span0, "請輸入文章編號");
-		} else{
-			span0.innerHTML = "";
-		}
 		if(!c_Date){
 			setErrorFor(span1, "請輸入日期");
 		} else{
@@ -62,7 +55,6 @@ window.onload = function(){
 		var xhr1 = new XMLHttpRequest();
 		xhr1.open("POST", "<c:url value='/insertChat' />");
 		var jsonInsertData = {
-			"c_ID" : c_ID,
 			"c_Date" : c_Date,
 			"c_Class" : c_Class,
 			"c_Title" : c_Title,
@@ -100,9 +92,6 @@ window.onload = function(){
 <div style="display: inline-block; text-align: left">
   <form>
   <table style="line-height:20px;">	
-    <tr>
-      <td>文章編號:&nbsp;&nbsp;<span id='result0c'></span><br/><input type="text" id="c_ID" name="c_ID"/></td>
-    </tr>
     <tr>
       <td>日期:&nbsp;&nbsp;<span id='result1c'></span><br/><input type="text" id="c_Date" name="c_Date"/></td>
     </tr>

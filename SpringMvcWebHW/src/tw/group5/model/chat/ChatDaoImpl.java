@@ -14,7 +14,7 @@ import org.springframework.stereotype.Repository;
 public class ChatDaoImpl implements ChatDao{
 	
 	@Autowired
-	private SessionFactory sessionFactory;
+	SessionFactory sessionFactory;
 	
 	@Autowired
 	Chat chat;

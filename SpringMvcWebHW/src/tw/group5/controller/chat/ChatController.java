@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import tw.group5.model.chat.Chat;
 import tw.group5.model.chat.ChatService;
-import tw.group5.model.chat.ChatServiceImpl;
 
 @Controller
 public class ChatController {
@@ -24,7 +23,7 @@ public class ChatController {
 	@Autowired
 	ChatService chatService;
 	@Autowired
-	ChatServiceImpl chatServiceImpl;
+	Chat chat;
 	
 	@GetMapping(path = "/chatIndex")
 	public String chatIndex() {
@@ -32,7 +31,7 @@ public class ChatController {
 	}
 	
 	@GetMapping("/goSelectAllChat")
-	public String selectAllChat(){
+	public String goSelectAllChat(){
 		return "chat/SelectAllChat";
 	}
 	
@@ -53,7 +52,7 @@ public class ChatController {
 	
 	@GetMapping(path = "/selectAllChat", produces = {"application/json"})
 	@ResponseBody
-	public List<Chat> goSelectAllChat() {
+	public List<Chat> findAllChat() {
 		List<Chat> chat = chatService.findAllChat();
 		return chat;
 	}

@@ -14,26 +14,26 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 public class ChatServiceImpl implements ChatService{
 	
 	@Autowired
-	ChatService chatService;
+	ChatDao chatDao;
 
 	@Override
 	public void insertChat(Chat chat) {
-		chatService.insertChat(chat);
+		chatDao.insertChat(chat);
 	}
 
 	@Override
 	public void deleteChat(int c_ID) {
-		chatService.deleteChat(c_ID);
+		chatDao.deleteChat(c_ID);
 	}
 
 	@Override
 	public void updateChat(Chat chat) {
-		chatService.updateChat(chat);
+		chatDao.updateChat(chat);
 	}
 
 	@Override
 	public List<Chat> findAllChat() {
-		return chatService.findAllChat();
+		return chatDao.findAllChat();
 	}
 
 }
