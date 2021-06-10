@@ -28,7 +28,7 @@ public class ChatController {
 	
 	@GetMapping(path = "/chatIndex")
 	public String chatIndex() {
-		return "chat/chatIndex";
+		return "chat/ChatIndex";
 	}
 	
 	@GetMapping("/goSelectAllChat")
