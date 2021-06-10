@@ -76,7 +76,7 @@ public class ProductInfoController {
 			productInfo.setP_DESC(p_DESC);
 			productInfo.setP_Name(p_Name);
 			productInfo.setP_Price(p_Price);
-			
+
 			productInfo.setU_ID(u_ID);
 			productInfo.setP_createDate(stDate);
 
@@ -86,7 +86,7 @@ public class ProductInfoController {
 			String saveFileDir = request.getSession().getServletContext().getRealPath("/") + "uploadTemDir\\";
 			File saveDirImg = new File(saveFileDir);
 			saveDirImg.mkdirs();
-			
+
 			String saveImgPath = saveFileDir + imgName;
 			String saveVideoPath = saveFileDir + videoName;
 			File saveImg = new File(saveImgPath);
@@ -130,16 +130,18 @@ public class ProductInfoController {
 	}
 
 	@PostMapping("/updateproduct/{p_ID}")
-	public String updateProduct(@RequestParam("p_Img") MultipartFile p_Img, @RequestParam("p_Video") MultipartFile p_Video,
-			HttpServletRequest request, @RequestParam("u_ID") String u_ID, @RequestParam("p_Name") String p_Name,
+	public String updateProduct(@RequestParam("p_Img") MultipartFile p_Img,
+			@RequestParam("p_Video") MultipartFile p_Video, HttpServletRequest request,
+			@RequestParam("u_ID") String u_ID, @RequestParam("p_Name") String p_Name,
 			@RequestParam("p_Class") String p_Class, @RequestParam("p_Price") int p_Price,
-			@RequestParam("p_DESC") String p_DESC,@PathVariable("p_ID")Integer p_ID) throws IllegalStateException, IOException {
+			@RequestParam("p_DESC") String p_DESC, @PathVariable("p_ID") Integer p_ID)
+			throws IllegalStateException, IOException {
 		ProductInfo productInfo = service.findByProductID(p_ID);
 		productInfo.setP_Class(p_Class);
 		productInfo.setP_DESC(p_DESC);
 		productInfo.setP_Name(p_Name);
 		productInfo.setP_Price(p_Price);
-		
+
 		productInfo.setU_ID(u_ID);
 		try {
 
@@ -155,11 +157,10 @@ public class ProductInfoController {
 				String saveVideoPath = saveFileDir + videoName;
 				File saveImg = new File(saveImgPath);
 				File saveVideo = new File(saveVideoPath);
-				p_Img.transferTo(saveImg);
-				p_Video.transferTo(saveVideo);
-				
 
 				if (imgName != null && imgName.length() != 0 && videoName != null && videoName.length() != 0) {
+					p_Img.transferTo(saveImg);
+					p_Video.transferTo(saveVideo);
 					// 傳過去方法然後存到db
 //				saveFile(productInfo, saveImgPath, saveVideoPath);
 					saveImg(productInfo, saveImgPath);
@@ -167,38 +168,25 @@ public class ProductInfoController {
 					service.saveProduct(productInfo);
 					FileUtils.cleanDirectory(saveDirImg);
 					return "redirect:/products";
-				}
-			} else if (p_Img != null && p_Video == null) {
-				String imgName = p_Img.getOriginalFilename();
-				String saveFileDir = request.getSession().getServletContext().getRealPath("/") + "uploadTemDir\\";
-				File saveDirImg = new File(saveFileDir);
-				saveDirImg.mkdirs();
+				} else if (imgName != null && imgName.length() != 0 && videoName != null && videoName.length() == 0) {
 
-				String saveImgPath = saveFileDir + imgName;
-				File saveImg = new File(saveImgPath);
-				p_Img.transferTo(saveImg);
-				if (imgName != null && imgName.length() != 0) {
+//					saveDirImg.mkdirs();
+
+					p_Img.transferTo(saveImg);
 					saveImg(productInfo, saveImgPath);
 					FileUtils.cleanDirectory(saveDirImg);
-				}
-			} else if (p_Img == null && p_Video != null) {
-				String videoName = p_Video.getOriginalFilename();
-				String saveFileDir = request.getSession().getServletContext().getRealPath("/") + "uploadTemDir\\";
-				File saveDirImg = new File(saveFileDir);
-				saveDirImg.mkdirs();
 
-				String saveVideoPath = saveFileDir + videoName;
-				File saveVideo = new File(saveVideoPath);
-				p_Video.transferTo(saveVideo);
+				} else if (imgName != null && imgName.length() == 0 && videoName != null && videoName.length() != 0) {
 
-				if (videoName != null && videoName.length() != 0) {
-					// 傳過去方法然後存到db
-//				saveFile(productInfo, saveImgPath, saveVideoPath);
+//					saveDirImg.mkdirs();
+
+					p_Video.transferTo(saveVideo);
+
 					savevideo(productInfo, saveVideoPath);
 					FileUtils.cleanDirectory(saveDirImg);
 				}
-
-			}
+			} 
+			 
 		} catch (Exception e) {
 			e.printStackTrace();
 			return "fail";
