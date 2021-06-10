@@ -45,6 +45,7 @@
 				<tbody id="dataArea">
 				</tbody>
 			</table>
+			<h1 id='logo' style="background-color: red"></h1>
 			<hr>
 			<input name="counter" value="-1" id="counter" type="text" value="xxx" hidden>
 			
@@ -66,6 +67,7 @@
 		<script src="/SpringMvcWebHW/js/jquery-3.6.0.min.js"></script>
 		<script>
 			$(function(){
+				let logo = $('#logo');
 				let dataArea = $('#dataArea');
 				let oldRowsNum = 0;
 
@@ -113,7 +115,7 @@
 					}
 					console.log('ready to show lastest outcome')
 					showTop20();
-					alert('已刪除勾選之項目！');
+					logo.text('已刪除勾選之項目！');
 					console.log('jobs done')
 
 				})
@@ -135,7 +137,7 @@
 	
 						let dataCheck = (!o_id || !p_id || !p_name || !p_price || !u_id || !u_firstname || !u_lastname || !u_email || !o_status || !o_date || !o_amt);
 						if(dataCheck) {
-							alert('不得送出空值！');
+							logo.text('不得送出空值！');
 							return;
 						} 
 					}
@@ -170,7 +172,7 @@
 						}
 					}
 					showTop20(); // 為什麼會不起作用？？？？非得讓我F5不可
-					alert('更新完成！');
+					logo.text('更新完成！');
 				})
 
 				// [AJAX] admin single insert
@@ -192,7 +194,7 @@
 
 					let dataCheck = (!o_id || !p_id || !p_name || !p_price || !u_id || !u_firstname || !u_lastname || !u_email || !o_status || !o_date || !o_amt);
 					if(dataCheck) {
-						alert('不得送出空值！');
+						logo.text('不得送出空值！');
 						return;
 					} 
 
@@ -210,7 +212,7 @@
 					xhr.onreadystatechange = function() {
 						if (xhr.readyState == 4 && xhr.status == 200) {
 							let result = JSON.parse(xhr.responseText);
-							alert(result.state);
+							logo.text(result.state);
 							showTop20();
 							$('#newRow').attr('disabled', false);
 							$('#cheat').attr('disabled', false);
@@ -328,7 +330,7 @@
 						return;
 					} else {
 						console.log('else')
-						alert('Only numbers are allowed.')
+						logo.text('Only numbers are allowed.')
 						$(this).val('')
 					}
 				})

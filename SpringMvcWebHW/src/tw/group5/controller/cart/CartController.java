@@ -66,13 +66,15 @@ public class CartController {
 		return cart;
 	}
 	
-	@GetMapping(value = "/cart.controller/remove", produces = "application/json; charset=UTF-8")
+	@PostMapping(value = "/cart.controller/remove", produces = "application/json; charset=UTF-8")
 	@ResponseBody
-	public List<ProductInfo> removeProductFromCart(HttpSession session, @RequestParam("ckbox") String[] ckbox ) {
+	public List<ProductInfo> removeProductFromCart(@RequestParam String[] ckboxValues, HttpSession session) {
 		cart = (ArrayList<ProductInfo>) session.getAttribute("cart");
-		for (int i = 0; i < ckbox.length; i++) {
-			int ckIndex = Integer.parseInt(ckbox[i]);
+		System.out.println(ckboxValues);
+		for (int i = 0; i < ckboxValues.length; i++) {
+			int ckIndex = Integer.parseInt(ckboxValues[i]);
 			cart.remove(ckIndex - i);
+			System.out.println(ckboxValues[i]);
 		}
 		session.setAttribute("cart", cart);
 		return cart;
@@ -107,7 +109,7 @@ public class CartController {
 		// 把OrderBean的資料寫進去Database
 		for(int i = 0; i < cart.size(); i++) {
 			Order orderBean = new Order();
-//			orderBean.setO_id(0); // PK
+			orderBean.setO_id(0); // PK // 會受IDENTITY(1, 1)的影響被複寫掉
 			orderBean.setP_id(cart.get(i).getP_ID()); // FK
 			orderBean.setP_name(cart.get(i).getP_Name()); // FK
 			orderBean.setP_price(cart.get(i).getP_Price()); // FK
@@ -123,7 +125,7 @@ public class CartController {
 
 		this.cart = new ArrayList<ProductInfo>();
 		System.out.println("購買成功，感謝您！");
-		return "/cartThanks";
+		return "/cart/cartThanks";
 	}
 
 	@GetMapping(value = "/cart.controller/initAdminPageData", produces = "application/json; charset=UTF-8")
@@ -163,12 +165,9 @@ public class CartController {
 			@RequestParam String u_id, @RequestParam String u_firstname, @RequestParam String u_lastname, @RequestParam String u_email, 
 			@RequestParam String o_status, @RequestParam String o_date, @RequestParam String o_amt) {
 		// 下面的O_ID有跟沒有一樣
-		System.out.println("1111111111111111111111");
 		Order order = new Order(Integer.parseInt(o_id), Integer.parseInt(p_id), p_name, Integer.parseInt(p_price), u_id, u_firstname, 
 				u_lastname, u_email, o_status, o_date, Integer.parseInt(o_amt));
-		System.out.println("222222222222222222222");
 		boolean updateStatus = (orderService.update(order))? true : false;
-		System.out.println("33333333333333333333333333333333");
 		String msg = "oid = " + o_id + ((updateStatus)?  "：修改成功✔" : "：修改失敗❌");
 		HashMap<String, String> resultMap = new HashMap<>();
 		resultMap.put("state", msg);
@@ -212,10 +211,13 @@ public class CartController {
 			fakeProductBean1.setP_Img(aa);
 			fakeProductBean1.setP_Video(aa);
 			
-			System.out.println("購物車沒有任何東西，因此管理員塞了一個課程進來✌💀✌");
 			if(cart == null) {
 				cart = new ArrayList<ProductInfo>();
 			}
+			cart.add(fakeProductBean1);
+			cart.add(fakeProductBean1);
+			cart.add(fakeProductBean1);
+			cart.add(fakeProductBean1);
 			cart.add(fakeProductBean1);
 		}
 	}

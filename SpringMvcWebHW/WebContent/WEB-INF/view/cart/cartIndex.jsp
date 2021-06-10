@@ -53,59 +53,27 @@
 		
 		<hr>
 		<!-- 按鈕導向各頁 -->
-		<button id="remove" formaction="<c:url value='/cart.controller/remove' />" disabled>移除</button>
-		<button id="checkout" formaction="<c:url value='/cart.controller/cartCheckout' />">去結帳</button>
-		<button name="" value="" formmethod="GET" formaction="<c:url value='/' />">回首頁</button>
-		<button name="" value="" formmethod="GET" formaction="<c:url value='/cart.controller/cartAdmin' />">到購物車GM頁面</button>
-		<hr>
 	</form>
+	<button id="remove">移除</button>
+	<form>
+		<button formmethod="POST" id="checkout" formaction="<c:url value='/cart.controller/cartCheckout' />">去結帳</button>
+		<button formmethod="GET" formaction="<c:url value='/' />">回首頁</button>
+		<button formmethod="GET" formaction="<c:url value='/cart.controller/cartAdmin' />">到購物車GM頁面</button>
+	</form>
+		<hr>
 	</center>
 
 	<!--****************************************** S      C      R      I      P      T ******************************************-->
 
 	<script src="/SpringMvcWebHW/js/jquery-3.6.0.min.js"></script>
 	<script>
-		// [AJAX] showCart ✔
-		let dataArea = $('#dataArea');
-		$(window).on('load', function(){
-			let xhr = new XMLHttpRequest();
-			let url = "<c:url value='/cart.controller/showCart' />";
-			xhr.open("GET", url, true);
-			xhr.send();
-			xhr.onreadystatechange = function() {
-				if (xhr.readyState == 4 && xhr.status == 200) {
-					dataArea.html(parseCart(xhr.responseText));
-				}
-			}
-		});
-		
-		// #parseCart() ✔
-		function parseCart(cart) {
-				   let products = JSON.parse(cart);
-				   let segment = "";
-				   let totalPrice = 0;
-
-				   for (let i = 0; i < products.length; i++) {
-					   segment += "<tr>"
-									 + "<td><input type='checkbox' name='ckbox' value='" + i + "' id='ckbox'>取消</td>"
-									 + "<td>" + products[i].p_Name + "</td>"
-									 + "<td>" + products[i].p_ID + "</td>"
-									 + "<td>" + products[i].p_Price + "</td>"
-									 + "<td>" + products[i].p_DESC + "</td>"
-									 + "<td>" + products[i].u_ID + "</td>"
-									 + "</tr>";
-						totalPrice += products[i].p_Price;
-				   }
-				   return segment;
-		};
-		
 		$(function(){
-		
-			// 2 Remove by AJAX
-			$("#remove").click(function(){
+		let products;	
+			// [AJAX] showCart ✔
+			let dataArea = $('#dataArea');
+			$(window).on('load', function(){
 				let xhr = new XMLHttpRequest();
-				let url = "<c:url value='/cart.controller/remove' />";
-				alert("url = " + url);
+				let url = "<c:url value='/cart.controller/showCart' />";
 				xhr.open("GET", url, true);
 				xhr.send();
 				xhr.onreadystatechange = function() {
@@ -114,17 +82,77 @@
 					}
 				}
 			});
+			
+			// #parseCart() ✔
+			function parseCart(cart) {
+					   products = JSON.parse(cart);
+					   let segment = "";
+					   let totalPrice = 0;
+	
+					   for (let i = 0; i < products.length; i++) {
+						   segment += "<tr>"
+										 + "<td><input type='checkbox' class='ckbox ckbox" + i + "' name='ckbox' value='" + i + "' id='ckbox'>取消</td>"
+										 + "<td>" + products[i].p_Name + "</td>"
+										 + "<td>" + products[i].p_ID + "</td>"
+										 + "<td>" + products[i].p_Price + "</td>"
+										 + "<td>" + products[i].p_DESC + "</td>"
+										 + "<td>" + products[i].u_ID + "</td>"
+										 + "</tr>";
+							totalPrice += products[i].p_Price;
+					   }
+					   return segment;
+			};
+		
+			// 2 Remove by AJAX
+			$("#remove").click(function(){
+				let xhr = new XMLHttpRequest();
+				let url = "<c:url value='/cart.controller/remove' />";
+				let ckboxValues = [];
+				let queryString = 'ckboxValues=';
+				let counter = -1;
+				for(let z = 0; z < products.length; z++){
+					if($('.ckbox' + z).is(':checked')){
+						ckboxValues.push(z);
+					} 
+				}
+
+				for(let j = 0; j < products.length; j++) {
+					counter += ($('.ckbox' + j).is(':checked'))? 1 : 0;
+				}
+				for(let i = 0; i < products.length; i++) {
+					let checkOrNot = $('.ckbox' + i).is(':checked');
+					if(checkOrNot) {
+						queryString += (i == ckboxValues[counter])? i : i + ',';
+					}
+				}
+				if(counter == -1) {
+					alert('必須至少勾選一項想要刪除的項目。')
+					return;
+				}
+				
+				xhr.open("POST", url, true);
+				xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+				xhr.send(queryString);
+				xhr.onreadystatechange = function() {
+					if (xhr.readyState == 4 && xhr.status == 200) {
+						dataArea.html(parseCart(xhr.responseText));
+					}
+				}
+			});
 
 			// 3 DELETE功能防呆
-			$('input#ckbox').on('click', function() {
-				alert('YO!!!')
-				let ckboxes = $('input#ckbox:checked');
-				$('#delete').attr('disabled', true);
-				if($(ckboxes).length == 0 || $(ckboxes).length == null || $(ckboxes).length == undefined) {
-				} else {
-					$('#delete').attr('disabled', false);			
-				}
-			})
+			// let ckboxs = $('input.ckbox');
+			// let ckboxsChecked = $('input.ckbox:checked')
+			// $(ckboxs).on('click', function() {
+			// 	alert('YO!!!');
+			// 	let ckboxsChecked = $(ckboxsChecked);
+			// 	$('#remove').attr('disabled', true);
+			// 	if($(ckboxsChecked).length == 0 || $(ckboxsChecked).length == null || $(ckboxsChecked).length == undefined) {
+			// 	} else {
+			// 		$('#remove').attr('disabled', false);			
+			// 	}
+			// })
+
 		})
 	</script>
 </body>

@@ -27,8 +27,8 @@
 			</thead>
 			<tbody id='dataArea'>
 			</tbody>
-			<h2 id='totalPrice' style='background-color: orange;'>小計</h2>
 		</table>
+		<h2 id='totalPrice' style='background-color: orange;'>小計</h2>
 		<hr>
 <!-- 2. 按鈕導向各頁................................................... -->
 		<button formmethod="GET" formaction="<c:url value='/cart.controller/cartIndex' />">回上一頁</button>
@@ -42,41 +42,39 @@
 	<script src="/SpringMvcWebHW/js/jquery-3.6.0.min.js"></script>
 	<script>
 		$(function(){
-		// [AJAX] showCart ✔
-		let dataArea = $('#dataArea');
-		$(window).on('load', function(){
-			let xhr = new XMLHttpRequest();
-			let url = "<c:url value='/cart.controller/showCart' />";
-			xhr.open("GET", url, true);
-			xhr.send();
-			xhr.onreadystatechange = function() {
-				if (xhr.readyState == 4 && xhr.status == 200) {
-					dataArea.html(parseCart(xhr.responseText));
+			// [AJAX] showCart ✔
+			let dataArea = $('#dataArea');
+			$(window).on('load', function(){
+				let xhr = new XMLHttpRequest();
+				let url = "<c:url value='/cart.controller/showCart' />";
+				xhr.open("GET", url, true);
+				xhr.send();
+				xhr.onreadystatechange = function() {
+					if (xhr.readyState == 4 && xhr.status == 200) {
+						dataArea.html(parseCart(xhr.responseText));
+					}
 				}
-			}
-		});
-		
-		// #parseCart() ✔
-		function parseCart(cart) {
-				   let products = JSON.parse(cart);
-				   let segment = "";
-				   let totalPrice = 0;
+			});
+			
+			// #parseCart() ✔
+			function parseCart(cart) {
+					let products = JSON.parse(cart);
+					let segment = "";
+					let totalPrice = 0;
 
-				   for (let i = 0; i < products.length; i++) {
-					   totalPrice += products[i].p_Price;
-					   segment += "<tr>"
-									 + "<td>" + products[i].p_Name + "</td>"
-									 + "<td>" + products[i].p_ID + "</td>"
-									 + "<td>" + products[i].p_Price + "</td>"
-									 + "<td>" + products[i].p_DESC + "</td>"
-									 + "<td>" + products[i].u_ID + "</td>"
-									 + "</tr>";
-				   }
-				   $('#totalPrice').text('小計 = ' + totalPrice);
-				   return segment;
-		};
-			
-			
+					for (let i = 0; i < products.length; i++) {
+						totalPrice += products[i].p_Price;
+						segment += "<tr>"
+										+ "<td>" + products[i].p_Name + "</td>"
+										+ "<td>" + products[i].p_ID + "</td>"
+										+ "<td>" + products[i].p_Price + "</td>"
+										+ "<td>" + products[i].p_DESC + "</td>"
+										+ "<td>" + products[i].u_ID + "</td>"
+										+ "</tr>";
+					}
+					$('#totalPrice').text('小計 = ' + totalPrice);
+					return segment;
+			};
 		})
 	</script>
 </body>
