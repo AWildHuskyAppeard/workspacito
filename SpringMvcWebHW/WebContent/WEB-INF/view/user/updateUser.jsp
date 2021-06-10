@@ -20,7 +20,8 @@ window.onload = function(){
 	var birthday = document.getElementById("u_birthday");
 	var email = document.getElementById("u_email");
 	var tel = document.getElementById("u_tel");
-	var gender = document.getElementById("u_gender");
+	// var gender = document.getElementById("u_gender");
+	var gender = document.getElementsByName("u_gender");
 	var address = document.getElementById("u_address");
 // 	var img = document.getElementById("u_img");
 	var updateData = document.getElementById("updateData");
@@ -39,7 +40,13 @@ window.onload = function(){
 			birthday.value = userBean.u_birthday;
 			email.value = userBean.u_email;
 			tel.value = userBean.u_tel;
-			gender.value = userBean.u_gender;
+			// gender.value = userBean.u_gender;
+            var genderLength = gender.length;
+            for(var i=0 ; i<genderLength ; i++){
+                if(userBean.u_gender == gender[i].value){
+                    gender[i].checked = 'checked';
+                }
+            }
 			address.value = userBean.u_address;
 // 			img.value = userBean.u_img;
 			
@@ -56,7 +63,14 @@ window.onload = function(){
 		var birthdayV = document.getElementById("u_birthday").value;
 		var emailV = document.getElementById("u_email").value; //必填
 		var telV = document.getElementById("u_tel").value;
-		var genderV = document.getElementById("u_gender").value;
+		// var genderV = document.getElementById("u_gender").value;
+		var genderRadio = document.getElementsByName("u_gender");
+        var genderRadioLength = genderRadio.length;
+        for (var i=0 ; i<genderRadioLength ; i++){
+            if(genderRadio[i].checked){
+                var genderV = genderRadio[i].value;
+            }
+        }
 		var addressV = document.getElementById("u_address").value;
 //	 	var imgV = document.getElementById("u_img").value;
 
@@ -186,7 +200,10 @@ window.onload = function(){
 	
 	<tr>
 		<td align='left'>性別: </td>
-		<td align='center'>&nbsp;<input type='text' id="u_gender" placeholder="male / female"/></td>
+		<td align='left'>&nbsp;<!--<input type='text' id="u_gender" placeholder="male / female"/><br> -->
+        <label><input type="radio" name="u_gender" id="u_gender" value="男">男</label>
+        <label><input type="radio" name="u_gender" id="u_gender" value="女">女</label>
+        </td>
 	</tr>
 	
 	<tr>
