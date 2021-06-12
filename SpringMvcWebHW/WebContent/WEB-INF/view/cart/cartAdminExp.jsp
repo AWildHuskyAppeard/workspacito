@@ -25,7 +25,7 @@
 		<h1>管理者頁面</h1>
 		<button id="newRow">添加空白訂單列</button>
 		<button id="cheat">添加訂單列(懶人用)</button>
-		<form> 
+		<form:form modelAttribute="Order"> 
 			<h1>以下顯示的是資料庫至多20筆的最新訂單</h1>
 			<!-- 秀出所有Order_Info (希望之後能每20項分一頁) -->
 			<table border="2px">
@@ -50,7 +50,7 @@
 			<hr>
 			<input name="counter" value="-1" id="counter" type="text" value="xxx" hidden>
 			
-		</form>
+		</form:form>
 		<button name="todo" id="insert" value="insertAdmin" disabled>新增 (一次新增一筆)</button>
 		<button name="todo" id="update" value="updateAdmin">修改 (可大幅修改)</button>
 		<button name="todo" id="delete" value="deleteAdmin">刪除 (勾選者皆可刪除)</button>
@@ -156,31 +156,29 @@
 						let s10 = '.old' + i + '10'; let o_amt = $(s10).val()
 
 						let json = {
-								'o_id' : parseInt(o_id),
-								'p_id' : parseInt(p_id),
+								'o_id' : o_id,
+								'p_id' : p_id,
 								'p_name' : p_name,
-								'p_price' : parseInt(p_price),
+								'p_price' : p_price,
 								'u_id' : u_id,
 								'u_firstname' : u_firstname,
 								'u_lastname' : u_lastname,
 								'u_email' : u_email,
 								'o_status' : o_status,
 								'o_date' : o_date,
-								'o_amt' : parseInt(o_amt)
+								'o_amt' : o_amt
 						}
 
 						let queryString = 'o_id=' + o_id + '&p_id=' + p_id + '&p_name=' + p_name + '&p_price=' + p_price
 											 + '&u_id=' + u_id + '&u_firstname=' + u_firstname + '&u_lastname=' + u_lastname
 											 + '&u_email=' + u_email + '&o_status=' + o_status + '&o_date=' + o_date + '&o_amt=' + o_amt;
-						console.log(queryString);
+						console.log(queryString)
 
 						let xhr = new XMLHttpRequest();
 						let url = "<c:url value='/cart.controller/updateAdmin' />";
 						xhr.open("POST", url, true);
-						// xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded"); // 用處？？？？？？？？？
-						xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8"); // 用處？？？？？？？？？
-						// xhr.send(queryString);
-						xhr.send(JSON.stringify(json));
+						xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded"); // 用處？？？？？？？？？
+						xhr.send(queryString);
 						xhr.onreadystatechange = function() {
 							if (xhr.readyState == 4 && xhr.status == 200) {
 								let result = JSON.parse(xhr.responseText);
@@ -192,7 +190,7 @@
 					logo.text('更新完成！');
 				})
 
-				// [AJAX] admin single insert
+				// [AJAX] admin single INSERT
 				// 有時間的話改試form:form表單
 				$('#insert').on('click', function(){
 					// (a) 讀取到所有要insert進資料庫的欄位資料，建立查詢字串
