@@ -16,7 +16,9 @@ window.onload = function() {
 		var idValue = document.getElementById("q_ID").value;
 		// 抓radio的使用者選取值
 		var typeValue = document.getElementsByName("q_Type");
+		// 建立用來判斷是否有選擇資料
 		var typeValue0 = typeValue;
+		//抓取陣列中,被使用者所選取的項目
 		for(var i = 0; i < typeValue.length; i ++){ 
 			if(typeValue[i].checked){ 
 				 typeValue = typeValue[i].value;
@@ -48,6 +50,7 @@ window.onload = function() {
    		} 	else {
       		div0.innerHTML = "";
    		}
+		//確認使用者有沒有從選項中進行選取
 		if (typeValue == typeValue0){
 			setErrorFor(div1, "請選擇題目類型");
 		} else {
@@ -79,6 +82,7 @@ window.onload = function() {
    		if (hasError){
        		return false;
    		}
+
    		var xhr1 = new XMLHttpRequest();
    		xhr1.open("POST", "<c:url value='/questions' />", true);
 		var jsonQuestions = {
@@ -91,6 +95,7 @@ window.onload = function() {
 
 		}
   		xhr1.setRequestHeader("Content-Type", "application/json");
+		//物件轉為 JSON 字串
   		xhr1.send(JSON.stringify(jsonQuestions));
 //      以下敘述錯誤  		
 // 		xhr1.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
@@ -98,9 +103,10 @@ window.onload = function() {
 //    				+ balanceValue + "&birthday=" + birthdayValue );
    
    		xhr1.onreadystatechange = function() {
-				// 伺服器請求完成
+			// 伺服器請求完成
    		if (xhr1.readyState == 4 && (xhr1.status == 200 || xhr1.status == 201) ) {
-      		result = JSON.parse(xhr1.responseText);
+			   result = JSON.parse(xhr1.responseText);
+			   //JSON 字串轉為物件
       		if (result.fail) {
 		 		divResult.innerHTML = "<font color='red' >"
 					+ result.fail + "</font>";

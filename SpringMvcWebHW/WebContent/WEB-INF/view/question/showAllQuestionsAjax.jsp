@@ -20,6 +20,7 @@ window.onload = function() {
 		if (xhr.readyState == 4 && xhr.status == 200) {
 			var content = "<table border='1'>";
 			content += "<tr><th width='50'>編輯</th><th width='80'>題目編號</th><th width='80'>題目類型</th><th width='200'>問題</th><th width='350'>回答選項</th><th width='80'>正解</th><th width='80'>課程分類</th></tr>";
+			//JSON 字串轉為物件
 			var questions = JSON.parse(xhr.responseText);
 			for(var i=0; i < questions.length; i++){
 				tmp = "<c:url value='/quesEdit/' />";
