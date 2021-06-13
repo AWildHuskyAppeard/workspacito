@@ -8,9 +8,9 @@
 <meta charset="UTF-8">
 <title>更改試題資料</title>
 
-
+<script src="/SpringMvcWebHW/js/jquery-3.6.0.min.js"></script> <!-- Q3. 沒有引入jQuery -->
 <script>
-var q_aa = ${q_aa};
+var q_aa = ${q_aa}; // Q2. 不太知道這是要抓什麼東西
 var hasError = false;
 
 window.onload = function() {
@@ -72,25 +72,30 @@ window.onload = function() {
    		// 讀取欄位資料	  
 // 		var q_ID = document.getElementById("q_ID").value;
    		var q_ID = q_aa;
-		var q_Type = document.getElementById("q_Type").value;
+		var q_Types = document.querySelectorAll("#q_Type"); // Q1. 應該是要抓複數 // 注意要有#字號
 		// 建立用來判斷是否有選擇資料
-		var q_Type0 = q_Type;
+		var q_Types0 = q_Types;
 		//抓取陣列中,被使用者所選取的項目
-		for(var i = 0; i < q_Type.length; i ++){ 
-			if(q_Type[i].checked){ 
-				q_Type = q_Type[i].value;
- }
-}
+		for(var i = 0; i < q_Types.length; i ++){ 
+			if(q_Types[i].checked){ 
+				q_Type = q_Types[i].value;
+				q_Types = '用済み'; // Q4. 自訂另一種防呆方式
+ 			}
+		}
 		var q_Ques = document.getElementById("q_Ques").value;
 		var q_Selection = document.getElementById("q_Selection").value;
 		var q_Ans = document.getElementById("q_Ans").value;
-		var p_Class = document.getElementById("p_Class").value;
-		var p_Class0 = p_Class;
-		for(var i = 0; i < p_Class.length; i ++){ 
-			if(p_Class[i].checked){ 
-				p_Class = p_Class[i].value;
- }
-}
+		var p_Classes = document.querySelectorAll("#p_Class"); // Q1. 應該是要抓複數 // 注意要有#字號
+		var p_Classes0 = p_Classes;
+		for(var i = 0; i < p_Classes.length; i ++){ 
+			if(p_Classes[i].checked){ 
+				p_Class = p_Classes[i].value;
+				p_Classes = '用済み'; // Q4. 自訂另一種防呆方式
+ 			}
+		}
+
+		console.log('q_ID = ' + q_ID + ' ; q_Type = ' + q_Type + ' ; q_Ques = ' + q_Ques + 
+		' ; q_Selection = ' + q_Selection + ' ; q_Ans = ' + q_Ans + ' ; p_Class = ' + p_Class); // ⚠ 測試觀察用，稍後刪除即可
 
 		var div0 = document.getElementById('result0c');
 		var div1 = document.getElementById('result1c');
@@ -105,7 +110,7 @@ window.onload = function() {
       		div0.innerHTML = "";
    		}
 		//確認使用者有沒有從選項中進行選取
-		if (q_Type == q_Type0){
+		if (q_Types != '用済み'){  // Q4
 			setErrorFor(div1, "請選擇題目類型");
 		} else {
 			div1.innerHTML = "";
@@ -125,7 +130,7 @@ window.onload = function() {
 		} else {
 			div4.innerHTML = "";
 		}
-		if (p_Class == p_Class0){
+		if (p_Classes != '用済み'){ // Q4
 			setErrorFor(div5, "請選擇課程分類");
 		} else {
 			div5.innerHTML = "";
