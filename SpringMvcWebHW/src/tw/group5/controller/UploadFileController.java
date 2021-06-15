@@ -1,5 +1,6 @@
 package tw.group5.controller;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -24,54 +25,66 @@ import tw.group5.model.PictureService;
 public class UploadFileController {
 	@Autowired
 	private PictureService pictureService;
-	
-	
+
+	@Autowired
+	Picture picture;
+
 	@GetMapping(path = "/uploadMainPage.controller")
 	public String processMainPage() {
 		return "uploadFile";
 	}
-	
-	
-	@Autowired
-	Picture picture;
-	
+
+	/*
+	 * @PostMapping(path = "/testUploadFile.controller")
+	 * 
+	 * @ResponseBody public Map<String, String> upload (@RequestParam(name =
+	 * "myFiles") MultipartFile file, @RequestParam String theText,
+	 * HttpServletRequest request) throws IllegalStateException, IOException{
+	 * System.out.println("傳進來的" + file); System.out.println("傳進來的" + theText);
+	 * Map<String, String> map = new HashMap<>(); String path =
+	 * request.getSession().getServletContext().getRealPath("/") +
+	 * "testUploadTempDir\\"; String fileName = file.getOriginalFilename(); String
+	 * saveFilePath = path + fileName;
+	 * 
+	 * System.out.println("fileName:" + fileName); System.out.println("save path" +
+	 * saveFilePath);
+	 * 
+	 * File saveFile = new File(saveFilePath); file.transferTo(saveFile);
+	 * 
+	 * try { picture.setFilename(fileName); InputStream is = new
+	 * FileInputStream(saveFilePath); byte bt[] = new byte[is.available()];
+	 * is.read(bt); is.close(); picture.setPicture(bt);
+	 * pictureService.insert(picture);
+	 * 
+	 * map.put("success", "上傳成功");
+	 * 
+	 * 
+	 * } catch (Exception e) { map.put("fail", "上傳失敗"); }
+	 * 
+	 * return map; }
+	 */
+
 	@PostMapping(path = "/testUploadFile.controller")
 	@ResponseBody
-	public Map<String, String> upload (@RequestParam(name = "myFiles") MultipartFile file, @RequestParam String theText, HttpServletRequest request) throws IllegalStateException, IOException{
-		System.out.println("傳進來的" + file);
-		System.out.println("傳進來的" + theText);
-		Map<String, String> map = new HashMap<>();
-		String path = request.getSession().getServletContext().getRealPath("/") + "testUploadTempDir\\";
-		String fileName = file.getOriginalFilename();
-		String saveFilePath = path + fileName;
-		
-		System.out.println("fileName:" + fileName);
-		System.out.println("save path" + saveFilePath);
-		
-		File saveFile = new File(saveFilePath);
-		file.transferTo(saveFile);
+//	public Map<String, String> upload (@RequestParam(name = "myFiles") MultipartFile file, @RequestParam String theText) throws IllegalStateException, IOException{
+	public void upload(@RequestParam(name = "myFiles") MultipartFile file, @RequestParam String theText)
+			throws IllegalStateException, IOException {
+		System.out.println("透過form表單進來的file: " + file);
+		String fileOGName = file.getOriginalFilename();
+		byte[] byteArr = file.getBytes();
 		
 		try {
-			picture.setFilename(fileName);
-			InputStream is = new FileInputStream(saveFilePath);
-			byte bt[] = new byte[is.available()];
-			is.read(bt);
-			is.close();
-			picture.setPicture(bt);
-			pictureService.insert(picture);
-			
-			map.put("success", "上傳成功");
-			
+			picture.setPicture(byteArr);
+			System.out.println("*************************");
+			System.out.println("byteArr: " + byteArr);
+			picture.setFilename(fileOGName);
 			
 		} catch (Exception e) {
-			map.put("fail", "上傳失敗");
+			e.printStackTrace();
 		}
-		
-		return map;
+		pictureService.insert(picture);
 	}
-	
-	
-	
+
 	
 	
 	
