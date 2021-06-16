@@ -29,7 +29,7 @@ public class Order implements Serializable{
 	@Id @Column(name = "O_ID")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer o_id ; // PK
-	@Column(name = "P_ID")
+	@Column(name = "P_ID") 
 	private Integer p_id; // FK
 	@Column(name = "P_NAME")
 	private String p_name; // FK
@@ -51,13 +51,13 @@ public class Order implements Serializable{
 	private Integer o_amt;
 	
 	@ManyToOne(fetch = FetchType.LAZY)	
-	@JoinColumns(value = { @JoinColumn(name = "U_ID"), @JoinColumn(name = "U_FIRSTNAME"), 
-			@JoinColumn(name = "U_LASTNAME"), @JoinColumn(name = "U_EMAIL")})
-	private ProductInfo productInfo;
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumns(value = { @JoinColumn(name = "P_ID"), @JoinColumn(name = "P_NAME"), 
-			@JoinColumn(name = "P_PRICE")})
+	@JoinColumns(value = { @JoinColumn(name = "U_ID", referencedColumnName = "U_ID"), @JoinColumn(name = "U_FIRSTNAME", referencedColumnName = "U_FIRSTNAME"), 
+			@JoinColumn(name = "U_LASTNAME", referencedColumnName = "U_LASTNAME"), @JoinColumn(name = "U_EMAIL", referencedColumnName = "U_EMAIL")})
 	private User_Info user_Info;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumns(value = { @JoinColumn(name = "P_ID", referencedColumnName = "P_ID"), @JoinColumn(name = "P_NAME", referencedColumnName = "P_NAME"), 
+			@JoinColumn(name = "P_PRICE", referencedColumnName = "P_PRICE")}) 
+	private ProductInfo productInfo;
 	
 	
 	// constructors

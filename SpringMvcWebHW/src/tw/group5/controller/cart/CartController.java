@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 
 import tw.group5.model.cart.Order;
 import tw.group5.model.cart.OrderService;
-import tw.group5.model.cart.old.UserBean;
+import tw.group5.model.cart.test.UserBean;
 import tw.group5.model.product.ProductInfo;
 
 @SessionAttributes(names = "cart")
