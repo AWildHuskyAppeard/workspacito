@@ -96,7 +96,7 @@ public class QuestController  {
 				if (n == 1) {
 					map.put("success", "新增成功");
 				} else if (n == -1) {
-					map.put("fail", "帳號重複");
+					map.put("fail", "編號重複");
 				}
 			} catch (Exception e) {
 				map.put("fail", e.getMessage());

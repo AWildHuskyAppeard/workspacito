@@ -16,11 +16,30 @@ var hasError = false;
 window.onload = function() {
 	var divResult = document.getElementById('resultMsg');
 	var q_ID = document.getElementById("q_ID");
-	var q_Type = document.getElementById("q_Type");
+	var q_Type = document.querySelectorAll("q_Type");
+// 	var q_Types = document.querySelectorAll("#q_Type"); // Q1. 應該是要抓複數 // 注意要有#字號
+// 	// 建立用來判斷是否有選擇資料
+// 	var q_Type0 = q_Types;
+// 	//抓取陣列中,被使用者所選取的項目
+// 	for(var i = 0; i < q_Types.length; i ++){ 
+// 		if(q_Types[i].checked){ 
+// 			q_Type = q_Types[i].value;
+// 			q_Types = 'q_Type is Checked'; //  自訂另一種防呆方式
+// 		}
+// 	}
 	var q_Ques = document.getElementById("q_Ques");
 	var q_Selection = document.getElementById("q_Selection");
 	var q_Ans = document.getElementById("q_Ans");
-	var p_Class = document.getElementById("p_Class");
+	var p_Class = document.querySelectorAll("p_Class");
+// 	var p_Classes = document.querySelectorAll("#p_Class"); // Q1. 應該是要抓複數 // 注意要有#字號
+// 	var p_Class0 = p_Classes;
+// 	for(var i = 0; i < p_Classes.length; i ++){ 
+// 		if(p_Classes[i].checked){ 
+// 			p_Class = p_Classes[i].value;
+// 			p_Classes = 'p_Class is Checked'; //  自訂另一種防呆方式			
+// 		}
+// 	}
+	
 	var xhr = new XMLHttpRequest();
 
 	xhr.open("GET", "<c:url value='/questions/" + q_aa + "' />", true);
@@ -72,25 +91,33 @@ window.onload = function() {
    		// 讀取欄位資料	  
 // 		var q_ID = document.getElementById("q_ID").value;
    		var q_ID = q_aa;
-		var q_Type = document.getElementById("q_Type").value;
+// 		var q_Types = document.getElementById("q_Type").value;
+		var q_Types = document.querySelectorAll("#q_Type"); // Q1. 應該是要抓複數 // 注意要有#字號
+
 		// 建立用來判斷是否有選擇資料
-		var q_Type0 = q_Type;
+		var q_Type0 = q_Types;
 		//抓取陣列中,被使用者所選取的項目
-		for(var i = 0; i < q_Type.length; i ++){ 
-			if(q_Type[i].checked){ 
-				q_Type = q_Type[i].value;
- }
-}
+		for(var i = 0; i < q_Types.length; i ++){ 
+			if(q_Types[i].checked){ 
+				q_Type = q_Types[i].value;
+				q_Types = 'q_Type is Checked'; //  自訂另一種防呆方式
+ 			}
+		}
+
 		var q_Ques = document.getElementById("q_Ques").value;
 		var q_Selection = document.getElementById("q_Selection").value;
 		var q_Ans = document.getElementById("q_Ans").value;
-		var p_Class = document.getElementById("p_Class").value;
-		var p_Class0 = p_Class;
-		for(var i = 0; i < p_Class.length; i ++){ 
-			if(p_Class[i].checked){ 
-				p_Class = p_Class[i].value;
- }
-}
+
+// 		var p_Classes = document.getElementById("p_Class").value;
+		var p_Classes = document.querySelectorAll("#p_Class"); // Q1. 應該是要抓複數 // 注意要有#字號
+		var p_Class0 = p_Classes;
+		for(var i = 0; i < p_Classes.length; i ++){ 
+			if(p_Classes[i].checked){ 
+				p_Class = p_Classes[i].value;
+				p_Classes = 'p_Class is Checked'; //  自訂另一種防呆方式
+				
+ 			}
+		}
 
 		var div0 = document.getElementById('result0c');
 		var div1 = document.getElementById('result1c');
@@ -105,7 +132,8 @@ window.onload = function() {
       		div0.innerHTML = "";
    		}
 		//確認使用者有沒有從選項中進行選取
-		if (q_Type == q_Type0){
+// 		if (q_Type == q_Type0){
+		if (q_Types != 'q_Type is Checked'){ 
 			setErrorFor(div1, "請選擇題目類型");
 		} else {
 			div1.innerHTML = "";
@@ -125,7 +153,8 @@ window.onload = function() {
 		} else {
 			div4.innerHTML = "";
 		}
-		if (p_Class == p_Class0){
+// 		if (p_Class == p_Class0){
+		if (p_Classes != 'p_Class is Checked'){ 
 			setErrorFor(div5, "請選擇課程分類");
 		} else {
 			div5.innerHTML = "";
@@ -245,7 +274,7 @@ function setErrorFor(input, message){
 			&nbsp;題目類型:
 <!-- 					<input type="text" name="q_Type" id='q_Type'><br> -->
 						<input type="radio" name="q_Type" id="q_Type" value="單選題">單選題
-						<input type="radio"name="q_Type" id="q_Type" value="複選題">複選題 
+						<input type="radio" name="q_Type" id="q_Type" value="複選題">複選題 
 						<input type="radio" name="q_Type" id="q_Type" value="簡答題">簡答題
 		</td>
 		<td width='200' style="vertical-align:top">

@@ -14,28 +14,35 @@ window.onload = function() {
 		hasError = false;
    		// 讀取欄位資料	  
 		var idValue = document.getElementById("q_ID").value;
-		// 抓radio的使用者選取值
-		var typeValue = document.getElementsByName("q_Type");
+
+   		// 抓radio的使用者選取值
+// 		var typeValues = document.getElementsByName("q_Type");
+		var typeValues = document.querySelectorAll("#q_Type"); // Q1. 應該是要抓複數 // 注意要有#字號
 		// 建立用來判斷是否有選擇資料
-		var typeValue0 = typeValue;
+		var typeValue0 = typeValues;
 		//抓取陣列中,被使用者所選取的項目
-		for(var i = 0; i < typeValue.length; i ++){ 
-			if(typeValue[i].checked){ 
-				 typeValue = typeValue[i].value;
- }
-}
+		for(var i = 0; i < typeValues.length; i ++){ 
+			if(typeValues[i].checked){ 
+				 typeValue = typeValues[i].value;
+				 typeValues = 'typeValue is Checked'; //  自訂另一種防呆方式
+ 			}
+		}
+
+
 		var quesValue = document.getElementById("q_Ques").value;
 		var selectionValue = document.getElementById("q_Selection").value;
 		var ansValue = document.getElementById("q_Ans").value;
-
-		var classValue = document.getElementsByName("p_Class");
-		var classValue0 = classValue;
-		for(var i = 0; i < classValue.length; i ++){ 
-			if(classValue[i].checked){ 
-				 classValue = classValue[i].value;
- }
-}
 		
+// 		var classValues = document.getElementsByName("p_Class");
+		var classValues = document.querySelectorAll("#p_Class"); // Q1. 應該是要抓複數 // 注意要有#字號		
+		var classValue0 = classValues;
+		for(var i = 0; i < classValues.length; i ++){ 
+			if(classValues[i].checked){ 
+				classValue = classValues[i].value;
+				classValues = 'classValue is Checked'; //  自訂另一種防呆方式
+ 			}
+		}
+
 		var div0 = document.getElementById('result0c');
 		var div1 = document.getElementById('result1c');
 		var div2 = document.getElementById('result2c');
@@ -51,7 +58,8 @@ window.onload = function() {
       		div0.innerHTML = "";
    		}
 		//確認使用者有沒有從選項中進行選取
-		if (typeValue == typeValue0){
+// 		if (typeValues == typeValue0){
+		if (typeValues != 'typeValue is Checked'){ 
 			setErrorFor(div1, "請選擇題目類型");
 		} else {
 			div1.innerHTML = "";
@@ -71,7 +79,8 @@ window.onload = function() {
 		} else {
 			div4.innerHTML = "";
    		}
-   		if (classValue == classValue0){
+//    	if (classValues == classValue0){
+   		if (classValues != 'classValue is Checked'){ 
 			setErrorFor(div5, "請選擇課程分類");
 		} else {
 			div5.innerHTML = "";
