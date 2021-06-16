@@ -1,5 +1,7 @@
 package tw.group5.model;
 
+import java.sql.Blob;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -21,7 +23,7 @@ public class Picture {
 	private String filename;
 	
 	@Column(name = "PICTURE")
-	private byte[] picture;
+	private Blob picture;
 
 	public int getId() {
 		return id;
@@ -39,12 +41,14 @@ public class Picture {
 		this.filename = filename;
 	}
 
-	public byte[] getPicture() {
+	public Blob getPicture() {
 		return picture;
 	}
 
-	public void setPicture(byte[] picture) {
+	public void setPicture(Blob picture) {
 		this.picture = picture;
 	}
+
+	
 
 }

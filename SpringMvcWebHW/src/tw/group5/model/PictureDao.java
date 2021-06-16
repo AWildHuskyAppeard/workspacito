@@ -2,6 +2,8 @@ package tw.group5.model;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.sql.Blob;
+
 import javax.transaction.Transactional;
 
 import org.hibernate.Session;
@@ -22,5 +24,17 @@ public class PictureDao {
 		}
 		return bean;
 	}
-
+	
+	
+	
+	//************************************
+	//測試拿圖片
+	public Picture getPic(int id) {
+		Session session = sessionFactory.getCurrentSession();
+		Picture picture = session.get(Picture.class, id);
+		System.out.println("picture:" + picture);
+		
+		return picture;
+	}
+	//************************************
 }
