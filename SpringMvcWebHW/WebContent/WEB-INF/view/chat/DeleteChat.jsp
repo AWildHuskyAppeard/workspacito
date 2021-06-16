@@ -10,7 +10,8 @@
 var c_ID = "${c_ID}";
 
 window.onload = function(){
-	var c_ID = document.getElementById("c_ID");
+	var divResult = document.getElementById('resultMsg');
+	var ID = document.getElementById("c_ID");
 	var c_Date = document.getElementById("c_Date");
 	var c_Class = document.getElementById("c_Class");
 	var c_Title = document.getElementById("c_Title");
@@ -18,13 +19,13 @@ window.onload = function(){
 	var u_ID = document.getElementById("u_ID");
 	var xhr = new XMLHttpRequest();
 
-	xhr.open("GET", "<c:url value='/selectAllChat/" + c_ID + "' />", true);
+	xhr.open("GET", "<c:url value='/selectSingleChat/" + c_ID + "' />", true);
 	xhr.send();
 	var message = "";
 	xhr.onreadystatechange = function() {
 		if (xhr.readyState == 4 && xhr.status == 200) {
 			var chatBean = JSON.parse(xhr.responseText);
-			c_ID.value = chatBean.c_ID;
+			ID.value = chatBean.c_ID;
 			c_Date.value = chatBean.c_Date;
 			c_Class.value = chatBean.c_Class;
 			c_Title.value = chatBean.c_Title;
@@ -34,7 +35,7 @@ window.onload = function(){
 	}
 	var deleteData = document.getElementById("deleteData");
 	deleteData.onclick = function(){
-		var result = confirm("確定要刪除文章: " + c_ID.value + " 嗎?");
+		var result = confirm("確定要刪除文章 " + ID.value + " 嗎?");
 		if(result){
 			var xhr1 = new XMLHttpRequest();
 			xhr1.open("DELETE", "<c:url value='/deleteChat/" + c_ID + "' />", true);
@@ -58,39 +59,37 @@ window.onload = function(){
 <body>
 <div align='center'>
 	<h3>刪除文章</h3>
-	<span id='resultMsg' style="height: 18px; font-weight: bold;"></span>
+	<div id='resultMsg' style="height: 18px; font-weight: bold;"></div>
 	<hr>
-<div style="display: inline-block; text-align: left">
-  <table style="line-height:20px;">	
-    <tr>
-      <td align='left'>文章編號: </td>
-	  <td align='center'>&nbsp;<input type='text' disabled="disabled" id="c_ID"/></td>
-    </tr>
-    <tr>
-      <td align='left'>日期: </td>
-	  <td align='center'>&nbsp;<input type='text' disabled="disabled" id="c_Date"/></td>
-    </tr>
-    <tr>
-      <td align='left'>類別: </td>
-	  <td align='center'>&nbsp;<input type='text' disabled="disabled" id="c_Class"/></td>
-    </tr>
-    <tr>
-      <td align='left'>標題: </td>
-	  <td align='center'>&nbsp;<input type='text' disabled="disabled" id="c_Title"/></td>
-    </tr>
-    <tr>
-      <td align='left'>內容: </td>
-	  <td align='center'>&nbsp;<input type='text' disabled="disabled" id="c_Conts"/></td>
-    </tr>
-    <tr>
-      <td align='left'>帳號: </td>
-	  <td align='center'>&nbsp;<input type='text' disabled="disabled" id="u_ID"/></td>
-    </tr>
-    <tr>
-		<td colspan='2' align='center'><button id='deleteData'>刪除</button></td>
-	</tr>
-  </table>
-</div>
+<table style="line-height:20px;">	
+  <tr>
+    <td align='left'>文章編號: </td>
+	<td align='center'>&nbsp;<input type='text' disabled="disabled" id="c_ID"/></td>
+  </tr>
+  <tr>
+    <td align='left'>日期: </td>
+	<td align='center'>&nbsp;<input type='text' disabled="disabled" id="c_Date"/></td>
+  </tr>
+  <tr>
+    <td align='left'>類別: </td>
+	<td align='center'>&nbsp;<input type='text' disabled="disabled" id="c_Class"/></td>
+  </tr>
+  <tr>
+    <td align='left'>標題: </td>
+	<td align='center'>&nbsp;<input type='text' disabled="disabled" id="c_Title"/></td>
+  </tr>
+  <tr>
+    <td align='left'>內容: </td>
+	<td align='center'>&nbsp;<input type='text' disabled="disabled" id="c_Conts"/></td>
+  </tr>
+  <tr>
+    <td align='left'>帳號: </td>
+	<td align='center'>&nbsp;<input type='text' disabled="disabled" id="u_ID"/></td>
+  </tr>
+  <tr>
+	<td colspan='2' align='center'><button id='deleteData'>刪除</button></td>
+  </tr>
+</table>
 </div>
 <p/>
 <div align='center'>

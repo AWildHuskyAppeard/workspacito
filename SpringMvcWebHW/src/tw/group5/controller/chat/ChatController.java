@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -40,14 +41,22 @@ public class ChatController {
 		return "chat/InsertChat";
 	}
 	
-	@GetMapping("/goDeleteChat")
-	public String deleteChat(){
+	@GetMapping("/goDeleteChat/{c_ID}")
+	public String goDeleteChat(@PathVariable int c_ID, Model model){
+		model.addAttribute("c_ID", c_ID);
 		return "chat/DeleteChat";
 	}
 	
 	@GetMapping("/goUpdateChat")
 	public String updateChat(){
 		return "chat/UpdateChat";
+	}
+	
+	@GetMapping("/selectSingleChat/{c_ID}")
+	@ResponseBody
+	public Chat selectChatById(@PathVariable int c_ID) {
+		Chat chat = chatService.selectChatById(c_ID);
+		return chat;
 	}
 	
 	@GetMapping(path = "/selectAllChat", produces = {"application/json"})
