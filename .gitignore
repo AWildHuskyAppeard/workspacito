@@ -15,6 +15,9 @@
 .classpath
 .project
 
+#測試用專案
+/testProject
+
 # 提醒自己用
 # ⓵ 拿孟華貼的那個圖做參考刪掉一些東西
 # ⓶ 把target裡的東西砍了

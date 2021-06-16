@@ -1,4 +1,4 @@
-package tw.group5.model.cart.old;
+package tw.group5.model.cart.test;
 // Just borrowed for test. Shall be deleted later.
 import java.util.Date;
 

@@ -4,12 +4,20 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinColumns;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.springframework.stereotype.Component;
+
+import tw.group5.model.product.ProductInfo;
+import tw.group5.model.user.User_Info;
 
 // Cart = ArrayList<ProductBean> = ArrayList<CartItem>
 // OrderBean = cart +- 一些額外資訊
@@ -21,7 +29,7 @@ public class Order implements Serializable{
 	@Id @Column(name = "O_ID")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer o_id ; // PK
-	@Column(name = "P_ID")
+	@Column(name = "P_ID") 
 	private Integer p_id; // FK
 	@Column(name = "P_NAME")
 	private String p_name; // FK
@@ -41,6 +49,16 @@ public class Order implements Serializable{
 	private String o_date; // Date()會不會更好？
 	@Column(name = "O_AMT")
 	private Integer o_amt;
+	
+	@ManyToOne(fetch = FetchType.LAZY)	
+	@JoinColumns(value = { @JoinColumn(name = "U_ID", referencedColumnName = "U_ID"), @JoinColumn(name = "U_FIRSTNAME", referencedColumnName = "U_FIRSTNAME"), 
+			@JoinColumn(name = "U_LASTNAME", referencedColumnName = "U_LASTNAME"), @JoinColumn(name = "U_EMAIL", referencedColumnName = "U_EMAIL")})
+	private User_Info user_Info;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumns(value = { @JoinColumn(name = "P_ID", referencedColumnName = "P_ID"), @JoinColumn(name = "P_NAME", referencedColumnName = "P_NAME"), 
+			@JoinColumn(name = "P_PRICE", referencedColumnName = "P_PRICE")}) 
+	private ProductInfo productInfo;
+	
 	
 	// constructors
 	public Order() {};

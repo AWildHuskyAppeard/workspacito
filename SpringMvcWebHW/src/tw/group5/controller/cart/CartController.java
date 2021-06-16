@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -16,7 +17,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 
 import tw.group5.model.cart.Order;
 import tw.group5.model.cart.OrderService;
-import tw.group5.model.cart.old.UserBean;
+import tw.group5.model.cart.test.UserBean;
 import tw.group5.model.product.ProductInfo;
 
 @SessionAttributes(names = "cart")
@@ -161,28 +162,37 @@ public class CartController {
 	
 	@PostMapping(value = "/cart.controller/updateAdmin")
 	@ResponseBody
-	public Map<String, String> adminUpdate(@RequestParam String o_id, @RequestParam String p_id, @RequestParam String p_name, @RequestParam String p_price,
-			@RequestParam String u_id, @RequestParam String u_firstname, @RequestParam String u_lastname, @RequestParam String u_email, 
-			@RequestParam String o_status, @RequestParam String o_date, @RequestParam String o_amt) {
-		// 下面的O_ID有跟沒有一樣
-		Order order = new Order(Integer.parseInt(o_id), Integer.parseInt(p_id), p_name, Integer.parseInt(p_price), u_id, u_firstname, 
-				u_lastname, u_email, o_status, o_date, Integer.parseInt(o_amt));
+	public Map<String, String> adminUpdate(@RequestBody Order order) {
 		boolean updateStatus = (orderService.update(order))? true : false;
-		String msg = "oid = " + o_id + ((updateStatus)?  "：修改成功✔" : "：修改失敗❌");
+		String msg = "oid = " + order.getO_id() + ((updateStatus)?  "：修改成功✔" : "：修改失敗❌");
 		HashMap<String, String> resultMap = new HashMap<>();
 		resultMap.put("state", msg);
 		
 		return resultMap;
 	}
+//	
+//	@PostMapping(value = "/cart.controller/insertAdmin")
+//	@ResponseBody
+//	public Map<String, String> adminInsert(@RequestParam String o_id, @RequestParam String p_id, @RequestParam String p_name, @RequestParam String p_price,
+//			@RequestParam String u_id, @RequestParam String u_firstname, @RequestParam String u_lastname, @RequestParam String u_email, 
+//			@RequestParam String o_status, @RequestParam String o_date, @RequestParam String o_amt) {
+//		// 下面的O_ID有跟沒有一樣
+//		Order order = new Order(9999999, Integer.parseInt(p_id), p_name, Integer.parseInt(p_price), u_id, u_firstname, 
+//				u_lastname, u_email, o_status, o_date, Integer.parseInt(o_amt));
+//		boolean insertStatus = (orderService.insert(order) != null)? true : false;
+//		String msg = (insertStatus)? "新增成功！" : "新增失敗 :^)";
+//		HashMap<String, String> resultMap = new HashMap<>();
+//		resultMap.put("state", msg);
+//		
+//		return resultMap;
+//	}
 	
 	@PostMapping(value = "/cart.controller/insertAdmin")
 	@ResponseBody
-	public Map<String, String> adminInsert(@RequestParam String o_id, @RequestParam String p_id, @RequestParam String p_name, @RequestParam String p_price,
-			@RequestParam String u_id, @RequestParam String u_firstname, @RequestParam String u_lastname, @RequestParam String u_email, 
-			@RequestParam String o_status, @RequestParam String o_date, @RequestParam String o_amt) {
+	public Map<String, String> adminInsert(@RequestBody Order order) {
 		// 下面的O_ID有跟沒有一樣
-		Order order = new Order(9999999, Integer.parseInt(p_id), p_name, Integer.parseInt(p_price), u_id, u_firstname, 
-				u_lastname, u_email, o_status, o_date, Integer.parseInt(o_amt));
+//		Order order = new Order(9999999, Integer.parseInt(p_id), p_name, Integer.parseInt(p_price), u_id, u_firstname, 
+//				u_lastname, u_email, o_status, o_date, Integer.parseInt(o_amt));
 		boolean insertStatus = (orderService.insert(order) != null)? true : false;
 		String msg = (insertStatus)? "新增成功！" : "新增失敗 :^)";
 		HashMap<String, String> resultMap = new HashMap<>();

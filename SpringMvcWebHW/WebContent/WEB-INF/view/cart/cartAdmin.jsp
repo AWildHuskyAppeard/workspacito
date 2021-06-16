@@ -70,6 +70,8 @@
 				let logo = $('#logo');
 				let dataArea = $('#dataArea');
 				let oldRowsNum = 0;
+				let dateFormat = /^(((199\d)|(20[0-1]\d)|(20(2[0-1])))\-((0\d)|(1[0-2]))\-(([0-2]\d)|(3[0-1])))( )((([0-1]\d)|(2[0-3])):[0-5]\d:[0-5]\d\.\d)$/;
+				// 從1990-01-01到2021-12-31 // 沒有防大小月和２月
 
 			/************************************************************************************/
 
@@ -113,10 +115,8 @@
 							}
 						}
 					}
-					console.log('ready to show lastest outcome')
 					showTop20();
 					logo.text('已刪除勾選之項目！');
-					console.log('jobs done')
 
 				})
 
@@ -134,36 +134,47 @@
 						let s8 = '.old' + i + '8'; let o_status = $(s8).val()
 						let s9 = '.old' + i + '9'; let o_date = $(s9).val()
 						let s10 = '.old' + i + '10'; let o_amt = $(s10).val()
-	
-						let dataCheck = (!o_id || !p_id || !p_name || !p_price || !u_id || !u_firstname || !u_lastname || !u_email || !o_status || !o_date || !o_amt);
-						if(dataCheck) {
+						// 空值 & 類型防呆
+						let nullCheck = (!o_id || !p_id || !p_name || !p_price || !u_id || !u_firstname || !u_lastname || !u_email || !o_status || !o_date || !o_amt);
+						if(nullCheck) {
 							logo.text('不得送出空值！');
 							return;
-						} 
+						} else if(isNaN(p_id)) {
+							logo.text('課程代號須為純數字！');
+							return;
+						} else if(isNaN(p_price)) {
+							logo.text('課程售價須為純數字！');
+							return;
+						} else if(isNaN(o_amt)) {
+							logo.text('訂單總額須為純數字！');
+							return;
+						} else if(false) {
+							logo.text('訂單日期格式錯誤，請參照上方！');
+							return;
+						}
+					console.log('LULLLLLLLLLLLLL');
 					}
 					for(let i = 0; i < oldRowsNum; i++) {
-						let s0 = '.old' + i + '0'; let o_id = $(s0).val()
-						let s1 = '.old' + i + '1'; let p_id = $(s1).val()
-						let s2 = '.old' + i + '2'; let p_name = $(s2).val()
-						let s3 = '.old' + i + '3'; let p_price = $(s3).val()
-						let s4 = '.old' + i + '4'; let u_id = $(s4).val()
-						let s5 = '.old' + i + '5'; let u_firstname = $(s5).val()
-						let s6 = '.old' + i + '6'; let u_lastname = $(s6).val()
-						let s7 = '.old' + i + '7'; let u_email = $(s7).val()
-						let s8 = '.old' + i + '8'; let o_status = $(s8).val()
-						let s9 = '.old' + i + '9'; let o_date = $(s9).val()
-						let s10 = '.old' + i + '10'; let o_amt = $(s10).val()
-
-						let queryString = 'o_id=' + o_id + '&p_id=' + p_id + '&p_name=' + p_name + '&p_price=' + p_price
-											 + '&u_id=' + u_id + '&u_firstname=' + u_firstname + '&u_lastname=' + u_lastname
-											 + '&u_email=' + u_email + '&o_status=' + o_status + '&o_date=' + o_date + '&o_amt=' + o_amt;
-						console.log(queryString)
-
+						let json = {
+								// 'o_id' : parseInt($('.old' + i + '0').val()),
+								'o_id' : 999999, // 好像沒什麼意義，都會被IDENTITY(1,1)幹掉
+								'p_id' : parseInt( $('.old' + i + '1').val()),
+								'p_name' : $('.old' + i + '2').val(),
+								'p_price' : parseInt($('.old' + i + '3').val()),
+								'u_id' : $('.old' + i + '4').val(),
+								'u_firstname' : $('.old' + i + '5').val(),
+								'u_lastname' : $('.old' + i + '6').val(),
+								'u_email' :  $('.old' + i + '7').val(),
+								'o_status' : $('.old' + i + '8').val(),
+								'o_date' : $('.old' + i + '9').val(),
+								'o_amt' : parseInt($('.old' + i + '10').val())
+						}
+						
 						let xhr = new XMLHttpRequest();
 						let url = "<c:url value='/cart.controller/updateAdmin' />";
 						xhr.open("POST", url, true);
-						xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded"); // 用處？？？？？？？？？
-						xhr.send(queryString);
+						xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+						xhr.send(JSON.stringify(json));
 						xhr.onreadystatechange = function() {
 							if (xhr.readyState == 4 && xhr.status == 200) {
 								let result = JSON.parse(xhr.responseText);
@@ -192,23 +203,52 @@
 					let o_date = $('.new9').val()
 					let o_amt = $('.new10').val()
 
-					let dataCheck = (!o_id || !p_id || !p_name || !p_price || !u_id || !u_firstname || !u_lastname || !u_email || !o_status || !o_date || !o_amt);
-					if(dataCheck) {
-						logo.text('不得送出空值！');
-						return;
-					} 
+					let json = {
+								// 'o_id' : parseInt(o_id),
+								'o_id' : 999999,
+								'p_id' : parseInt(p_id),
+								'p_name' : p_name,
+								'p_price' : parseInt(p_price),
+								'u_id' : u_id,
+								'u_firstname' : u_firstname,
+								'u_lastname' : u_lastname,
+								'u_email' :  u_email,
+								'o_status' : o_status,
+								'o_date' : o_date,
+								'o_amt' : parseInt(o_amt)
+						}
 
-					let queryString = 'o_id=' + o_id + '&p_id=' + p_id + '&p_name=' + p_name + '&p_price=' + p_price
-											 + '&u_id=' + u_id + '&u_firstname=' + u_firstname + '&u_lastname=' + u_lastname
-											 + '&u_email=' + u_email + '&o_status=' + o_status + '&o_date=' + o_date + '&o_amt=' + o_amt;
+					let nullCheck = (!o_id || !p_id || !p_name || !p_price || !u_id || !u_firstname || !u_lastname || !u_email || !o_status || !o_date || !o_amt);
+						if(nullCheck) {
+							logo.text('不得送出空值！');
+							return;
+						} else if(isNaN(p_id)) {
+							logo.text('課程代號須為純數字！');
+							return;
+						} else if(isNaN(p_price)) {
+							logo.text('課程售價須為純數字！');
+							return;
+						} else if(isNaN(o_amt)) {
+							logo.text('訂單總額須為純數字！');
+							return;
+						} else if(false) { // 待修正
+							logo.text('訂單日期格式錯誤，請參照上方！');
+							return;
+						}
+
+					// let queryString = 'o_id=' + o_id + '&p_id=' + p_id + '&p_name=' + p_name + '&p_price=' + p_price
+					// 						 + '&u_id=' + u_id + '&u_firstname=' + u_firstname + '&u_lastname=' + u_lastname
+					// 						 + '&u_email=' + u_email + '&o_status=' + o_status + '&o_date=' + o_date + '&o_amt=' + o_amt;
 
 					// (b) 送進Ajax處理
 
 					let xhr = new XMLHttpRequest();
 					let url = "<c:url value='/cart.controller/insertAdmin' />";
 					xhr.open("POST", url, true);
-					xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded"); // 用處？？？？？？？？？
-					xhr.send(queryString);
+					// xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded"); // 用處？？？？？？？？？
+					xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8"); // 用處？？？？？？？？？
+					// xhr.send(queryString);
+					xhr.send(JSON.stringify(json));
 					xhr.onreadystatechange = function() {
 						if (xhr.readyState == 4 && xhr.status == 200) {
 							let result = JSON.parse(xhr.responseText);
@@ -277,7 +317,7 @@
 					let content = `
 					<tr style="background-color: yellow;">
 						<td></td>
-							<td><input required type='text' class='new0' name='new0' id='num' value='系統自動產生' readonly ></td>
+							<td><input required type='text' class='new0' name='new0' id='num' value='由系統自動產生' readonly ></td>
 							<td><input required type='text' class='new1' name='new1'  id='num'  ></td>
 							<td><input required type='text' class='new2' name='new2'    ></td>
 							<td><input required type='text' class='new3' name='new3' id='num'   ></td>
@@ -303,7 +343,7 @@
 					let content = `
 					<tr style="background-color: yellow;">
 						<td></td>
-							<td><input required type='text' class='new0' value='系統自動產生' readonly name='new` + counter + `0'    ></td>
+							<td><input required type='text' class='new0' value='由系統自動產生' readonly name='new` + counter + `0'    ></td>
 							<td><input required type='text' class='new1' value='555' name='new` + counter + `1'    ></td>
 							<td><input required type='text' class='new2' value='CS_Conversation' name='new` + counter + `2'    ></td>
 							<td><input required type='text' class='new3' value='777' name='new` + counter + `3'  id='num'  ></td>
