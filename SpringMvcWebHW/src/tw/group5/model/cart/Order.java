@@ -9,12 +9,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinColumns;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import org.hibernate.annotations.Proxy;
 import org.springframework.stereotype.Component;
 
 import tw.group5.model.product.ProductInfo;
@@ -22,7 +21,7 @@ import tw.group5.model.user.User_Info;
 
 // Cart = ArrayList<ProductBean> = ArrayList<CartItem>
 // OrderBean = cart +- 一些額外資訊
-@Entity @Table(name = "order_info")
+@Entity @Table(name = "order_info") 
 @Component
 public class Order implements Serializable{
 	private static final long serialVersionUID = 1422113491878164504L;
@@ -30,13 +29,13 @@ public class Order implements Serializable{
 	@Id @Column(name = "O_ID")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer o_id ; // PK
-	@Transient @Column(name = "P_ID") 
+	@Column(name = "P_ID", insertable = false, updatable = false) 
 	private Integer p_id; // FK
 	@Column(name = "P_NAME")
 	private String p_name; 
 	@Column(name = "P_PRICE")
 	private Integer p_price; 
-	@Transient @Column(name = "U_ID")
+	@Column(name = "U_ID", insertable = false, updatable = false) 
 	private String u_id; // FK
 	@Column(name = "U_FIRSTNAME")
 	private String u_firstname; 
@@ -46,20 +45,20 @@ public class Order implements Serializable{
 	private String u_email; 
 	@Column(name = "O_STATUS")
 	private String o_status;
-	@Transient @Column(name = "O_DATE")
+	@Column(name = "O_DATE", insertable = false, updatable = true)
 	private String o_date; // Date()會不會更好？
 	@Column(name = "O_AMT")
 	private Integer o_amt;
 	/*********************************************************************/
 	// 去參考User_Info
 	@ManyToOne(fetch = FetchType.LAZY)	
-	@JoinColumn(name = "U_ID", referencedColumnName = "U_ID")
+	@JoinColumn(name = "U_ID", referencedColumnName = "U_ID", insertable = true, updatable = true)
 	private User_Info user_Info;
 	public User_Info getUser_Info() {return user_Info;}
 	public void setUser_Info(User_Info user_Info) {this.user_Info = user_Info;}
 	// 去參考ProductInfo
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "P_ID", referencedColumnName = "P_ID")
+	@JoinColumn(name = "P_ID", referencedColumnName = "P_ID", insertable = true, updatable = true)
 	private ProductInfo productInfo;
 	public ProductInfo getProductInfo() {return productInfo;}
 	public void setProductInfo(ProductInfo productInfo) {this.productInfo = productInfo;}
@@ -68,7 +67,6 @@ public class Order implements Serializable{
 	// constructors
 	public Order() {};
 	/** 不要用這個，因為o_id現在是用IDENTITY(1, 1)去產生的，所以不想要手動指定 */
-	@Deprecated
 	public Order(Integer o_ID, Integer p_ID, String p_Name, Integer p_Price, String u_ID, String u_FirstName,
 			String u_LastName, String u_Email, String o_Status, String o_Date, Integer o_Amt) {
 		setO_id         (o_ID       );
@@ -123,6 +121,37 @@ public class Order implements Serializable{
 	public void setO_status(String o_Status) {o_status = o_Status;}
 	public void setO_date(String o_Date) {o_date = o_Date;}
 	public void setO_amt(Integer o_Amt) {o_amt = o_Amt;}
+	
+
+	
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("Order [o_id=");
+		builder.append(o_id);
+		builder.append(", p_id=");
+		builder.append(p_id);
+		builder.append(", p_name=");
+		builder.append(p_name);
+		builder.append(", p_price=");
+		builder.append(p_price);
+		builder.append(", u_id=");
+		builder.append(u_id);
+		builder.append(", u_firstname=");
+		builder.append(u_firstname);
+		builder.append(", u_lastname=");
+		builder.append(u_lastname);
+		builder.append(", u_email=");
+		builder.append(u_email);
+		builder.append(", o_status=");
+		builder.append(o_status);
+		builder.append(", o_date=");
+		builder.append(o_date);
+		builder.append(", o_amt=");
+		builder.append(o_amt);
+		builder.append("]");
+		return builder.toString();
+	}
 	
 	// 為了配合for迴圈的懶人用方法之一...
 	public String take(int SqlIndex) {

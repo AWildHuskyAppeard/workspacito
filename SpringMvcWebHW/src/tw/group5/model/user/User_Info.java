@@ -1,30 +1,60 @@
 package tw.group5.model.user;
 
+import java.util.HashSet;
+import java.util.Set;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Proxy;
 import org.springframework.stereotype.Component;
+
+import tw.group5.model.cart.Order;
+import tw.group5.model.product.ProductInfo;
 
 @Entity
 @Table(name = "user_info")
 @Component("user_info")
 public class User_Info {
 
-	@Id
-	@Column(name = "u_id")
+	@Id	@Column(name = "U_ID")
 	private String u_id;
-
+	@Column(name = "U_PSW")	
 	private String u_psw;
+	@Column(name = "U_LASTNAME")	
 	private String u_lastname;
+	@Column(name = "U_FIRSTNAME")	
 	private String u_firstname;
+	@Column(name = "U_BIRTHDAY")	
 	private String u_birthday;
+	@Column(name = "U_EMAIL")	
 	private String u_email;
+	@Column(name = "U_TEL")	
 	private String u_tel;
+	@Column(name = "U_GENDER")	
 	private String u_gender;
+	@Column(name = "U_ADDRESS")	
 	private String u_address;
+	@Column(name = "U_IMG")	
 	private byte[] u_img;
+	
+	/*********************************************************************/
+	// 被Order參考
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "user_Info")
+	private Set<Order> order = new HashSet<Order>();
+	public Set<Order> getOrder() {		return order;	}
+	public void setOrder(Set<Order> order) {		this.order = order;	}
+	// 被ProductInfo參考
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "user_Info")
+	private Set<ProductInfo> productInfo = new HashSet<ProductInfo>();
+	public Set<ProductInfo> getProductInfo() {		return productInfo;	}
+	public void setProductInfo(Set<ProductInfo> productInfo) {		this.productInfo = productInfo;	}
+	/*********************************************************************/
 
 	public String getU_id() {
 		return u_id;

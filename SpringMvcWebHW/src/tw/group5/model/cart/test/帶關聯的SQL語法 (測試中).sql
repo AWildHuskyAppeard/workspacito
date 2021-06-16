@@ -1,4 +1,4 @@
-USE [MyDB]
+USE [StudieHub]
 GO
 DROP TABLE IF EXISTS Order_Info, ProductInfo, User_Info
 ----- (1) User Table -----
@@ -48,10 +48,10 @@ GO
 -- o_status 加上 DEFAULT 'DONE'
 CREATE TABLE [dbo].[Order_Info](
 	[o_id] INT CONSTRAINT PK_o_ID PRIMARY KEY IDENTITY(1,1),
-	[p_id] INT CONSTRAINT pidFK FOREIGN KEY REFERENCES ProductInfo(p_id) ON UPDATE CASCADE,
+	[p_id] INT CONSTRAINT pidFK FOREIGN KEY REFERENCES ProductInfo(p_id) ON DELETE CASCADE,
 	[p_name] [nvarchar](50) ,
 	[p_price] [int] ,
-	[u_id] [nvarchar](50) CONSTRAINT uidFK FOREIGN KEY REFERENCES User_Info(u_id) ON UPDATE CASCADE,
+	[u_id] [nvarchar](50) CONSTRAINT uidFK FOREIGN KEY REFERENCES User_Info(u_id) ON DELETE CASCADE,
 	[u_firstName] [nvarchar](20) ,
 	[u_lastName] [nvarchar](20) ,
 	[u_email] [nvarchar](max) ,
@@ -92,7 +92,7 @@ GO
 
 -- product part
 INSERT INTO ProductInfo VALUES ('EN_Speaking', 'EN', 5006, 'lul', null, '1999-12-12', 100, 100)
-
+INSERT ProductInfo VALUES ('RU_READING', 'RU', 6000, 'NICE N FUN', 'ken', '2000-01-02', 100, 100)
 -- order part
 /*
 INSERT [dbo].[Order_Info] VALUES (1, N'EN_Speaking', 300, N'elf001', N'fl', N'b', N'w@w.w', N'cancelled', CAST(N'1901-12-01T00:00:00' AS SmallDateTime), 300)
@@ -103,7 +103,6 @@ INSERT [dbo].[Order_Info] VALUES (100201, N'ES_Writing', 199, N'893doragon', N'c
 INSERT [dbo].[Order_Info] VALUES (057771, N'SV_Translation', 563, N'bark563', N'knr', N'ingm', N'b@b.b', N'done', CAST(N'1906-11-22T22:05:00' AS SmallDateTime), 762)
 GO
 */
-INSERT ProductInfo VALUES ('RU_READING', 'RU', 6000, 'NICE N FUN', 'ken', '2000-01-02', 100, 100)
-INSERT Order_Info VALUES (1, N'EN_Speaking', 5006, 'tajen', N'fl', N'b', N'w@w.w', default, default, 300)
-INSERT Order_Info VALUES (4, 'RU_READING', 6000, 'tajen', NULL, NULL, NULL, DEFAULT, DEFAULT, 300)
+INSERT Order_Info VALUES (1, N'EN_Speaking', 5006, 'tajen', N'fl', N'b', N'w@w.w', DEFAULT, DEFAULT, 300)
+INSERT Order_Info VALUES (1, 'RU_READING', 6000, 'tajen', 'jen', 'ta', '1@2.3', DEFAULT, DEFAULT, 999)
 GO

@@ -1,6 +1,7 @@
 package tw.group5.model.product;
 
-import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -9,14 +10,17 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
-import javax.persistence.OneToOne;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 
+import org.hibernate.annotations.Proxy;
 import org.springframework.stereotype.Component;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
+import tw.group5.model.cart.Order;
+import tw.group5.model.user.User_Info;
 
 @Entity
 @Table(name = "ProductInfo")
@@ -47,6 +51,21 @@ public class ProductInfo {
 	@Column(name = "p_Video")
 	@Lob
 	private byte[] p_Video;
+	
+	/*********************************************************************/
+	// 被Order參考
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "productInfo")
+	private Set<Order> order = new HashSet<Order>();
+	public Set<Order> getOrder() {		return order;	}
+	public void setOrder(Set<Order> order) {		this.order = order;	}
+	// 去參考User_Info
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "U_ID", referencedColumnName = "U_ID", insertable = false, updatable = false)
+	private User_Info user_Info;
+	public User_Info getUser_Info() {		return user_Info;	}
+	public void setUser_Info(User_Info user_Info) {		this.user_Info = user_Info;	}
+	/*********************************************************************/
+	
 
 //	public Product getProduct() {
 //		return product;

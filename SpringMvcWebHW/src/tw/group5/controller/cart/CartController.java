@@ -132,10 +132,13 @@ public class CartController {
 	@GetMapping(value = "/cart.controller/initAdminPageData", produces = "application/json; charset=UTF-8")
 	@ResponseBody
 	public List<Order> initAdminPageData(){
-		return orderService.selectTop20();
+		List<Order> a = orderService.selectTop20();
+		for (int i = 0; i < a.size(); i++) {
+			System.out.println(a.get(i));
+		}
+		return a; 
 	}
 	
-	@SuppressWarnings("deprecation")
 	@GetMapping("/test2")
 	@ResponseBody
 	public String testtt() {

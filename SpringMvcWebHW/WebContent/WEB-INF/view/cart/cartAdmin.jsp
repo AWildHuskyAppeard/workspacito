@@ -270,11 +270,14 @@
 				
 			// [AJAX] 載入便顯示資料庫最新20筆訂單 (SELECT TOP(20))
 			function  showTop20() {
+				alert(1);
 				let dataArea = $('#dataArea');
 				let xhr = new XMLHttpRequest();
 				let url = "<c:url value='/cart.controller/initAdminPageData' />";
 				xhr.open("GET", url, true);
+				alert(2)
 				xhr.send();
+				alert(3)
 				xhr.onreadystatechange = function() {
 					if (xhr.readyState == 4 && xhr.status == 200) {
 						dataArea.html(parseSelectedRows(xhr.responseText));
