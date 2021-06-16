@@ -13,6 +13,7 @@ import javax.persistence.JoinColumns;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.springframework.stereotype.Component;
 
@@ -29,36 +30,40 @@ public class Order implements Serializable{
 	@Id @Column(name = "O_ID")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer o_id ; // PK
-	@Column(name = "P_ID") 
+	@Transient @Column(name = "P_ID") 
 	private Integer p_id; // FK
 	@Column(name = "P_NAME")
-	private String p_name; // FK
+	private String p_name; 
 	@Column(name = "P_PRICE")
-	private Integer p_price; // FK
-	@Column(name = "U_ID")
+	private Integer p_price; 
+	@Transient @Column(name = "U_ID")
 	private String u_id; // FK
 	@Column(name = "U_FIRSTNAME")
-	private String u_firstname; // FK
+	private String u_firstname; 
 	@Column(name = "U_LASTNAME")
-	private String u_lastname; // FK
+	private String u_lastname; 
 	@Column(name = "U_EMAIL")
-	private String u_email; // FK
+	private String u_email; 
 	@Column(name = "O_STATUS")
 	private String o_status;
-	@Column(name = "O_DATE")
+	@Transient @Column(name = "O_DATE")
 	private String o_date; // Date()會不會更好？
 	@Column(name = "O_AMT")
 	private Integer o_amt;
-	
+	/*********************************************************************/
+	// 去參考User_Info
 	@ManyToOne(fetch = FetchType.LAZY)	
-	@JoinColumns(value = { @JoinColumn(name = "U_ID", referencedColumnName = "U_ID"), @JoinColumn(name = "U_FIRSTNAME", referencedColumnName = "U_FIRSTNAME"), 
-			@JoinColumn(name = "U_LASTNAME", referencedColumnName = "U_LASTNAME"), @JoinColumn(name = "U_EMAIL", referencedColumnName = "U_EMAIL")})
+	@JoinColumn(name = "U_ID", referencedColumnName = "U_ID")
 	private User_Info user_Info;
+	public User_Info getUser_Info() {return user_Info;}
+	public void setUser_Info(User_Info user_Info) {this.user_Info = user_Info;}
+	// 去參考ProductInfo
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumns(value = { @JoinColumn(name = "P_ID", referencedColumnName = "P_ID"), @JoinColumn(name = "P_NAME", referencedColumnName = "P_NAME"), 
-			@JoinColumn(name = "P_PRICE", referencedColumnName = "P_PRICE")}) 
+	@JoinColumn(name = "P_ID", referencedColumnName = "P_ID")
 	private ProductInfo productInfo;
-	
+	public ProductInfo getProductInfo() {return productInfo;}
+	public void setProductInfo(ProductInfo productInfo) {this.productInfo = productInfo;}
+	/*********************************************************************/
 	
 	// constructors
 	public Order() {};
