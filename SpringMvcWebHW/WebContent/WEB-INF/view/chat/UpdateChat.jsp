@@ -9,6 +9,7 @@
 <script>
 var hasError = false;
 window.onload = function(){
+	var divResult = document.getElementById('resultMsg');
 	var c_ID = document.getElementById("c_ID").value;
 	var c_Date = document.getElementById("c_Date").value;
 	var c_Class = document.getElementById("c_Class").value;
@@ -17,7 +18,7 @@ window.onload = function(){
 	var u_ID = document.getElementById("u_ID").value;
 	var xhr = new XMLHttpRequest();
 
-	xhr.open("GET", "<c:url value='/selectAllChat/" + c_ID + "' />", true);
+	xhr.open("GET", "<c:url value='/selectSingleChat/" + c_ID + "' />", true);
 	xhr.send();
 	var message = "";
 	xhr.onreadystatechange = function() {
@@ -33,8 +34,7 @@ window.onload = function(){
 	}
 	
 	updateData.onclick = function(){
-		hasError = false;
-		
+		var divResult = document.getElementById('resultMsg');
 		var c_IDu = document.getElementById("c_ID").value;
 		var c_Dateu = document.getElementById("c_Date").value;
 		var c_Classu = document.getElementById("c_Class").value;
@@ -48,32 +48,32 @@ window.onload = function(){
 		var span4 = document.getElementById('result4c');
 		var span5 = document.getElementById('result5c');
 
-		if(!c_ID){
+		if(!c_IDu){
 			setErrorFor(span0, "請輸入文章編號");
 		} else{
 			span0.innerHTML = "";
 		}
-		if(!c_Date){
+		if(!c_Dateu){
 			setErrorFor(span1, "請輸入日期");
 		} else{
 			span1.innerHTML = "";
 		}
-		if(!c_Class){
+		if(!c_Classu){
 			setErrorFor(span2, "請輸入類別")
 		} else{
 			span2.innerHTML = "";
 		}
-		if(!c_Title){
+		if(!c_Titleu){
 			setErrorFor(span3, "請輸入標題");
 		} else{
 			span3.innerHTML = "";
 		}
-		if(!c_Conts){
+		if(!c_Contsu){
 			setErrorFor(span4, "請輸入內容");
 		} else{
 			span4.innerHTML = "";
 		}
-		if(!u_ID){
+		if(!u_IDu){
 			setErrorFor(span5, "請輸入帳號");
 		} else{
 			span5.innerHTML = "";
@@ -83,7 +83,7 @@ window.onload = function(){
 			return false;
 		}
 		var xhr1 = new XMLHttpRequest();
-		xhr1.open("POST", "<c:url value='/insertChat' />");
+		xhr1.open("PUT", "<c:url value='/updateChat' />" + c_IDu, true);
 		var jsonInsertData = {
 			"c_ID" : c_IDu,
 			"c_Date" : c_Dateu,
@@ -95,14 +95,19 @@ window.onload = function(){
 		xhr1.setRequestHeader("Content-Type", "application/json");
 		xhr1.send(JSON.stringify(jsonInsertData));
 		xhr1.onreadystatechange = function() {
-			if (xhr1.readyState == 4 && xhr1.status == 200){
+			if (xhr1.readyState == 4 && (xhr1.status == 200 || xhr1.status == 201) ){
 				result = JSON.parse(xhr1.responseText);
-				//判斷回傳
 				if(result.fail){
 					spanResult.innerHTML = "<font color='red' >" + result.fail + "</font>";
 				}else if(result.success){
-					alert(result.success + "! 為您導回上一頁...");
-					top.location='<c:url value='/chatIndex' />';
+					divResult.innerHTML = "<font color='GREEN'>"
+	   					+ result.success + "</font>";
+	   					  span0.innerHTML = "";	
+	   					  span1.innerHTML = "";
+	   					  span2.innerHTML = "";
+	   					  span3.innerHTML = "";	
+	   					  span4.innerHTML = "";
+	   					  span5.innerHTML = "";
 				}
 			}
 		}
