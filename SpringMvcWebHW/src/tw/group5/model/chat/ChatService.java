@@ -15,4 +15,6 @@ public interface ChatService {
 	
 	public List<Chat> findAllChat();
 	
+	public Chat selectChatById(int c_ID);
+	
 }

@@ -36,4 +36,9 @@ public class ChatServiceImpl implements ChatService{
 		return chatDao.findAllChat();
 	}
 
+	@Override
+	public Chat selectChatById(int c_ID) {
+		return chatDao.selectChatById(c_ID);
+	}
+
 }

@@ -14,5 +14,7 @@ public interface ChatDao {
     public void updateChat(Chat chat);
 	
 	public List<Chat> findAllChat();
+	
+	public Chat selectChatById(int c_ID);
 
 }

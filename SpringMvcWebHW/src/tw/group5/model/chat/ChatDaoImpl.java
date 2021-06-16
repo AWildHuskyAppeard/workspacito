@@ -49,5 +49,12 @@ public class ChatDaoImpl implements ChatDao{
 		return chat;
 	}
 
+	@Override
+	public Chat selectChatById(int c_ID) {
+		Session session = sessionFactory.getCurrentSession();
+		Chat chat = session.get(Chat.class, c_ID);
+		return chat;
+	}
+
 
 }
