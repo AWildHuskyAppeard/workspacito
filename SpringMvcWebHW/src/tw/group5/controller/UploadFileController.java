@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import tw.group5.model.Picture;
+import tw.group5.model.PictureDao;
 import tw.group5.model.PictureService;
 
 @Controller
@@ -84,6 +85,8 @@ public class UploadFileController {
 		}
 		pictureService.insert(picture);
 	}
+	
+
 
 	
 	

@@ -14,4 +14,5 @@ public class PictureService {
 	public Picture insert(Picture bean) {
 		return pictureDao.insert(bean);
 	}
+
 }

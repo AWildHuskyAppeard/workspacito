@@ -22,4 +22,5 @@ public class PictureDao {
 		}
 		return bean;
 	}
+
 }
