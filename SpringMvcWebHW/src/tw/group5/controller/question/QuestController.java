@@ -30,6 +30,7 @@ public class QuestController  {
 	public String gotoUserIndex() {
 		return "question/quesIndex";
 	}	
+
 	
 	// 查詢所有會員資料
 	@GetMapping("/questions")
@@ -38,6 +39,7 @@ public class QuestController  {
 		//因@ResponseBody,所以回傳值為JSON
 		return quesBean;
 	}
+
 	
 	// 讀取並傳回單筆會員資料
 	@GetMapping("/questions/{q_ID}")
@@ -53,6 +55,8 @@ public class QuestController  {
 			return "question/showAllQuestionsAjax";
 		}
 
+		
+		
 	
 	// 依照鍵值刪除單筆會員資料
 	@DeleteMapping("/questions/{q_ID}")
@@ -69,20 +73,20 @@ public class QuestController  {
 		return map;
 	}
 	
+	
+	
     // 回首頁
 	@GetMapping("/goQuesIndex")
 	public String goQuesIndex() {
 		return "question/quesIndex";
 	}
 	
-	
-	    // 送出新增資料的空白表單
+		////新增會員資料 - 送出新增資料的空白表單
 		@GetMapping("/insertQuestionForm")
 		public String registerFindView() {
 			return "question/create";
 		}
-
-		// 讀取瀏覽器送出Ajax請求， 呼叫 service.saveMember(member) 新增會員資料
+		// 讀取瀏覽器送出Ajax請求， 呼叫 service.insertQues(quesBean) 新增題庫資料
 		@PostMapping(value="/questions", consumes = "application/json")
 		public @ResponseBody Map<String, String> save(@RequestBody QuesBean quesBean) {
 			Map<String, String> map = new HashMap<>();
@@ -92,31 +96,23 @@ public class QuestController  {
 				if (n == 1) {
 					map.put("success", "新增成功");
 				} else if (n == -1) {
-					map.put("fail", "帳號重複");
+					map.put("fail", "編號重複");
 				}
 			} catch (Exception e) {
 				map.put("fail", e.getMessage());
 			}
-//			map轉成Json格式後送前端(response)
+			//map轉成Json格式後送前端(response)
 			return map;
 		}
+
 		
-		// 修改單筆會員資料
+		
+////	 修改單筆會員資料
 		@PutMapping(value = "/questions/{q_ID}", consumes = { "application/json" }, produces = { "application/json" })
 		public @ResponseBody Map<String, String> updateQuestion
 		       (@RequestBody QuesBean quesBean, 
 		        @PathVariable Integer q_ID
 		    ) {
-//			quesBean = null;
-//			if (q_ID != null) {
-//				quesBean = service.findByPrimaryKey(q_ID);
-//				if (quesBean == null) {
-//					throw new RuntimeException("鍵值不存在, q_ID=" + q_ID);
-//				}
-//
-//			} else {
-//				throw new RuntimeException("鍵值不存在, q_ID=" + q_ID);
-//			}
 
 			Map<String, String> map = new HashMap<>();
 			try {
