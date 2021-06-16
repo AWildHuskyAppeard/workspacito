@@ -96,8 +96,27 @@ public class ChatController {
 	
 	@PutMapping(path = "/updateChat/{c_ID}", consumes = { "application/json" }, produces = {"application/json" })
 	@ResponseBody
-	public Map<String, String> updateChat(@RequestBody Chat chat) {
+	public Map<String, String> updateChat(@RequestBody Chat chat, @PathVariable int c_ID) {
 		Map<String, String> map = new HashMap<>();
+		Chat chatIf = null;
+		if (String.valueOf(c_ID) != null) {
+			chatIf = chatService.selectChatById(c_ID);
+			if (chatIf == null || String.valueOf(chatIf.getC_ID()).length() == 0) {
+				map.put("fail", "文章: " + c_ID + " 不存在!");
+			} else {
+				System.out.println("********************************");
+				System.out.println("\'id!=null\'， 要修改的文章帳號為: " + c_ID);
+				System.out.println("********************************");
+				try {
+					chatService.updateChat(chat);
+					map.put("success", "資料修改成功!");
+				} catch (Exception e) {
+					map.put("fail", "修改失敗!");
+				}
+			}
+		} else {
+			System.out.println("id: " + c_ID + "沒傳進來啊...厚唷");
+		}
 		try {
 			chatService.updateChat(chat);
 			map.put("success", "新增成功");
