@@ -29,22 +29,7 @@
 				}
 			})
 		});
-/*
-			var xhr = new XMLHttpRequest();
-			var showPic = document.getElementById('showPic');
-			showPic.onclick = function(){        
-            var divShowPic = document.getElementById('img1');
-//             img1.style.display = "none";
-            xhr.onreadystatechange = function(){
-		    if (xhr.readyState == 4 && xhr.status == 200){
-			  divShowPic.src = xhr.responseText;
-		      }
-	        }
-        	xhr.open("GET", "<c:url value='/prac/showPic.controller' />", true);
-       	 	xhr.send();
-//         	img1.style.display = "inline";
-		}
-*/
+
 			
 	});
 </script>
@@ -60,7 +45,6 @@
     <div>
         <img width='300' height='200' id='img1' src="<c:url value='/prac/showPic.controller'/>">
     </div>
-    <br>
-    <button id="showPic">show pic</button>
+
 </body>
 </html>
