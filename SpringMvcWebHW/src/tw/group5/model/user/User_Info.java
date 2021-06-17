@@ -14,6 +14,8 @@ import javax.persistence.Table;
 import org.hibernate.annotations.Proxy;
 import org.springframework.stereotype.Component;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import tw.group5.model.cart.Order;
 import tw.group5.model.product.ProductInfo;
 
@@ -45,12 +47,14 @@ public class User_Info {
 	
 	/*********************************************************************/
 	// 被Order參考
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "user_Info")
+	@JsonIgnore
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH, mappedBy = "user_Info")
 	private Set<Order> order = new HashSet<Order>();
 	public Set<Order> getOrder() {		return order;	}
 	public void setOrder(Set<Order> order) {		this.order = order;	}
 	// 被ProductInfo參考
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "user_Info")
+	@JsonIgnore
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH, mappedBy = "user_Info")
 	private Set<ProductInfo> productInfo = new HashSet<ProductInfo>();
 	public Set<ProductInfo> getProductInfo() {		return productInfo;	}
 	public void setProductInfo(Set<ProductInfo> productInfo) {		this.productInfo = productInfo;	}

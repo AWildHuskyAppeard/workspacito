@@ -16,6 +16,8 @@ import javax.persistence.Transient;
 import org.hibernate.annotations.Proxy;
 import org.springframework.stereotype.Component;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import tw.group5.model.product.ProductInfo;
 import tw.group5.model.user.User_Info;
 
@@ -51,12 +53,14 @@ public class Order implements Serializable{
 	private Integer o_amt;
 	/*********************************************************************/
 	// 去參考User_Info
+	@JsonIgnore
 	@ManyToOne(fetch = FetchType.LAZY)	
 	@JoinColumn(name = "U_ID", referencedColumnName = "U_ID", insertable = true, updatable = true)
 	private User_Info user_Info;
 	public User_Info getUser_Info() {return user_Info;}
 	public void setUser_Info(User_Info user_Info) {this.user_Info = user_Info;}
 	// 去參考ProductInfo
+	@JsonIgnore
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "P_ID", referencedColumnName = "P_ID", insertable = true, updatable = true)
 	private ProductInfo productInfo;

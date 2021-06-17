@@ -10,6 +10,9 @@ import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import tw.group5.model.product.ProductInfo;
+import tw.group5.model.user.User_Info;
+
 @Repository
 public class OrderDao implements IOrderDao {
 	@Autowired // SDI✔
@@ -23,19 +26,30 @@ public class OrderDao implements IOrderDao {
 	
 	
 	@Override
-	public Order insert(Order order) {
-
+	public Order insert(Order oBean) {
 		Session session = factory.getCurrentSession();
-		// O_ID感覺沒辦法用在下述
-		Order resultBean = session.get(Order.class, order.getO_id());
-		if (resultBean == null) {
-			session.save(order);
-			return order;
-		} else {
-			System.out.println("Insertion failed.");
+
+		ProductInfo pBean = session.get(ProductInfo.class, oBean.getP_id());
+		User_Info uBean = session.get(User_Info.class, oBean.getU_id());
+		
+		if(pBean == null) {
+			System.out.println("********** 錯誤：以 p_id (" + oBean.getP_id() + ") 在資料庫中找不到對應的 Product 資料。 **********");
 			return null;
-//		session.getTransaction().commit();
+		} else if(uBean == null) {
+			System.out.println("********** 錯誤：以 o_id (" + oBean.getU_id() + ") 在資料庫中找不到對應的 User 資料。 **********");
+			return null;	
 		}
+		// 準備綁定關聯
+		Set<Order> orderSet = new HashSet<Order>();
+		orderSet.add(oBean);
+		// 互相綁定關聯
+		pBean.setOrder(orderSet); // P-Os 關聯
+		uBean.setOrder(orderSet); // U-Os 關聯
+		oBean.setProductInfo(pBean); // O-P 關聯
+		oBean.setUser_Info(uBean); // O-U 關聯
+		
+		session.save(oBean);
+		return oBean;
 	}
 	
 	@Override
@@ -71,25 +85,46 @@ public class OrderDao implements IOrderDao {
 		return resultList;
 	}
 	// Admin - 2
-	public boolean update(Order newBean) {
-		boolean updateStatus = false;
+	public boolean update(Order newOBean) {
 		Session session = factory.getCurrentSession();
-		Order resultBean = session.get(Order.class, newBean.getO_id()); // 以PK查
-		if (resultBean != null) {
+		boolean updateStatus = false;
+		// 以PK查出資料庫的 O- / P- / U-Bean
+		Order oBean = session.get(Order.class, newOBean.getO_id()); 
+		ProductInfo pBean = session.get(ProductInfo.class, newOBean.getP_id());
+		User_Info uBean = session.get(User_Info.class, newOBean.getU_id());
+		
+		if(pBean == null) {
+			System.out.println("********** 錯誤：以 p_id (" + newOBean.getP_id() + ") 在資料庫中找不到對應的 Product 資料。 **********");
+			return updateStatus;
+		} else if(uBean == null) {
+			System.out.println("********** 錯誤：以 o_id (" + newOBean.getU_id() + ") 在資料庫中找不到對應的 User 資料。 **********");
+			return updateStatus;	
+		}
+		
+		if (oBean != null) {
 //			resultBean.setO_id         (newBean.getO_id()       ); // 無意義  
-			resultBean.setP_id         (newBean.getP_id()       );  
-			resultBean.setP_name       (newBean.getP_name()     );  
-			resultBean.setP_price      (newBean.getP_price()    );  
-			resultBean.setU_id         (newBean.getU_id()       );  
-			resultBean.setU_firstname  (newBean.getU_firstname());  
-			resultBean.setU_lastname   (newBean.getU_lastname() );  
-			resultBean.setU_email      (newBean.getU_email()    );  
-			resultBean.setO_status     (newBean.getO_status()   );  
-			resultBean.setO_date       (newBean.getO_date()     );  
-			resultBean.setO_amt        (newBean.getO_amt()      );  
-//			session.update(resultBean); // 不寫也會更新。...那這個方法還有存在意義嗎ˊ<_ˋ
+			oBean.setP_id         (newOBean.getP_id()       );  
+			oBean.setP_name       (newOBean.getP_name()     );  
+			oBean.setP_price      (newOBean.getP_price()    );  
+			oBean.setU_id         (newOBean.getU_id()       );  
+			oBean.setU_firstname  (newOBean.getU_firstname());  
+			oBean.setU_lastname   (newOBean.getU_lastname() );  
+			oBean.setU_email      (newOBean.getU_email()    );  
+			oBean.setO_status     (newOBean.getO_status()   );  
+			oBean.setO_date       (newOBean.getO_date()     );  
+			oBean.setO_amt        (newOBean.getO_amt()      );  
+			// 準備綁定關聯
+			Set<Order> orderSet = new HashSet<Order>();
+			orderSet.add(oBean);
+			// 互相綁定關聯
+			pBean.setOrder(orderSet); // P-Os 關聯
+			uBean.setOrder(orderSet); // U-Os 關聯
+			oBean.setProductInfo(pBean); // O-P 關聯
+			oBean.setUser_Info(uBean); // O-U 關聯
+			
+			session.update(oBean); 
 		} else {
-			System.out.println("*** Order with O_ID = " + newBean.getO_id() + "doesn't exist in the database :^) ***");
+			System.out.println("*** Order with O_ID = " + newOBean.getO_id() + "doesn't exist in the database :^) ***");
 		}
 		updateStatus = true;
 		return updateStatus;

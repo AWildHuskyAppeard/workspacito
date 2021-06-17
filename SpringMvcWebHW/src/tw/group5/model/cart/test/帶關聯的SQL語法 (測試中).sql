@@ -46,6 +46,7 @@ GO
 -- pid 和 uid 加上fk on cascade update
 -- o_date 加上 DAFAULT getdate()
 -- o_status 加上 DEFAULT 'DONE'
+-- u_id 應該有改成 50
 CREATE TABLE [dbo].[Order_Info](
 	[o_id] INT CONSTRAINT PK_o_ID PRIMARY KEY IDENTITY(1,1),
 	[p_id] INT CONSTRAINT pidFK FOREIGN KEY REFERENCES ProductInfo(p_id) ON DELETE CASCADE,

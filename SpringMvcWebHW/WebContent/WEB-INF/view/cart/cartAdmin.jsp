@@ -156,8 +156,7 @@
 					}
 					for(let i = 0; i < oldRowsNum; i++) {
 						let json = {
-								// 'o_id' : parseInt($('.old' + i + '0').val()),
-								'o_id' : 999999, // 好像沒什麼意義，都會被IDENTITY(1,1)幹掉
+								'o_id' : parseInt($('.old' + i + '0').val()),
 								'p_id' : parseInt( $('.old' + i + '1').val()),
 								'p_name' : $('.old' + i + '2').val(),
 								'p_price' : parseInt($('.old' + i + '3').val()),
@@ -204,8 +203,7 @@
 					let o_amt = $('.new10').val()
 
 					let json = {
-								// 'o_id' : parseInt(o_id),
-								'o_id' : 999999,
+								'o_id' : parseInt(o_id),
 								'p_id' : parseInt(p_id),
 								'p_name' : p_name,
 								'p_price' : parseInt(p_price),
@@ -270,14 +268,11 @@
 				
 			// [AJAX] 載入便顯示資料庫最新20筆訂單 (SELECT TOP(20))
 			function  showTop20() {
-				alert(1);
 				let dataArea = $('#dataArea');
 				let xhr = new XMLHttpRequest();
 				let url = "<c:url value='/cart.controller/initAdminPageData' />";
 				xhr.open("GET", url, true);
-				alert(2)
 				xhr.send();
-				alert(3)
 				xhr.onreadystatechange = function() {
 					if (xhr.readyState == 4 && xhr.status == 200) {
 						dataArea.html(parseSelectedRows(xhr.responseText));
