@@ -49,10 +49,10 @@ GO
 -- u_id 應該有改成 50
 CREATE TABLE [dbo].[Order_Info](
 	[o_id] INT CONSTRAINT PK_o_ID PRIMARY KEY IDENTITY(1,1),
-	[p_id] INT CONSTRAINT pidFK FOREIGN KEY REFERENCES ProductInfo(p_id) ON DELETE CASCADE,
+	[p_id] INT CONSTRAINT pidFK FOREIGN KEY REFERENCES ProductInfo(p_id) ON UPDATE CASCADE,
 	[p_name] [nvarchar](50) ,
 	[p_price] [int] ,
-	[u_id] [nvarchar](50) CONSTRAINT uidFK FOREIGN KEY REFERENCES User_Info(u_id) ON DELETE CASCADE,
+	[u_id] [nvarchar](50) CONSTRAINT uidFK FOREIGN KEY REFERENCES User_Info(u_id) ON UPDATE CASCADE,
 	[u_firstName] [nvarchar](20) ,
 	[u_lastName] [nvarchar](20) ,
 	[u_email] [nvarchar](max) ,
