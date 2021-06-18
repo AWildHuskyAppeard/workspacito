@@ -38,35 +38,9 @@
 //		return "uploadFile";
 //	}
 //
-//	/*
-//	 * @PostMapping(path = "/testUploadFile.controller")
-//	 * 
-//	 * @ResponseBody public Map<String, String> upload (@RequestParam(name =
-//	 * "myFiles") MultipartFile file, @RequestParam String theText,
-//	 * HttpServletRequest request) throws IllegalStateException, IOException{
-//	 * System.out.println("傳進來的" + file); System.out.println("傳進來的" + theText);
-//	 * Map<String, String> map = new HashMap<>(); String path =
-//	 * request.getSession().getServletContext().getRealPath("/") +
-//	 * "testUploadTempDir\\"; String fileName = file.getOriginalFilename(); String
-//	 * saveFilePath = path + fileName;
-//	 * 
-//	 * System.out.println("fileName:" + fileName); System.out.println("save path" +
-//	 * saveFilePath);
-//	 * 
-//	 * File saveFile = new File(saveFilePath); file.transferTo(saveFile);
-//	 * 
-//	 * try { picture.setFilename(fileName); InputStream is = new
-//	 * FileInputStream(saveFilePath); byte bt[] = new byte[is.available()];
-//	 * is.read(bt); is.close(); picture.setPicture(bt);
-//	 * pictureService.insert(picture);
-//	 * 
-//	 * map.put("success", "上傳成功");
-//	 * 
-//	 * 
-//	 * } catch (Exception e) { map.put("fail", "上傳失敗"); }
-//	 * 
-//	 * return map; }
-//	 */
+//
+//
+//
 //
 //	@PostMapping(path = "/testUploadFile.controller")
 //	@ResponseBody
@@ -110,9 +84,6 @@
 
 
 
-
-
-
 package tw.group5.controller;
 
 import java.io.ByteArrayOutputStream;
@@ -144,44 +115,12 @@ public class UploadFileController {
 	@Autowired
 	Picture picture;
 	
-//	@Autowired
-//	private EntityManagerFactory emf;
-////	private EntityManager em;
 
 	@GetMapping(path = "/uploadMainPage.controller")
 	public String processMainPage() {
 		return "uploadFile";
 	}
 
-	/*
-	 * @PostMapping(path = "/testUploadFile.controller")
-	 * 
-	 * @ResponseBody public Map<String, String> upload (@RequestParam(name =
-	 * "myFiles") MultipartFile file, @RequestParam String theText,
-	 * HttpServletRequest request) throws IllegalStateException, IOException{
-	 * System.out.println("傳進來的" + file); System.out.println("傳進來的" + theText);
-	 * Map<String, String> map = new HashMap<>(); String path =
-	 * request.getSession().getServletContext().getRealPath("/") +
-	 * "testUploadTempDir\\"; String fileName = file.getOriginalFilename(); String
-	 * saveFilePath = path + fileName;
-	 * 
-	 * System.out.println("fileName:" + fileName); System.out.println("save path" +
-	 * saveFilePath);
-	 * 
-	 * File saveFile = new File(saveFilePath); file.transferTo(saveFile);
-	 * 
-	 * try { picture.setFilename(fileName); InputStream is = new
-	 * FileInputStream(saveFilePath); byte bt[] = new byte[is.available()];
-	 * is.read(bt); is.close(); picture.setPicture(bt);
-	 * pictureService.insert(picture);
-	 * 
-	 * map.put("success", "上傳成功");
-	 * 
-	 * 
-	 * } catch (Exception e) { map.put("fail", "上傳失敗"); }
-	 * 
-	 * return map; }
-	 */
 
 	@PostMapping(path = "/testUploadFile.controller")
 	@ResponseBody
@@ -199,7 +138,6 @@ public class UploadFileController {
 			ByteArrayOutputStream baos = new ByteArrayOutputStream();
 			
 			int len = 0;
-//			byte[] b= new byte[81920];
 			byte[] b= new byte[is.available()];
 			while((len = is.read(b))!= -1) {
 				baos.write(b,0,len);
@@ -222,12 +160,10 @@ public class UploadFileController {
 	
 	
 	//測試拿圖片
-//	@GetMapping(value = "/prac/showPic.controller", produces = {MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_PNG_VALUE})
 	@GetMapping(value = "/prac/showPic.controller", produces = "application/json; charset=UTF-8")
 	@ResponseBody
 	public Picture pracShowPic() throws SQLException {
-//		picture.setId(8);
-		Picture pic = pictureService.getPic(8);
+		Picture pic = pictureService.getPic(1);
 //		Blob picResult = pic.getPicture();
 //		byte[] sendback = picResult.getBytes(1, (int)picResult.length());
 		return pic;
