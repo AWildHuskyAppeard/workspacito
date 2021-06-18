@@ -5,11 +5,10 @@
 <head>
 <meta charset="UTF-8">
 <title>Upload File</title>
-
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
 	$(function() {
-
+	
 		$('#upload').click(function(e) {
 			e.preventDefault();
 			var form = $('form')[0];
@@ -30,8 +29,24 @@
 			})
 		});
 
-			
+		
+		dataArea = document.getElementById("dataArea");
+		let xhr = new XMLHttpRequest();
+		xhr.open('GET', "<c:url value='/prac/showPic.controller' />", true);
+		xhr.onreadystatechange = function(){
+			if(xhr.readyState == 4 && xhr.status == 200){
+				dataArea.src = showData(xhr.responseText);
+			}
+		};
+		xhr.send();
+
 	});
+
+	function showData(textData){
+		let data = JSON.parse(textData);
+		let image = data.picturesString;
+		return image;
+	}
 </script>
 
 </head>
@@ -42,9 +57,6 @@
 		<input type="text" name="theText" id="theTextId" /> <!-- 測試 -->
 		<button id="upload" type="button">upload</button>
 	</form>
-    <div>
-        <img width='300' height='200' id='img1' src="<c:url value='/prac/showPic.controller'/>">
-    </div>
-
+    <img id="dataArea" width='120' height='120'>
 </body>
 </html>

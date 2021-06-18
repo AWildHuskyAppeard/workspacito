@@ -1,13 +1,10 @@
 package tw.group5.model;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
-import java.sql.Blob;
-
 import javax.transaction.Transactional;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 @Repository("pictureDao")
